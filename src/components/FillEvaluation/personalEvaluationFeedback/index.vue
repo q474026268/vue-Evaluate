@@ -1,5 +1,5 @@
 <template>
-  <div id="evaluateReceivedList" class="content-height">
+  <div id="personalEvaluationFeedback" class="content-height">
     <z-table
       ref="table"
       :tableColumnConfig="tableColumnConfig"
@@ -13,7 +13,7 @@
 import ZTable from "../../zTable";
 import DefaultButtons from "../../zTable/zTable.js";
 import SearchPage from "./search";
-import { getList, deleted } from "./evaluateReceived.js";
+import { getList, deleted } from "./personalEvaluationFeedback.js";
 import { formatDate } from "@/utils/common.js";
 //------------------------------------------------
 const pageUrl = "/evaluateReceived"; // 表单的路由路径
@@ -21,7 +21,7 @@ const routerName = "evaluateReceived"; // 路由的名称
 const key = "id"; // 主键字段
 //------------------------------------------------
 export default {
-  name: "evaluateReceivedList",
+  name: "personalEvaluationFeedback",
   components: {
     ZTable
   },
@@ -46,7 +46,7 @@ export default {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
-        opertionColumnWidth:130
+        opertionColumnWidth:65
       },
       // 列表配置
       tableColumnConfig: [
@@ -106,20 +106,12 @@ export default {
           default: [
             {
               id: "default_view",
-              text: "执行",
-              icon: "el-icon-tickets",
+              text: "浏览",
+              icon: "el-icon-view",
               click: row => {
-                // this.viewButtonClick(row[key], row.state);
+                this.viewButtonClick(row[key], row.state);
               }
-            },
-            {
-              id: "default_out",
-              text: "导出",
-              icon: "el-icon-download",
-              click: row => {
-                // this.viewButtonClick(row[key], row.state);
-              }
-            },
+            }
           ],
           // 下拉显示
           dropdown: []
@@ -146,6 +138,60 @@ export default {
      */
     modifyButtonClick(id) {
       DefaultButtons.modifyButton(pageUrl, routerName, id, this.dialogWidth);
+    },
+    /**
+     * 浏览按钮点击事件
+     * pageUrl：页面的路由路径
+     * routerName：路由名称
+     * dialogWidth；窗口宽度
+     */
+    viewButtonClick(id, state) {
+      console.log(1111);
+      
+      switch (state) {
+        case "暂存":
+          this.$router.push({
+            path: "/handoutHistorySearch",
+            name: "handoutHistorySearch",
+            params: {
+              useType: "modify",
+              id: id
+            }
+          });
+          break;
+        case "分发":
+          this.$message({
+            message: "分发状态下不可查看",
+            type: "warning"
+          });
+          break;
+        case "完成":
+          this.$router.push({
+            path: "/evaluateTableView",
+            name: "evaluateTableView",
+            params: {
+              useType: "view",
+              id
+            }
+          });
+          break;
+      }
+    },
+    // 删除按钮点击事件
+    deleteButtonClick(id) {
+      this.$confirm("确定删除？")
+        .then(res => {
+          deleted(id).then(res => {
+            if (res.status == 200) {
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+              this.$refs.table.refresh();
+            }
+          });
+        })
+        .catch(err => {});
     },
     /**
      * 行选中事件:单选时触发

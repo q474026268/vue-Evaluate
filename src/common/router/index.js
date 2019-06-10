@@ -38,12 +38,21 @@ export const constantRouterMap = [
       },
     ]
   },
+  {//统计查询
+    path: '/statisticsInquire', component: () => import('../../components/statisticsInquire'), name: 'statisticsInquire',redirect:{name:'employeeEvaluation'},
+    children: [
+      { path: '/employeeEvaluation', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluation' },
+    ]
+  },
   {
-    path: '/fillEvaluation', component: () => import('../../components/FillEvaluation'), name: 'fillEvaluation',
+    path: '/fillEvaluation', component: () => import('../../components/FillEvaluation'), name: 'fillEvaluation',redirect:{name:'evaluateReceived'},
     children:[
       {//评价表填写
         path: '/evaluateReceived', component: () => import('../../components/FillEvaluation/EvaluateReceived'), name: 'evaluateReceived',
-      }
+      },
+      {//个人评价反馈
+        path: '/personalEvaluationFeedback', component: () => import('../../components/FillEvaluation/personalEvaluationFeedback'), name: 'personalEvaluationFeedback',
+      },
     ]
   }
 ]
