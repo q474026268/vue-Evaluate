@@ -275,12 +275,10 @@ export default {
     }
   },
   created: function() {
-    debugger;
     // 组件创建后
     this.type = this.$route.query.useType;
     this.id = this.$route.query.id;
     this.back = this.$route.query.back;
-
     if (!Object.is(this.type, "add")) {
       if (this.back != 1) {
         this.getData();

@@ -199,8 +199,12 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    addButtonClick(id) {
-      DefaultButtons.addButton(pageUrl, routerName, this.dialogCallback);
+    addButtonClick() {
+     this.$store.commit("setData", {
+        useType: "add",
+        callback: this.dialogCallback
+      });
+      this.$router.push({ name: routerName });
     },
     /**
      * 修改按钮点击事件
@@ -209,7 +213,12 @@ export default {
      * dialogWidth；窗口宽度
      */
     modifyButtonClick(id) {
-      DefaultButtons.modifyButton(pageUrl, routerName, id, this.dialogCallback);
+     this.$store.commit("setData", {
+        id,
+        useType: "modify",
+        callback: this.dialogCallback
+      });
+      this.$router.push({ name: routerName });
     },
     /**
      * 浏览按钮点击事件
@@ -218,7 +227,12 @@ export default {
      * dialogWidth；窗口宽度
      */
     viewButtonClick(id) {
-      DefaultButtons.viewButton(pageUrl, routerName, id);
+      this.$store.commit("setData", {
+        useType: "view",
+        id,
+        callback: this.dialogCallback
+      });
+      this.$router.push({ name: routerName });
     },
     // 删除按钮点击事件
     deleteButtonClick(id) {

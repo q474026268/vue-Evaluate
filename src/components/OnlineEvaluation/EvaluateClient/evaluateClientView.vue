@@ -1,42 +1,42 @@
 <template>
   <div id="evaluateClientView">
-    <el-dialog :title="formData.planName" :visible="true" @close="close" :width="dialogWidth">
+    <el-dialog :visible="true" @close="close" :width="dialogWidth">
       <el-form ref="form" :model="formData" label-width="100px">
         <el-row>
           <el-col :span="8">
-            <el-form-item prop="evaluKind" label="模板类别" class="item">
+            <el-form-item prop="evaluKind" label="模板类别:" class="item">
               <label>{{formData.evaluKind}}</label>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="modelName" label="模板名称" class="item">
+            <el-form-item prop="modelName" label="模板名称:" class="item">
               <label>{{formData.modelName}}</label>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="levelType" label="评价方式" class="item">
+            <el-form-item prop="levelType" label="评价方式:" class="item">
               <label>{{formData.levelType}}</label>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item prop="inputDate" label="制表时间" class="item">
+          <el-col :span="6">
+            <el-form-item prop="inputDate" label="制表时间:" class="item">
               <label>{{formData.inputDate}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item prop="groupName" label="制表部门" class="item">
+          <el-col :span="8">
+            <el-form-item prop="groupName" label="制表部门:" class="item">
               <label>{{formData.groupName}}</label>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="emailDay" label="任务提示设置" class="item">
+            <el-form-item prop="emailDay" label="任务提示设置:" class="item">
               <label>{{formData.emailDay}}天</label>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item prop="markType" label="打分方式" class="item">
+            <el-form-item prop="markType" label="打分方式:" class="item">
               <label>{{formData.markType}}</label>
             </el-form-item>
             <el-form-item prop="planPkid" v-show="false"></el-form-item>
@@ -102,20 +102,12 @@ import { getSelect } from "../onlineEvaluation.js";
 const mainKey = "id";
 export default {
   name: "evaluateClientView",
-  components: {
-    ZTable
-  },
+  components: {},
   props: {
     // 其他组件传入的值
   },
   provide: function() {
-    return {
-      rowSelected: this.rowSelected,
-      rowsSelected: this.rowsSelected,
-      rowsSelectedAll: this.rowsSelectedAll,
-      getList: this.getDataToview,
-      SearchPage: ""
-    };
+    return {};
   },
   data: function() {
     // 自定义变量
@@ -130,49 +122,12 @@ export default {
       formDataDetail_target: [],
       // 弹出窗口宽度
       dialogWidth: "70%",
-      toolBarConfig: {
-        top: {},
-        eachRow: {
-          default: [],
-          dropdown: []
-        }
-      },
-      tableBaseConfig: {
-        showOperation: false,
-        showPageBar: false,
-        tableHeight: "200px"
-      },
-      // 列表配置
-      tableColumnConfig: [
-        {
-          id: "doFullName",
-          text: "评价人",
-          align: "center",
-          width: 80,
-          sortable: false
-        },
-        {
-          id: "groupName",
-          text: "被评价部门",
-          align: "center",
-          width: 200,
-          sortable: false
-        },
-        {
-          id: "targetName",
-          text: "评价指标",
-          align: "center",
-          width: 100,
-          sortable: false
-        }
-      ],
       //循环竖列的信息
       tableColumn: [],
       //表头信息
       tData: [],
       //下拉框的选项
       selectOptions: [],
-      index: []
     };
   },
   methods: {
@@ -183,15 +138,6 @@ export default {
       this.tableColumn.pop();
     },
     //关闭窗口返回的页面
-    cancel() {
-      this.$router.push({
-        name: "evaluateHistory",
-        query: {
-          useType: "modify",
-          back: "2"
-        }
-      });
-    },
     close() {
       this.$router.push({
         name: "handoutHistorySearch",
@@ -201,48 +147,31 @@ export default {
         }
       });
     },
+    //取消
+    cancel() {
+      this.$router.push({
+        name: "evaluateHistory",
+        query: {
+          useType: "modify",
+          back: "2"
+        }
+      });
+    },
     // 表单提交前
     beforeSubmit() {
       return true;
     },
+    //保存数据
     saveData(mark) {
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {
           let divDom = document.querySelector("#tData");
           let html = divDom.innerHTML;
-          // let data = this.formData;
-          // let headChildrens = [];
-          // for (let k = 0; k < this.index.length; k++) {
-          //   headChildrens.push({
-          //     targetName: this.index[k].targetName,
-          //     targetPkid: this.index[k].targetPkid,
-          //     modelPkid: this.index[k].modelPkid
-          //   });
-          // }
-          // let listChildrens = [];
-          // listChildrens = [
-          //   {
-          //     fillHtml: html,
-          //     inputDate: new Date(),
-          //     edit: "否",
-          //     fillFlag: "未填",
-          //     deptName: this.$store.state.history.row.groupName,
-          //     doUserName: this.$store.state.history.row.doFullName,
-          //     doUserNo: this.$store.state.history.row.userNo
-          //   }
-          // ];
-          // data["headChildrens"] = Array.from(headChildrens);
-          // data["listChildrens"] = Array.from(listChildrends);
           let datas = {
             html,
-            userNo: this.$store.state.history.row.userNo
+            userNo: this.$store.state.history.userNo
           };
           this.$store.commit("setClientView", datas);
-          // this.$store.state.history.callback({
-          //   index: this.$store.state.history.index,
-          //   fillHtml: html
-          // });
-          console.log(this.$store.state.clientView);
           this.$message({
             message: "保存成功",
             type: "success"
@@ -251,13 +180,6 @@ export default {
         }
       });
     },
-    async getData() {},
-    // 分发
-    handout() {},
-    async getDataToview() {},
-    rowSelected() {},
-    rowsSelected() {},
-    rowsSelectedAll() {}
   },
   /**
    * 计算属性（自定义方法）
@@ -272,12 +194,11 @@ export default {
     // 组件创建后
     this.type = this.$route.query.useType;
     const data = this.$store.state.history;
+    //格式化表单显示日期
+    this.formData.inputDate = formatDate(data.formData.inputDate);
     if (Object.is(this.type, "modify")) {
       //获取form表单数据
       this.formData = data.formData;
-      this.index = data.index;
-      //格式化表单显示日期
-      this.formData.inputDate = formatDate(this.formData.inputDate);
       //获取明细表数据
       let dataTable = data.dataTable;
       //循环指标数组
@@ -309,35 +230,34 @@ export default {
           this.tableColumn[i]["check" + (j + 1)] = true;
         }
       }
-    } else if (Object.is(this.type, "view")) {
-      this.formData = this.$store.state.data.formData;
-      this.formData.inputDate = formatDate(this.formData.inputDate);
-      let data = this.$store.state.data.dataTable;
-      let targetNames = [];
-      for (let i = 0; i < data.length; i++) {
-        targetNames = data[i].targetName.split(",");
-      }
-      for (let i = 0; i < targetNames.length; i++) {
-        this.tData.push({ target: targetNames[i] });
-      }
+    // } else if (Object.is(this.type, "view")) {
+    //   this.formData = this.$store.state.data.formData;
+    //   let data = this.$store.state.data.dataTable;
+    //   let targetNames = [];
+    //   for (let i = 0; i < data.length; i++) {
+    //     targetNames = data[i].targetName.split(",");
+    //   }
+    //   for (let i = 0; i < targetNames.length; i++) {
+    //     this.tData.push({ target: targetNames[i] });
+    //   }
 
-      this.tableColumn.push({ id: "target0", name: "指标名称" });
-      for (let i = 0; i < data.length; i++) {
-        let doneFullNames = data[i].doneFullName.split(",");
-        this.tableColumn.push({
-          id: "target" + (i + 1),
-          name: doneFullNames[i]
-        });
-      }
-      for (let j = 0; j < this.tData.length; j++) {
-        for (let i = 1; i < this.tableColumn.length; i++) {
-          this.tableColumn[i]["target" + (j + 1)] = "A";
-        }
-      }
-    } else {
+    //   this.tableColumn.push({ id: "target0", name: "指标名称" });
+    //   for (let i = 0; i < data.length; i++) {
+    //     let doneFullNames = data[i].doneFullName.split(",");
+    //     this.tableColumn.push({
+    //       id: "target" + (i + 1),
+    //       name: doneFullNames[i]
+    //     });
+    //   }
+    //   for (let j = 0; j < this.tData.length; j++) {
+    //     for (let i = 1; i < this.tableColumn.length; i++) {
+    //       this.tableColumn[i]["target" + (j + 1)] = "A";
+    //     }
+    //   }
+    // } else {
+    // 
     }
   },
-
   mounted: function() {
     // 组件加载完成
     getSelect().then(res => {

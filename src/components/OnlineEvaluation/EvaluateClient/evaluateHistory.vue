@@ -12,7 +12,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item prop="evaluateTname" label="测评表名 :" class="item">
-              <el-input v-model="evaluateTname" size="mini"></el-input>
+              <el-input v-model="formData.evaluateTname" size="mini"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -186,27 +186,18 @@ import {
 import { formatDate } from "@/utils/common.js";
 import { getCurrentEvaluate } from "./evaluateClient.js";
 import { save } from "./evaluateClient.js";
-//import Rules from "./validate.js";
 // 主表主键字段
 const mainKey = "guid";
 // 路由的名称
-const routerName = "check";
+const routerName = "evaluateClientView";
 export default {
   name: "handoutHisotrySearch",
-  components: {
-    //ZTable
-  },
+  components: {},
   props: {
     // 其他组件传入的值
   },
   provide: function() {
-    return {
-      rowSelected: this.rowSelected,
-      rowsSelected: this.rowsSelected,
-      rowsSelectedAll: this.rowsSelectedAll,
-      getList: this.getList,
-      SearchPage: ""
-    };
+    return {};
   },
   data: function() {
     // 自定义变量
@@ -232,12 +223,11 @@ export default {
       // 弹出窗口宽度
       dialogWidth: "70%",
       //存储的targetName,ModelPkid,targetPkid
-      index: [],
-      doUserName: ""
+      index: []
     };
   },
   methods: {
-    // 自定义方法
+    //自定义方法
     //关闭窗口返回到模板表管理首页
     close() {
       this.$router.push({
@@ -248,17 +238,18 @@ export default {
     beforeSubmit() {
       return true;
     },
+    //调整
     update(row, index) {
-      // this.formData.evaluateTname = this.evaluateTname;
-      // this.formData.planPkid = this.planPkid;
-      // this.formData.emailDay = this.emailDay;
+      console.log(this.formData);
       this.$store.commit("setHistory", {
+        //主表数据
         formData: this.formData,
+        //明细表数据
         dataTable: this.dataTable,
+        //指标名称
         index: this.index,
-        row: row,
-        index: index,
-        callback: this.dialogCallback
+        //员工号
+        userNo: row.userNo
       });
       this.$router.push({
         name: "evaluateClientView",
@@ -279,34 +270,13 @@ export default {
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      // listChildrens[0].push({check:true})
-      // for(let i=0;i<headChildrens.length;i++){
-      //    listChildrens.push({check:true})
-      // }
-      console.log(listChildrens);
+      //将所有数据都存入VueX
       this.$store.commit("setInitialization", data);
       this.$message({
         message: "保存成功",
         type: "success"
       });
-      // save(data).then(res => {
-      //   if (res.status == 200) {
-      //   }
-      // });
     },
-    getList() {},
-    modifyButtonClick() {
-      DefaultButtons.modifyButton(pageUrl, routerName);
-    },
-    /**
-     * 浏览按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
-     */
-    viewButtonClick() {
-      DefaultButtons.viewButton(pageUrl, routerName);
-    }
   },
   /**
    * 计算属性（自定义方法）
@@ -316,36 +286,19 @@ export default {
    * computed是有缓存的功能
    */
   computed: {},
-  watch: {
-    // 监听明细数据的变化，添加错误信息翻译
-    formDataDetail: function(curVal, oldVal) {
-      let dics = {};
-      for (let index of curVal.keys()) {
-        let count = index + 1;
-        dics["name_" + index] = "第" + count + "行的名称";
-        dics["model_" + index] = "第" + count + "行的型号";
-        dics["count_" + index] = "第" + count + "行的数量";
-        dics["price_" + index] = "第" + count + "行的单价";
-      }
-      addDictionary(dics);
-    }
-  },
+  watch: {},
   created: function() {
     // 组件创建后
     this.type = this.$route.query.useType;
     if (!Object.is(this.type, "add")) {
+      //将数据从VueX(前面存入)中取出
       let datas = this.$store.state.history;
       this.formData = datas.formData;
       this.dataTable = datas.dataTable;
-      this.evaluateTname = datas.formData.evaluateTname;
-      this.planPkid = datas.formData.planPkid;
-      this.emailDay = datas.formData.emailDay;
-      this.index = this.$store.state.data.data.index;
     } else {
-      const data = this.$store.state.data.data;
+      const data = this.$store.state.data;
       this.formData = data.formData;
       this.index = data.index;
-      let formData = this.formData;
       // 获取计划信息
       getCurrentEvaluate().then(res => {
         if (res.status == 200) {
@@ -353,6 +306,13 @@ export default {
           this.emailDay = res.data.emailDay;
           this.evaluateTname = res.data.evaluPlan;
         }
+        //将计划信息中的数据赋值给主表数据
+        //计划Pkid
+        this.formData.planPkid = this.planPkid;
+        //预警提前期
+        this.formData.emailDay = this.emailDay;
+        //计划名称
+        this.formData.evaluateTname = this.evaluateTname;
       });
       //格式化显示日期
       this.formData.inputDate = formatDate(this.formData.inputDate);
@@ -401,10 +361,10 @@ export default {
           doneFullName: "",
           targetName: "",
           groupName: "",
-          check:"",
+          check: ""
         });
         //明细表复选框值
-        this.dataTable[i].check=true;
+        this.dataTable[i].check = true;
         //明细表评价人列表数据
         this.dataTable[i].doFullName = evaluate[i].doFullName;
         //明细表评价人部门名称
@@ -425,9 +385,6 @@ export default {
         this.dataTable[i].targetName = targetNames.join(",");
       }
     }
-    this.formData.evaluateTname = this.evaluateTname;
-    this.formData.planPkid = this.planPkid;
-    this.formData.emailDay = this.emailDay;
   },
   mounted: function() {
     // 组件加载完成

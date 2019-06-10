@@ -43,7 +43,6 @@
           :align="item.align"
           :min-width="item.width"
           :formatter="item.formatter"
-          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           align="center"

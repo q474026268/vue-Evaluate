@@ -37,7 +37,7 @@ export const store = new Vuex.Store({
     yt: {},
     history: {},
     clientView: [],
-    Initialization:[]
+    Initialization: []
   },
   mutations: {
     setData(state, item) {
@@ -49,27 +49,24 @@ export const store = new Vuex.Store({
     //存储evaluateHistory的数据
     setHistory(state, item) {
       state.history = item;
-      console.log(state.history);
     },
     //存储evaluateClientView的数据
     setClientView(state, item) {
-      let isHave=false;
-      for(let i=0;i<state.clientView.length;i++){
-        
-        if(item.userNo==state.clientView[i].userNo){
-          state.clientView[i]=item;
-          isHave=true;
+      let isHave = false;
+      for (let i = 0; i < state.clientView.length; i++) {
+        if (item.userNo == state.clientView[i].userNo) {
+          state.clientView[i] = item;
+          isHave = true;
           break;
         }
       }
-      if(!isHave){
+      if (!isHave) {
         state.clientView.push(item)
       }
     },
     //初始化存储默认值
-    setInitialization(state,item){
-      // console.log(state);
-      state.Initialization=item
+    setInitialization(state, item) {
+      state.Initialization = item
     }
   }
 })

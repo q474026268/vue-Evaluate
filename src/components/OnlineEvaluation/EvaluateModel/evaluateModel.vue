@@ -8,9 +8,9 @@
       :close-on-click-modal="false"
     >
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
-        <el-form-item prop="pkid" label="编号" v-show="false">
+        <!-- <el-form-item prop="pkid" label="编号" v-show="false">
           <el-input v-model="formData.pkid" :disabled="true"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item prop="flag" v-show="false">
           <el-input v-model="formData.flag" :disabled="true"></el-input>
         </el-form-item>
@@ -43,15 +43,15 @@
           ></el-button>
         </div>
         <el-table :data="formDataDetail" style="width: 100%" border>
-          <el-table-column align="center" label="指标名称" width="250">
+          <el-table-column align="center" label="指标名称">
             <template slot-scope="scope">
               <el-input v-model="scope.row.pkid" v-show="false"></el-input>
               <label>{{ scope.row.targetName }}</label>
               <el-input v-model="formDataDetail.flag" v-show="false"></el-input>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="评分标准" width="150"></el-table-column>
-          <el-table-column align="center" label="操作" min-width="80">
+          <el-table-column align="center" label="评分标准"></el-table-column>
+          <el-table-column align="center" label="操作" v-if="!Object.is(type,'view')">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -121,6 +121,7 @@ export default {
     beforeSubmit() {
       return true;
     },
+    //根据按钮状态保存(保存,保存并使用模板)
     async saveData(formName, mark) {
       let valid1 = false;
       let valid2 = false;
@@ -142,7 +143,7 @@ export default {
         data["childrens"] = Array.from(newFormDataDetail);
         save(data).then(res => {
           if (res.status == 200) {
-            let callback = this.$route.query.dialogCallback;
+            let callback =this.$store.state.data.callback;
             if (callback) {
               callback({ type: this.type, data: res.data });
             }
@@ -164,6 +165,7 @@ export default {
         });
       }
     },
+    //根据id获取数据
     getData() {
       get(this.id).then(res => {
         if (res.status == 200) {
@@ -184,6 +186,7 @@ export default {
       }
       this.deleteDetailData.push(Object.assign(row, { doType: "delete" }));
     },
+    //指标数据回调
     targetDialogCallback(data) {
       data.forEach(({ pkid: targetPKID, targetName }) => {
         this.formDataDetail.push({ targetPKID, targetName, doType: "add" });
@@ -198,31 +201,18 @@ export default {
    * computed是有缓存的功能
    */
   computed: {},
-  watch: {
-    // 监听明细数据的变化，添加错误信息翻译
-    formDataDetail: function(curVal, oldVal) {
-      let dics = {};
-      if (curVal) {
-        for (let index of curVal.keys()) {
-          let count = index + 1;
-          dics["targetWeigth_" + index] = "第" + count + "行的指标权重";
-        }
-        addDictionary(dics);
-      }
-    }
-  },
+  watch: {},
   created: function() {
     // 组件创建后
-    // DOTO
-    this.type = this.$route.params.useType;
-    this.id = this.$route.params.id;
+    this.type = this.$store.state.data.useType;
+    this.id = this.$store.state.data.id;
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
   },
   mounted: function() {
     // 组件加载完成
-    // TODO
+    //获取评价类别
     getEvaluKind().then(res => {
       if (res.status == 200) {
         this.evaluKindOptions = res.data;
@@ -231,11 +221,9 @@ export default {
   },
   beforeUpdate: function() {
     // 组件数据更新之前
-    // TODO
   },
   updated: function() {
     // 组件数据更新之后
-    // TODO
   }
 };
 </script>

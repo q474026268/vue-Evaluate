@@ -101,6 +101,7 @@ export default {
       rowsSelected: this.rowsSelected,
       rowsSelectedAll: this.rowsSelectedAll,
       getList: this.getList,
+      beforeGetListData: this.beforeGetListData,
       SearchPage: ""
     };
   },

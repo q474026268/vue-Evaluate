@@ -130,8 +130,7 @@
         <div class="area evaluate-config-center">
           <div style="position: relative;">
             <span class="detail_title">评价指标列表</span>
-            <div class="detail_toolbar" style="height:28px;" v-show="!Object.is(type,'view')">
-            </div>
+            <div class="detail_toolbar" style="height:28px;" v-show="!Object.is(type,'view')"></div>
           </div>
           <el-table :data="formDataDetail_index" style="width: 100%;" border height="360">
             <el-table-column align="center" label="指标名称">
@@ -228,7 +227,7 @@ export default {
     // 自定义变量
     return {
       formRules: Rules,
-      // 表单类型 add modify view
+      // 表单类型 add(添加) modify(修改) view(查看)
       type: "",
       // 主表主键值
       id: "",
@@ -247,7 +246,7 @@ export default {
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表
-      markTypeOptions: [],
+      markTypeOptions: []
     };
   },
   methods: {
@@ -258,6 +257,7 @@ export default {
     },
     //获取从selectDepart中查询到的数据存放到中
     departDialogCallback(data) {
+      //被评价人明细数据
       for (let i = 0; i < data.length; i++) {
         this.formDataDetail_group.push({
           doneFullName: data[i].name,
@@ -268,6 +268,7 @@ export default {
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
     userDialogCallback(data) {
+      //评价人明细数据
       for (let i = 0; i < data.length; i++) {
         this.formDataDetail_evaluate.push({
           doFullName: data[i].name,
@@ -322,12 +323,10 @@ export default {
           // 评价人列表数据
           let evaluate = this.formDataDetail_evaluate;
           this.$store.commit("setData", {
-            data: {
-              formData,
-              group,
-              index,
-              evaluate
-            }
+            formData,
+            group,
+            index,
+            evaluate
           });
           this.$router.push({
             path: "/evaluateHistory",
@@ -353,13 +352,9 @@ export default {
     const data = this.$store.state.data.data;
     this.type = this.$route.query.useType;
     this.id = data.main.pkid;
-    if (!Object.is(this.type, "add")) {
-      this.getData();
-    } else {
-      // 获取模板数据
-      this.formData = data.main;
-      this.formDataDetail_index = data.detail;
-    }
+    // 获取模板数据
+    this.formData = data.main;
+    this.formDataDetail_index = data.detail;
   },
   mounted: function() {
     // 组件加载完成
