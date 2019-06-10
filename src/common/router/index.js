@@ -54,6 +54,16 @@ export const constantRouterMap = [
         path: '/personalEvaluationFeedback', component: () => import('../../components/FillEvaluation/personalEvaluationFeedback'), name: 'personalEvaluationFeedback',
       },
     ]
+  },
+  {//过程跟踪
+    path: '/processTracing', component: () => import('../../components/ProcessTracingEvalution'), name: 'processTracing', redirect: { name: 'staffEvalutionList' },
+    children: [
+      { path: '/staffEvalutionList', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution'), name: 'staffEvalutionList',
+      children: [
+        { path: '/staffEvalution', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution/staffEvalution.vue'), name: 'staffEvalution' },
+      ]
+    }
+    ]
   }
 ]
 

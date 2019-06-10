@@ -5,6 +5,7 @@
           <router-link class="divHand" tag="div" :to="{name:'onlineEvaluation'}">评价计划</router-link>
           <router-link class="divHand" tag="div" :to="{name:'fillEvaluation'}">评价表填写</router-link>
           <router-link class="divHand" tag="div" :to="{name:'statisticsInquire'}">统计查询</router-link>
+          <router-link class="divHand" tag="div" :to="{name:'processTracing'}">过程跟踪</router-link>
         </div>
         <router-view></router-view>
       </div>
