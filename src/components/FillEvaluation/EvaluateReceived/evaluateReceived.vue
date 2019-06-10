@@ -101,8 +101,8 @@ export default {
       rowsSelected: this.rowsSelected,
       rowsSelectedAll: this.rowsSelectedAll,
       getList: this.getList,
-      beforeGetListData: this.beforeGetListData,
-      SearchPage: ""
+      SearchPage: "",
+      beforeGetListData: ''
     };
   },
   data: function() {
@@ -231,14 +231,12 @@ export default {
     async getData() {
       let fkguid = '';
       // 获取主表数据
-      debugger;
       await get(this.id).then((res) => {
           if(res.status == 200){
           
              this.formData = res.data[0];
              fkguid = this.formData[mainKey];
           }
-         debugger
       });
       
       // 获取明细数据
@@ -248,7 +246,6 @@ export default {
              this.formDataDetail = res.data;
           }
       });
-       debugger
     },
     // 分发
     handout() {},
