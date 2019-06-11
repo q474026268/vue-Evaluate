@@ -127,7 +127,7 @@ export default {
       //表头信息
       tData: [],
       //下拉框的选项
-      selectOptions: [],
+      selectOptions: []
     };
   },
   methods: {
@@ -179,7 +179,7 @@ export default {
           this.cancel();
         }
       });
-    },
+    }
   },
   /**
    * 计算属性（自定义方法）
@@ -230,32 +230,32 @@ export default {
           this.tableColumn[i]["check" + (j + 1)] = true;
         }
       }
-    // } else if (Object.is(this.type, "view")) {
-    //   this.formData = this.$store.state.data.formData;
-    //   let data = this.$store.state.data.dataTable;
-    //   let targetNames = [];
-    //   for (let i = 0; i < data.length; i++) {
-    //     targetNames = data[i].targetName.split(",");
-    //   }
-    //   for (let i = 0; i < targetNames.length; i++) {
-    //     this.tData.push({ target: targetNames[i] });
-    //   }
+      // } else if (Object.is(this.type, "view")) {
+      //   this.formData = this.$store.state.data.formData;
+      //   let data = this.$store.state.data.dataTable;
+      //   let targetNames = [];
+      //   for (let i = 0; i < data.length; i++) {
+      //     targetNames = data[i].targetName.split(",");
+      //   }
+      //   for (let i = 0; i < targetNames.length; i++) {
+      //     this.tData.push({ target: targetNames[i] });
+      //   }
 
-    //   this.tableColumn.push({ id: "target0", name: "指标名称" });
-    //   for (let i = 0; i < data.length; i++) {
-    //     let doneFullNames = data[i].doneFullName.split(",");
-    //     this.tableColumn.push({
-    //       id: "target" + (i + 1),
-    //       name: doneFullNames[i]
-    //     });
-    //   }
-    //   for (let j = 0; j < this.tData.length; j++) {
-    //     for (let i = 1; i < this.tableColumn.length; i++) {
-    //       this.tableColumn[i]["target" + (j + 1)] = "A";
-    //     }
-    //   }
-    // } else {
-    // 
+      //   this.tableColumn.push({ id: "target0", name: "指标名称" });
+      //   for (let i = 0; i < data.length; i++) {
+      //     let doneFullNames = data[i].doneFullName.split(",");
+      //     this.tableColumn.push({
+      //       id: "target" + (i + 1),
+      //       name: doneFullNames[i]
+      //     });
+      //   }
+      //   for (let j = 0; j < this.tData.length; j++) {
+      //     for (let i = 1; i < this.tableColumn.length; i++) {
+      //       this.tableColumn[i]["target" + (j + 1)] = "A";
+      //     }
+      //   }
+      // } else {
+      //
     }
   },
   mounted: function() {

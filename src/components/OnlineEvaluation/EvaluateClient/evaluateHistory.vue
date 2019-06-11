@@ -276,7 +276,7 @@ export default {
         message: "保存成功",
         type: "success"
       });
-    },
+    }
   },
   /**
    * 计算属性（自定义方法）
