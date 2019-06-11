@@ -52,16 +52,15 @@ export const store = new Vuex.Store({
     },
     //存储evaluateClientView的数据
     setClientView(state, item) {
-      let isHave = false;
+      state.clientView = item
+      console.log(state.clientView);
+    },
+    // 单条修改存储
+    setOne(state, datas) {
       for (let i = 0; i < state.clientView.length; i++) {
-        if (item.userNo == state.clientView[i].userNo) {
-          state.clientView[i] = item;
-          isHave = true;
-          break;
+        if (datas.userNo == state.clientView[i].userNo) {
+          state.clientView[i].doneFullArr = datas.tableColumn
         }
-      }
-      if (!isHave) {
-        state.clientView.push(item)
       }
     },
     //初始化存储默认值
