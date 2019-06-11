@@ -31,18 +31,12 @@
           </el-select>
         </el-col>
         <el-col :span="3">
-          <el-select
-            v-model="searchData.markType"
+          <el-input
+            v-model="searchData.planName"
             placeholder="评价计划"
             size="small"
-          >
-            <el-option
-              v-for="item in levelTypeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+            clearable
+          ></el-input>
         </el-col>
         <el-col :span="5">
           <el-date-picker
