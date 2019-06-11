@@ -240,6 +240,7 @@ export default {
     },
     //调整
     update(row, index) {
+      console.log(this.formData);
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
@@ -362,6 +363,8 @@ export default {
           groupName: "",
           check: ""
         });
+        //明细表复选框值
+        this.dataTable[i].check = true;
         //明细表评价人列表数据
         this.dataTable[i].doFullName = evaluate[i].doFullName;
         //明细表评价人部门名称
@@ -380,23 +383,25 @@ export default {
           targetNames.push(index[i].targetName);
         }
         this.dataTable[i].targetName = targetNames.join(",");
+      }
 
-        //初始化数据
-        let itemArr = [];
-        for (let i = 0; i < this.dataTable.length; i++) {
-          itemArr.push({});
+      console.log(this.dataTable);
+      console.log(data.index);
+      let itemArr=[]
+      for (let i = 0; i < this.dataTable.length; i++) {
+        itemArr.push({doFullName:this.dataTable[i].doFullName,doneFullArr:[]})
+        for (let k = 0; k < group.length; k++) {
+          itemArr[i].doneFullArr.push({doneFullName:group[k].doneFullName});
           for (let j = 0; j < data.index.length; j++) {
-            itemArr[i]["userNo"] = this.dataTable[i].userNo;
-            itemArr[i]["doFullName"] = this.dataTable[i].doFullName;
-            itemArr[i]["doneFullNames"] = doneFullNames.join(",");
-            itemArr[i]["optional" + (j + 1)] = true;
-            itemArr[i]["target" + (j + 1)] = "A";
+            itemArr[i].doneFullArr[k]['optional'+(j+1)]=true;
+            itemArr[i].doneFullArr[k]['target'+(j+1)]='A';
           }
         }
-        console.log(itemArr);
-        this.$store.commit("setClientView", itemArr);
       }
+      console.log(itemArr);
+      
     }
+
   },
   mounted: function() {
     // 组件加载完成
