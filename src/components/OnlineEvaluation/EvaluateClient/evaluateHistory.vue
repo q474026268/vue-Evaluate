@@ -385,14 +385,17 @@ export default {
         this.dataTable[i].targetName = targetNames.join(",");
       }
 
-      console.log(this.dataTable.length);
+      console.log(this.dataTable);
       console.log(data.index);
       let itemArr=[]
       for (let i = 0; i < this.dataTable.length; i++) {
-        itemArr.push({})
-        for (let j = 0; j < data.index.length; j++) {
-          itemArr[i]['optional'+(j+1)]=true;
-          itemArr[i]['target'+(j+1)]='A';
+        itemArr.push({doFullName:this.dataTable[i].doFullName,doneFullArr:[]})
+        for (let k = 0; k < group.length; k++) {
+          itemArr[i].doneFullArr.push({doneFullName:group[k].doneFullName});
+          for (let j = 0; j < data.index.length; j++) {
+            itemArr[i].doneFullArr[k]['optional'+(j+1)]=true;
+            itemArr[i].doneFullArr[k]['target'+(j+1)]='A';
+          }
         }
       }
       console.log(itemArr);
