@@ -78,8 +78,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <hr size="3px" noshade="true" style="background-color:#409EFF;">
-        <span style="font-weight:bold;font-size:17px;color:#409EFF">2007年终员工达优测评过程跟踪</span>
+        <hr size="3px" noshade="true" style="border-color:#409EFF;">
+        <span style="font-weight:bold;font-size:17px;color:#409EFF">评价计划名称</span>
       </el-row>
     </el-form>
   </div>
@@ -142,6 +142,10 @@ export default {
 </script>
 <style scoped>
 .el-form-item {
+  margin-bottom: 10px;
+}
+span{
+  display: inline-block;
   margin-bottom: 10px;
 }
 </style>

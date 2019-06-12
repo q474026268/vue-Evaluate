@@ -204,6 +204,7 @@ export default {
           }
 
           this.listLoading = false;
+          
         })
         .catch(() => {
           this.listLoading = false;
