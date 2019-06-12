@@ -40,7 +40,8 @@ export default {
     return {
       tableBaseConfig: {
         tableHeight: "calc(100% - 140px)", // 列表的其他配置
-        currentSort: [{ prop: "id", order: "descending" }] // 默认排序
+        currentSort: [{ prop: "id", order: "descending" }], // 默认排序
+        opertionColumnWidth:65
       },
       // 列表配置
       tableColumnConfig: [
@@ -119,7 +120,9 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key]);
+                this.$router.push({
+                  name:'StaffEvalutionInfo',
+                })
               }
             }
           ],
@@ -130,16 +133,6 @@ export default {
     };
   },
   methods: {
-    // 自定义方法
-    viewButtonClick() {
-      this.$router.push({
-        name: "staffEvalution",
-        query: {
-          useType: "view",
-          
-        }
-      });
-    },
     /**
      * 行选中事件:单选时触发
      * currentRow:当前行 oldCurrentRow:上一次选中的行

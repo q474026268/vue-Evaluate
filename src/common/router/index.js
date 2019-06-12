@@ -49,20 +49,31 @@ export const constantRouterMap = [
     children:[
       {//评价表填写
         path: '/evaluateReceived', component: () => import('../../components/FillEvaluation/EvaluateReceived'), name: 'evaluateReceived',
+        children:[
+          {
+            path:'/evaluateReceived/EvaluateClientSec',component:()=> import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'),name:'EvaluateClientSecEdit'
+          }
+        ]
       },
       {//个人评价反馈
         path: '/personalEvaluationFeedback', component: () => import('../../components/FillEvaluation/personalEvaluationFeedback'), name: 'personalEvaluationFeedback',
+        children:[
+          {
+            path:'/personalEvaluationFeedback/EvaluateClientSec',component:()=> import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'),name:'EvaluateClientSecLook'
+          }
+        ]
       },
     ]
   },
   {//过程跟踪
     path: '/processTracing', component: () => import('../../components/ProcessTracingEvalution'), name: 'processTracing', redirect: { name: 'staffEvalutionList' },
     children: [
-      { path: '/staffEvalutionList', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution'), name: 'staffEvalutionList',
-      children: [
-        { path: '/staffEvalution', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution/staffEvalution.vue'), name: 'staffEvalution' },
-      ]
-    }
+      { 
+        path: '/staffEvalutionList', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution'), name: 'staffEvalutionList',
+        children: [
+          { path: '/StaffEvalutionInfo', component: () => import('../../components/ProcessTracingEvalution/StaffEvalutionInfo/StaffEvalutionInfo.vue'), name: 'StaffEvalutionInfo' },
+        ]
+      }
     ]
   }
 ]

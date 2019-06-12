@@ -6,6 +6,7 @@
       :toolBarConfig="toolBarConfig"
       :tableBaseConfig="tableBaseConfig"
     ></z-table>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -46,7 +47,7 @@ export default {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
-        opertionColumnWidth:130
+        opertionColumnWidth:65
       },
       // 列表配置
       tableColumnConfig: [
@@ -93,7 +94,7 @@ export default {
           text: "状态",
           align: "center",
           width: 60,
-          sortable: true
+          sortable: true,
         }
       ],
       // 工具栏配置
@@ -109,17 +110,26 @@ export default {
               text: "执行",
               icon: "el-icon-tickets",
               click: row => {
-                // this.viewButtonClick(row[key], row.state);
+                console.log(row);
+                if(row.state=='完成'){
+                  this.$message({
+                    message: '该表以完成，不可再编辑！',
+                    type: 'warning'
+                  });
+                }else{
+                  this.$router.push({
+                    name:'EvaluateClientSecEdit',
+                    query:{
+                      evaluKind:row.evaluKind,
+                      evaluateTname:row.evaluateTname,
+                      levelType:row.levelType,
+                      startDate:row.inputDate,
+                      pkid:row.id,
+                    }
+                  })
+                }
               }
-            },
-            {
-              id: "default_out",
-              text: "导出",
-              icon: "el-icon-download",
-              click: row => {
-                // this.viewButtonClick(row[key], row.state);
-              }
-            },
+            }
           ],
           // 下拉显示
           dropdown: []

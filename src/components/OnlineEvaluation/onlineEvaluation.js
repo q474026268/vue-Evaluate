@@ -141,7 +141,7 @@ export function getSelect() {
     return Promise.resolve({ status: 200, data: selectOptions });
 }
 
-// //登录信息
+//登录信息
 // const loginInfo = {
 //     inputerUserNo:store.state.userInfo.id,
 //     inputerFullName:store.state.userInfo.name,
