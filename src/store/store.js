@@ -53,7 +53,6 @@ export const store = new Vuex.Store({
     //存储evaluateClientView的数据
     setClientView(state, item) {
       state.clientView = item
-      console.log(state.clientView);
     },
     // 单条修改存储
     setOne(state, datas) {

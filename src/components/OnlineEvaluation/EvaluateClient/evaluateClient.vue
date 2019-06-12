@@ -166,9 +166,14 @@
                 <label>{{ scope.row.userNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名" width="55">
+            <el-table-column align="center" label="姓名" width="55" >
               <template slot-scope="scope">
                 <label>{{ scope.row.doFullName }}</label>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="用户名" width="55" v-if="false">
+              <template slot-scope="scope">
+                <label>{{ scope.row.doUserName }}</label>
               </template>
             </el-table-column>
             <el-table-column align="center" label="部门" width="68">
@@ -273,7 +278,8 @@ export default {
         this.formDataDetail_evaluate.push({
           doFullName: data[i].name,
           userNo: data[i].id,
-          groupName: data[i].departmentName
+          groupName: data[i].departmentName,
+          doUserName:data[i].userName
         });
       }
     },

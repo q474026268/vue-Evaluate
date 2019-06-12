@@ -102,6 +102,7 @@ export default {
     getData() {
       //获取评价指标的各个类型
       getEvaluateTargetByEvaluKind("内部客户满意度评测").then(res => {
+        console.log(res);
         this.tableData = res.data;
       });
     },

@@ -148,6 +148,13 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col>
+              <el-form-item label="deptName">
+                <label>{{formData.deptName}}</label>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </div>
       </el-form>
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
@@ -183,7 +190,7 @@ import {
   get,
   getDetailList
 } from "../HandoutHistorySearch/handoutHistorySearch.js";
-import { formatDate } from "@/utils/common.js";
+import { time } from "@/utils/common.js";
 import { getCurrentEvaluate } from "./evaluateClient.js";
 import { save } from "./evaluateClient.js";
 // 主表主键字段
@@ -263,20 +270,44 @@ export default {
     // 分发执行
     handout() {
       // 指标数据
-      const headChildrens = this.dataTable[0].targetName.split(",");
+      let targetName = this.formData.targetName.split(",");
+      let targetPkid = this.formData.targetPkid.split(",");
+      let headChildrens = [];
+      for (let i = 0; i < this.formData.targetCoun; i++) {
+        headChildrens.push({
+          targetName: targetName[i],
+          targetPKID: targetPkid[i]
+        });
+      }
       // 评价人与被评价人数据
       let evaluate = this.$store.state.data.evaluate;
       for (let i = 0; i < evaluate.length; i++) {
-        this.dataTable[i].doneFullArr = this.$store.state.clientView[i].doneFullArr;
+        this.dataTable[i].doneFullArr = this.$store.state.clientView[
+          i
+        ].doneFullArr;
       }
-      const listChildrens = this.dataTable;
+
+      let listChildrens = [];
+      for (let i = 0; i < this.dataTable.length; i++) {
+        listChildrens.push({
+          doFullName: this.dataTable[i].doFullName,
+          doneFullArr: [],
+          doneFullName: this.dataTable[i].doneFullName,
+          deptName: this.dataTable[i].groupName,
+          targetName: this.dataTable[i].targetName,
+          doUserNo: this.dataTable[i].userNo,
+          doUserName: this.$store.state.data.evaluate[i].doUserName
+        });
+      }
+      for (let i = 0; i < this.dataTable.length; i++) {
+        listChildrens[i].doneFullArr = JSON.stringify(
+          this.dataTable[i].doneFullArr
+        );
+      }
       // 主表数据
-      this.formData.inputDate="";
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      // data.headChildrens = headChildrens;
-      // data.listChildrens = listChildrens;
       console.log(data);
       save(data).then(res => {
         if (res.status == 200) {
@@ -304,10 +335,13 @@ export default {
       //将数据从VueX(前面存入)中取出
       let datas = this.$store.state.history;
       this.formData = datas.formData;
+      // //格式化显示日期
+      this.formData.inputDate = time(this.formData.inputDate);
       this.dataTable = datas.dataTable;
     } else {
       const data = this.$store.state.data;
       this.formData = data.formData;
+      this.formData.inputDate = time(this.formData.inputDate);
       this.index = data.index;
       // 获取计划信息
       getCurrentEvaluate().then(res => {
@@ -324,8 +358,6 @@ export default {
         //计划名称
         this.formData.evaluateTname = this.evaluateTname;
       });
-      // //格式化显示日期
-      // this.formData.inputDate = formatDate(this.formData.inputDate);
       //评价指标列表数据
       let index = data.index;
       //评价人列表数据
@@ -401,10 +433,13 @@ export default {
           doneFullArr: []
         });
         for (let k = 0; k < group.length; k++) {
-          itemArr[i].doneFullArr.push({ doneFullName: group[k].doneFullName });
+          itemArr[i].doneFullArr.push({
+            doneFullName: group[k].doneFullName,
+            doUserNo: group[k].doneUserNo
+          });
           for (let j = 0; j < data.index.length; j++) {
             itemArr[i].doneFullArr[k]["optional" + (j + 1)] = true;
-            itemArr[i].doneFullArr[k]["target" + (j + 1)] = "A";
+            itemArr[i].doneFullArr[k]["target" + (j + 1)] = "N";
           }
         }
       }

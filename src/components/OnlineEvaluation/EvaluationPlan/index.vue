@@ -101,7 +101,7 @@ export default {
           width: 40,
           sortable: true,
           formatter: function(row, column) {
-            return planStates[row.flag];
+            return planStates[row.flag].label;
           }
         }
       ],

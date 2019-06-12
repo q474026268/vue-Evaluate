@@ -75,21 +75,25 @@ export default {
         {
           id: "001",
           name: "荣红光",
+          userName: "rong_hg",
           departmentName: "研发部"
         },
         {
           id: "002",
           name: "陈敏",
+          userName: "chen_m2",
           departmentName: "人事部"
         },
         {
           id: "003",
           name: "陈立",
+          userName: "chen_li",
           departmentName: "市场部"
         },
         {
           id: "004",
           name: "杨晨",
+          userName: "yang_ch",
           departmentName: "客服部"
         }
       ],
@@ -111,7 +115,7 @@ export default {
           text: "部门",
           align: "center",
           width: 100
-        }
+        },
       ],
       // 选中的值
       selectedDatas: [],

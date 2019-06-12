@@ -34,6 +34,7 @@ export const constantRouterMap = [
         path: '/handoutHistorySearchList', component: () => import('../../components/OnlineEvaluation/HandoutHistorySearch'), name: 'handoutHistorySearchList',
         children: [
           { path: '/handoutHistorySearch', component: () => import('../../components/OnlineEvaluation/HandoutHistorySearch/handoutHistorySearch.vue'), name: 'handoutHistorySearch' },
+          { path: '/handoutView', component: () => import('../../components/OnlineEvaluation/HandoutHistorySearch/handoutView.vue'), name: 'handoutView' },
         ]
       },
     ]
