@@ -4,9 +4,9 @@
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <el-row>
           <el-col :span="8">
-            <el-form-item prop="pkid" label="编号" v-show="false">
+            <!-- <el-form-item prop="pkid" label="编号" v-show="false">
               <el-input v-model="formData.pkid" :disabled="true"></el-input>
-            </el-form-item>
+            </el-form-item>-->
           </el-col>
         </el-row>
         <el-row>
@@ -239,8 +239,7 @@ export default {
       return true;
     },
     //调整
-    update(row, index) {
-      console.log(this.formData);
+    update(row, number) {
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
@@ -254,7 +253,8 @@ export default {
       this.$router.push({
         name: "evaluateClientView",
         query: {
-          useType: "modify"
+          useType: "modify",
+          number: number
         }
       });
     },
@@ -262,19 +262,29 @@ export default {
     saveData() {},
     // 分发执行
     handout() {
-      //指标数据
-      let headChildrens = this.index;
-      //评价人与被评价人数据
-      let listChildrens = this.dataTable;
-      //主表数据
+      // 指标数据
+      const headChildrens = this.dataTable[0].targetName.split(",");
+      // 评价人与被评价人数据
+      let evaluate = this.$store.state.data.evaluate;
+      for (let i = 0; i < evaluate.length; i++) {
+        this.dataTable[i].doneFullArr = this.$store.state.clientView[i].doneFullArr;
+      }
+      const listChildrens = this.dataTable;
+      // 主表数据
+      this.formData.inputDate="";
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      //将所有数据都存入VueX
-      this.$store.commit("setInitialization", data);
-      this.$message({
-        message: "保存成功",
-        type: "success"
+      // data.headChildrens = headChildrens;
+      // data.listChildrens = listChildrens;
+      console.log(data);
+      save(data).then(res => {
+        if (res.status == 200) {
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+        }
       });
     }
   },
@@ -314,8 +324,8 @@ export default {
         //计划名称
         this.formData.evaluateTname = this.evaluateTname;
       });
-      //格式化显示日期
-      this.formData.inputDate = formatDate(this.formData.inputDate);
+      // //格式化显示日期
+      // this.formData.inputDate = formatDate(this.formData.inputDate);
       //评价指标列表数据
       let index = data.index;
       //评价人列表数据
@@ -357,14 +367,12 @@ export default {
       //明细表数据
       for (let i = 0; i < evaluate.length; i++) {
         this.dataTable.push({
+          doneFullArr: [],
           doFullName: "",
           doneFullName: "",
           targetName: "",
-          groupName: "",
-          check: ""
+          groupName: ""
         });
-        //明细表复选框值
-        this.dataTable[i].check = true;
         //明细表评价人列表数据
         this.dataTable[i].doFullName = evaluate[i].doFullName;
         //明细表评价人部门名称
@@ -384,24 +392,24 @@ export default {
         }
         this.dataTable[i].targetName = targetNames.join(",");
       }
-
-      console.log(this.dataTable);
-      console.log(data.index);
-      let itemArr=[]
+      let itemArr = [];
       for (let i = 0; i < this.dataTable.length; i++) {
-        itemArr.push({doFullName:this.dataTable[i].doFullName,doneFullArr:[]})
+        itemArr.push({
+          userNo: this.dataTable[i].userNo,
+          doFullName: this.dataTable[i].doFullName,
+          targetNames: this.dataTable[i].targetName,
+          doneFullArr: []
+        });
         for (let k = 0; k < group.length; k++) {
-          itemArr[i].doneFullArr.push({doneFullName:group[k].doneFullName});
+          itemArr[i].doneFullArr.push({ doneFullName: group[k].doneFullName });
           for (let j = 0; j < data.index.length; j++) {
-            itemArr[i].doneFullArr[k]['optional'+(j+1)]=true;
-            itemArr[i].doneFullArr[k]['target'+(j+1)]='A';
+            itemArr[i].doneFullArr[k]["optional" + (j + 1)] = true;
+            itemArr[i].doneFullArr[k]["target" + (j + 1)] = "A";
           }
         }
       }
-      console.log(itemArr);
-      
+      this.$store.commit("setClientView", itemArr);
     }
-
   },
   mounted: function() {
     // 组件加载完成

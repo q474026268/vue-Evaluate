@@ -116,11 +116,6 @@ export function getMarkType() {
 // 查询登记
 const selectOptions = [
     {
-        value: '',
-        label: ''
-    }
-    ,
-    {
         value: 'A',
         label: 'A'
     },

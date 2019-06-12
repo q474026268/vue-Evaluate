@@ -56,14 +56,14 @@
           >
             <template slot-scope="scope">
               <el-checkbox
-                v-model="tableColumn[index]['check'+(scope.$index+1)]"
+                v-model="tableColumn[index]['optional'+(scope.$index+1)]"
                 @change="Change"
                 v-if="item.id != 'target0'"
               ></el-checkbox>
               <el-select
                 v-if="item.id != 'target0'"
                 v-model="tableColumn[index]['target'+(scope.$index+1)]"
-                :disabled="Object.is(type,'view') || !(tableColumn[index]['check'+(scope.$index+1)])"
+                :disabled="Object.is(type,'view') || !(tableColumn[index]['optional'+(scope.$index+1)])"
                 @change="Change"
                 size="mini"
                 style="width:110px"
@@ -127,7 +127,11 @@ export default {
       //表头信息
       tData: [],
       //下拉框的选项
-      selectOptions: []
+      selectOptions: [],
+      //员工号
+      userNo: "",
+      //下标
+      number: ""
     };
   },
   methods: {
@@ -162,16 +166,15 @@ export default {
       return true;
     },
     //保存数据
-    saveData(mark) {
+    saveData() {
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {
-          let divDom = document.querySelector("#tData");
-          let html = divDom.innerHTML;
           let datas = {
-            html,
-            userNo: this.$store.state.history.userNo
+            tableColumn: this.tableColumn,
+            userNo: this.userNo
           };
-          this.$store.commit("setClientView", datas);
+          datas.tableColumn.shift();
+          this.$store.commit("setOne", datas);
           this.$message({
             message: "保存成功",
             type: "success"
@@ -192,29 +195,32 @@ export default {
   watch: {},
   created: function() {
     // 组件创建后
+    this.number = this.$route.query.number;
     this.type = this.$route.query.useType;
     const data = this.$store.state.history;
+    this.userNo = data.userNo;
+    let datas = this.$store.state.clientView;
     //格式化表单显示日期
     this.formData.inputDate = formatDate(data.formData.inputDate);
     if (Object.is(this.type, "modify")) {
-      //获取form表单数据
+      //获取主表数据
       this.formData = data.formData;
-      //获取明细表数据
-      let dataTable = data.dataTable;
       //循环指标数组
+      const targetLength = datas[this.number].targetNames.split(",");
       let targetNames = [];
-      for (let i = 0; i < dataTable.length; i++) {
-        targetNames = dataTable[i].targetName.split(",");
+      for (let i = 0; i < targetLength.length; i++) {
+        targetNames = targetLength;
       }
       //将指标数组循环加入
       for (let i = 0; i < targetNames.length; i++) {
         this.tData.push({ target: targetNames[i] });
       }
       this.tableColumn.push({ id: "target0", name: "指标名称" });
+
       //循环被评价人姓名
       let doneFullName = [];
-      for (let i = 0; i < dataTable.length; i++) {
-        doneFullName = dataTable[0].doneFullName.split(",");
+      for (let i = 0; i < datas[this.number].doneFullArr.length; i++) {
+        doneFullName.push(datas[this.number].doneFullArr[i].doneFullName);
       }
       //将被评价人姓名循环加入
       for (let j = 0; j < doneFullName.length; j++) {
@@ -226,8 +232,10 @@ export default {
       //循环添加指标等级
       for (let j = 0; j < this.tData.length; j++) {
         for (let i = 1; i < this.tableColumn.length; i++) {
-          this.tableColumn[i]["target" + (j + 1)] = "";
-          this.tableColumn[i]["check" + (j + 1)] = true;
+          this.tableColumn[i]["target" + (j + 1)] =
+            datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
+          this.tableColumn[i]["optional" + (j + 1)] =
+            datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
         }
       }
       // } else if (Object.is(this.type, "view")) {
