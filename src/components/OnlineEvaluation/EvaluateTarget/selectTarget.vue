@@ -100,11 +100,30 @@ export default {
     },
     // 获取数据
     getData() {
-      console.log(this.tableData);
       //获取评价指标的各个类型
       getEvaluateTargetByEvaluKind("员工达优测评").then(res => {
-        console.log(res.data);
-        this.tableData = res.data;
+        let hash = [];
+        for (let i = 0; i < res.data.length; i++) {
+          hash.push({
+            targetName: res.data[i].TargetName,
+            Description: res.data[i].Description,
+            EvaluStand: res.data[i].EvaluStand
+          });
+        }
+        let hashs=[];
+        for(let i=0;i<hash.length;i++){
+          if(hashs[hash[i].targetName]&&hashs[hash[i].targetName]!=""){//有这个下标
+              hashs[hash[i].targetName]+=(hash[i].EvaluStand+""+hash[i].Description+"");
+          }else{// 没有下标
+               hashs[hash[i].targetName]=hash[i].EvaluStand+hash[i].Description;
+          }
+         
+            
+        }
+        console.log(hash);
+        console.log(hashs);
+        // console.log(hashs);
+        // this.tableData = res.data;
       });
     },
     // 行选中事件

@@ -49,7 +49,7 @@ export function deleted(pkid){
 
 export function getEvaluateTargetByEvaluKind(evaluKind){
     return request({
-        url: '/evaluateTarget/selectEvaluateTarget',
+        url: '/evaluateModel/getTargetIndexList',
         data:{
             evaluKind
         },
