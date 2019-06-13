@@ -255,13 +255,13 @@ export default {
         //指标名称
         index: this.index,
         //员工号
-        userNo: row.userNo
+        userNo: row.userNo,
+        number: number
       });
       this.$router.push({
         name: "evaluateClientView",
         query: {
-          useType: "modify",
-          number: number
+          useType: "modify"
         }
       });
     },
@@ -308,15 +308,16 @@ export default {
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      console.log(data);
       save(data).then(res => {
         if (res.status == 200) {
           this.$message({
             message: "保存成功",
             type: "success"
           });
+           this.close();
         }
       });
+     
     }
   },
   /**
@@ -395,7 +396,7 @@ export default {
       //主表完整的填表人数
       this.formData.fillNum = "0";
       //主表State
-      this.formData.state = "0";
+      // this.formData.state = "待填";
       //明细表数据
       for (let i = 0; i < evaluate.length; i++) {
         this.dataTable.push({

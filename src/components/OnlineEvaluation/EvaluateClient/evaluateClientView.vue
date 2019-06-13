@@ -52,7 +52,7 @@
             v-for="(item,index) in tableColumn"
             :key="index"
             :prop="item.id"
-            :label="item.name"
+            :label="item.doneFullName"
           >
             <template slot-scope="scope">
               <el-checkbox
@@ -63,7 +63,7 @@
               <el-select
                 v-if="item.id != 'target0'"
                 v-model="tableColumn[index]['target'+(scope.$index+1)]"
-                disabled="true"
+                :disabled="true"
                 @change="Change"
                 size="mini"
                 style="width:110px"
@@ -168,11 +168,14 @@ export default {
     //保存数据
     saveData() {
       this.$validator.validateAll().then(valid => {
-        if (valid && this.beforeSubmit()) {
+        if (valid && this.beforeSubmit()) {  
           let datas = {
             tableColumn: this.tableColumn,
             userNo: this.userNo
           };
+          for(let i=0;i<datas.tableColumn.length;i++){
+            datas.tableColumn[i].id="";
+          }
           datas.tableColumn.shift();
           this.$store.commit("setOne", datas);
           this.$message({
@@ -195,7 +198,7 @@ export default {
   watch: {},
   created: function() {
     // 组件创建后
-    this.number = this.$route.query.number;
+    this.number = this.$store.state.history.number;
     this.type = this.$route.query.useType;
     const data = this.$store.state.history;
     this.userNo = data.userNo;
@@ -215,7 +218,7 @@ export default {
       for (let i = 0; i < targetNames.length; i++) {
         this.tData.push({ target: targetNames[i] });
       }
-      this.tableColumn.push({ id: "target0", name: "指标名称" });
+      this.tableColumn.push({ id: "target0", doneFullName: "指标名称" });
 
       //循环被评价人姓名
       let doneFullName = [];
@@ -226,7 +229,7 @@ export default {
       for (let j = 0; j < doneFullName.length; j++) {
         this.tableColumn.push({
           id: "target" + (j + 1),
-          name: doneFullName[j]
+          doneFullName: doneFullName[j]
         });
       }
       //循环添加指标等级

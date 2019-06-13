@@ -54,7 +54,11 @@ export default {
   methods: {
     // 自定义方法
     searching() {
-      this.searchData.flag=parseInt(this.searchData.flag);
+      if(this.searchData.flag==""){
+        this.searchData.flag="";
+      }else{
+        this.searchData.flag=parseInt(this.searchData.flag);
+      }
       this.search(this.searchData);
     },
     clear() {

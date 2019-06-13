@@ -67,19 +67,19 @@ export function getEvaluteState() {
 
 
 // 指标管理状态
-export const States = {
-    0: '有效',
-    1: '无效'
-}
-let StateOptions = [];
-Object.keys(States).forEach((key) => {
-    StateOptions.push({
-        value: key,
-        label: States[key]
-    });
-});
+export const States = [
+    {
+        value: 0,
+        label: "有效"
+    },
+    {
+        value: 1,
+        label: "无效"
+    }
+]
+
 export function PlanState() {
-    return Promise.resolve({ status: 200, data: StateOptions });
+    return Promise.resolve({ status: 200, data: States });
 }
 
 // 评价方式
