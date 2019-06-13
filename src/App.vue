@@ -45,7 +45,7 @@ body .el-table th.gutter{
 }
 #firstJ{
   margin-right: 20px;
-  background: #333;
+  background: #0099FF;
   color: #fff;
 }
 .divHand{

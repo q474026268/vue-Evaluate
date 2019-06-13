@@ -166,7 +166,7 @@
                 <label>{{ scope.row.userNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名" width="55" >
+            <el-table-column align="center" label="姓名" width="55">
               <template slot-scope="scope">
                 <label>{{ scope.row.doFullName }}</label>
               </template>
@@ -251,7 +251,9 @@ export default {
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表
-      markTypeOptions: []
+      markTypeOptions: [],
+      //判断是否是使用
+      isuse: ""
     };
   },
   methods: {
@@ -279,7 +281,7 @@ export default {
           doFullName: data[i].name,
           userNo: data[i].id,
           groupName: data[i].departmentName,
-          doUserName:data[i].userName
+          doUserName: data[i].userName
         });
       }
     },
@@ -320,16 +322,25 @@ export default {
     nextStep(formName) {
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
-          // 主表数据
-          let formData = this.formData;
           // 被评价人列表数据
           let group = this.formDataDetail_group;
           //指标列表数据
           let index = this.formDataDetail_index;
           // 评价人列表数据
           let evaluate = this.formDataDetail_evaluate;
+          let formData = this.formData;
+          if (this.isUse != "true") {
+            let targetName = [];
+            let targetPkid = [];
+            for (let i = 0; i < index.length; i++) {
+              targetName.push(index[i].targetName);
+              targetPkid.push(index[i].targetPkid);
+            }
+            this.formData.targetName = targetName.join(",");
+            this.formData.targetPkid = targetPkid.join(",");
+          }
           this.$store.commit("setData", {
-            formData,
+            formData: this.formData,
             group,
             index,
             evaluate
@@ -358,6 +369,7 @@ export default {
     const data = this.$store.state.data.data;
     this.type = this.$route.query.useType;
     this.id = data.main.pkid;
+    this.isuse = this.$route.query.isUse;
     // 获取模板数据
     this.formData = data.main;
     this.formDataDetail_index = data.detail;

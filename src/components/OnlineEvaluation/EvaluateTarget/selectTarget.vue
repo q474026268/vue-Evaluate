@@ -100,9 +100,10 @@ export default {
     },
     // 获取数据
     getData() {
+      console.log(this.tableData);
       //获取评价指标的各个类型
-      getEvaluateTargetByEvaluKind("内部客户满意度评测").then(res => {
-        console.log(res);
+      getEvaluateTargetByEvaluKind("员工达优测评").then(res => {
+        console.log(res.data);
         this.tableData = res.data;
       });
     },

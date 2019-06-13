@@ -56,7 +56,7 @@ export default {
         },
         {
           id: "planName",
-          text: "评价计划",
+          text: "评价名称",
           align: "center",
           width: 80,
           sortable: true

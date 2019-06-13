@@ -132,7 +132,8 @@ export default {
                     this.$router.push({
                       name: "evaluateClient",
                       query: {
-                        useType: "add"
+                        useType: "add",
+                        isUse:"true"
                       }
                     });
                   }
