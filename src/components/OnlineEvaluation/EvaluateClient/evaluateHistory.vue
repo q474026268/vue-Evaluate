@@ -12,7 +12,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item prop="evaluateTname" label="测评表名 :" class="item">
-              <el-input v-model="formData.evaluateTname" size="mini"></el-input>
+              <el-input v-model="evaluateTname" size="mini"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -305,6 +305,7 @@ export default {
         );
       }
       // 主表数据
+      this.formData.evaluateTname = this.evaluateTname;
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
@@ -318,7 +319,7 @@ export default {
         }
       });
      
-    }
+    },
   },
   /**
    * 计算属性（自定义方法）
