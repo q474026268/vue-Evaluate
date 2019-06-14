@@ -37,7 +37,8 @@ export const store = new Vuex.Store({
     yt: {},
     history: {},
     clientView: [],
-    Initialization: []
+    Initialization: [],
+    evaluStand:[]
   },
   mutations: {
     setData(state, item) {
@@ -65,6 +66,6 @@ export const store = new Vuex.Store({
     //初始化存储默认值
     setInitialization(state, item) {
       state.Initialization = item
-    }
+    },
   }
 })
