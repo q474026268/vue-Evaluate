@@ -149,6 +149,11 @@ export default {
         if (valid && this.beforeSubmit()) {
           let data = Object.assign({}, this.formData);
           data.flag = btnType;
+          data.inputerUserNo=this.$store.state.userInfo.id;
+          data.inputerFullName=this.$store.state.userInfo.name;
+          data.groupId=this.$store.state.userInfo.departmentId;
+          data.groupFullId=this.$store.state.userInfo.departmentName;
+          data.inputDate=new Date();
           save(data).then(res => {
             if (res.status == 200) {
               this.$store.state.data.callback({
@@ -156,6 +161,12 @@ export default {
                 data: res.data
               });
               this.close();
+              this.$message({
+                message: '存储成功',
+                type: 'success'
+              });
+            }else{
+              this.$message.error('保存失败，该时间段已存在相同类型的评价计划');
             }
           });
         }

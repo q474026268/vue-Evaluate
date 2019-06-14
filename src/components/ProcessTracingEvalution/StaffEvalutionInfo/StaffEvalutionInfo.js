@@ -15,12 +15,9 @@ export function getList(currentPage, pageSize, order, filters) {
 }
 
 // 废弃
-export function deleteTableLists(id) {
+export function deleteTableLists(pkid) {
     return request({
-        url: '/getEvaluateProcessTracingTableList/deleteTableLists',
-        data: {
-            id: id
-        },
-        method: 'POST'
+        url: '/evaluateProcessTracing/deleteTableLists?pkid='+pkid,
+        method: 'GET'
     })
 }

@@ -12,10 +12,10 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     userInfo: {
-      "id": 1,
-      "userName": "admin",
+      "id": '001',
+      "userName": "rong_hg",
       "avatar": "ce386f75-8a6f-4af4-a97f-257a820e9505",
-      "name": "超级管理员",
+      "name": "荣红光",
       "sex": null,
       "birthday": null,
       "phone": null,
