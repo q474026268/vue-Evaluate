@@ -142,7 +142,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key]);
+                this.modifyButtonClick(row[key],row);
               }
             },
             {
@@ -190,13 +190,20 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id) {
-      this.$store.commit("setData", {
-        id,
-        useType: "modify",
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
+    modifyButtonClick(id,row) {
+      if (row.flag==2 || row.flag==3) {
+        this.$message({
+          message: '根据该条目状态判断，不可修改',
+          type: 'warning'
+        });
+      }else{
+        this.$store.commit("setData", {
+          id,
+          useType: "modify",
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: routerName });
+      }
     },
     /**
      * 浏览按钮点击事件

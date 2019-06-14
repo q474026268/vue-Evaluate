@@ -136,7 +136,6 @@ export default {
                 this.tableData=result.data.content
                 console.log(this.tableData);
                 this.total=result.data.numberOfElements;
-                
             })
         },
         handleCurrentChange(val) {
@@ -160,7 +159,26 @@ export default {
         },
         // 废弃
         handleDiscard(index,row){
-            
+            deleteTableLists(row.PKID).then((result) => {
+                if (result.status==200) {
+                    this.$message({
+                        message: '废弃成功',
+                        type: 'success'
+                    });
+                }else{
+                    this.$message.error('废弃失败');
+                }
+            })
+
+            let filters={};
+            filters.evaluateId=this.evaluateId;
+            this.pageSize=val;
+            getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                console.log(result);
+                this.tableData=result.data.content
+                console.log(this.tableData);
+                this.total=result.data.numberOfElements;
+            })
         },
         // 催办
         handleCb(index,row){
@@ -170,20 +188,26 @@ export default {
         handleLook(index,row){
             console.log(row);
             console.log(this.evaluKind);
-            
-            this.$router.push({
-                name:'tableListView',
-                query:{
-                    evaluKind:this.evaluKind,
-                    evaluateTname:this.evaluateTname,
-                    levelType:this.levelType,
-                    InputDate:row.InputDate.substring(0,10),
-                    InputerFullName:this.InputerFullName,
-                    PKID:row.PKID,
-                    EvaluateId:row.EvaluateId,
-                    DeptName:row.DeptName
-                }
-            })
+            if (row.State=='废弃') {
+                this.$message({
+                    message: '该条目已废弃不可查看',
+                    type: 'warning'
+                });
+            }else{
+                this.$router.push({
+                    name:'tableListView',
+                    query:{
+                        evaluKind:this.evaluKind,
+                        evaluateTname:this.evaluateTname,
+                        levelType:this.levelType,
+                        InputDate:row.InputDate.substring(0,10),
+                        InputerFullName:this.InputerFullName,
+                        PKID:row.PKID,
+                        EvaluateId:row.EvaluateId,
+                        DeptName:row.DeptName
+                    }
+                })
+            }
         }
     },
     /**
