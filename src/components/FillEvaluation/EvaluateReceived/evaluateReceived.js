@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /* 主表接口 */
 export function getList(currentPage,pageSize,order,filters){
     return request({
-        url: '/evaluateModel/getEvaluateTableList',
+        url: '/writerList/getWriterList',
         data:{
             currentPage,
             pageSize,

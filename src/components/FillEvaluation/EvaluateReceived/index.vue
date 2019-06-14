@@ -36,7 +36,7 @@ export default {
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
       SearchPage: SearchPage,
-      beforeGetListData: ''
+      beforeGetListData: this.beforeGetListData
     };
   },
   data: function() {
@@ -46,7 +46,7 @@ export default {
       tableBaseConfig: {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
-        currentSort: [{ prop: "id", order: "descending" }],
+        currentSort: [{ prop: "pkid", order: "descending" }],
         opertionColumnWidth:65
       },
       // 列表配置
@@ -172,6 +172,10 @@ export default {
      * rows：选中的所有行
      */
     rowsSelected(rows) {},
+    // 请求列表数据之前
+    beforeGetListData(currentPage,pageSize,order,filters){
+        filters.loginUser=this.$store.state.userInfo.userName
+    },
     /**
      * 点击全选的checkbox触发
      * rows：选中的所有行
