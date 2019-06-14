@@ -1,10 +1,5 @@
 <template>
     <div id="processTracking">
-        <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="收到的评价表" name="first">
-                <evaluate-client-list></evaluate-client-list>
-            </el-tab-pane>
-        </el-tabs> -->
         <div id="tjcxDiv">
             <router-link class="tjcxDivSon" tag="div" :to="{name:'employeeEvaluation'}">员工达优测评</router-link>
         </div>

@@ -7,10 +7,10 @@ export function evaluateContent(pkid,doUserName){
     })
 }
 
-// state:提交0,暂存1
+// 保存填写
 export function saveFillContent(data){
     return request({
-        url: '/evaluateClientList/saveFillContent',
+        url: '/evaluateDaily/saveFillContent',
         data:JSON.stringify(data),
         method: 'POST',
         transformRequest: [(data) => {
@@ -21,39 +21,17 @@ export function saveFillContent(data){
         }
     })
 }
-// state:提交0,暂存1    被委托人的信息
+// 暂存填写
 export function saveConsignFillContent(data){
     return request({
-        url: '/evaluateClientList/saveConsignFillContent',
-        data:JSON.stringify(data),
+        url: `/evaluateTableList/updateWriterList/?evaluateId=${data.evaluateId}&pkid=${data.pkid}`,
+        data:JSON.stringify(data.fillHtml),
         method: 'POST',
         transformRequest: [(data) => {
             return data
         }],
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
-        }
-    })
-}
-
-// 查看，获取填写内容（不是委托的）
-export function getFillContent(id){
-    return request({
-        url: '/evaluateClientList/getFillContent',
-        method: 'GET',
-        params:{
-            evaluateListPKID:id
-        }
-    })
-}
-
-// 查看，获取填写内容（委托的）
-export function getConsignFillContent(id){
-    return request({
-        url: '/evaluateClientList/getConsignFillContent',
-        method: 'GET',
-        params:{
-            evaluateListPKID:id
         }
     })
 }
