@@ -16,7 +16,7 @@
                 </div>
             </div>
             
-            <el-table border :data="tableTarget">
+            <el-table border v-loading="loading" :data="tableTarget">
                 <el-table-column
                     prop="TargetName"
                     label="指标"
@@ -24,7 +24,7 @@
                 </el-table-column>
                 <el-table-column v-for="(item,index) in tableArr" align='center' :key="index" :label="item.doneFullName" :prop="'target'+(index+1)">
                     <template class="iiiii" slot-scope="scope">
-                        <el-select :disabled="!tableArr[index]['optional'+(scope.$index+1)]" v-model="tableArr[index]['target'+(scope.$index+1)]">
+                        <el-select :disabled="!tableArr[index]['optional'+(scope.$index+1)] || look" v-model="tableArr[index]['target'+(scope.$index+1)]">
                             <el-option value="A">A</el-option>
                             <el-option value="B">B</el-option>
                             <el-option value="C">C</el-option>
@@ -33,7 +33,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="rightBtnGroup">
+            <div v-if="!look" class="rightBtnGroup">
                 <el-button type="primary" @click="submit">提交</el-button>
                 <el-button @click="temporaryStorage">暂存</el-button>
                 <el-button type="info" @click="handleClose">关闭</el-button>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {evaluateContent,getTargetItem} from './evaluateClientSecApi.js'
+import {evaluateContent,getTargetItem,saveFillContent,saveConsignFillContent} from './evaluateClientSecApi.js'
 export default {
     name:'evaluateClientSec',
     props:{// 其他组件传入的值
@@ -63,10 +63,14 @@ export default {
             StartDate:"",
             tableTarget:[],
             tableArr:[],
+            // 后台获取表信息最大data
+            bigData:{},
             // 指标信息
             evaluKind:'',
             description:'',
-            targeDescripts:{}
+            targeDescripts:{},
+            loading: true,
+            look:''
         }
     },
     methods:{// 自定义方法
@@ -90,57 +94,44 @@ export default {
         },
         // 暂存
         temporaryStorage(){
-            let data=[];
-            for(let i=1;i<this.tableArr.length;i++){
-                data.push(this.tableArr[i])
-            }
-            console.log(data);
+            this.bigData.fillHtml=JSON.stringify(this.tableArr);
             
-            for(let i=0;i<data.length;i++){
-                data[i].doneFullName=data[i].depart;
-                data[i].doneUserNo=data[i].depart;
-                data[i].evaluateId=this.$route.query.id;
-                data[i].evaluateListPKID=this.$route.query.EvaluateListPKID;
-                data[i].flag=0;
-                data[i].submitState=1;
-                if(this.$route.query.type==1){
-                    data[i].inputerUserNo=this.$route.query.inputerUserNo;
-                    data[i].state='save'
+            saveConsignFillContent(this.bigData).then((result) => {
+                if (result.status==200) {
+                    this.$router.back();
+                    this.$message({
+                        message: '暂存成功',
+                        type: 'success'
+                    });
+                    this.$store.state.data.callback();
+                }else{
+                    this.$message.error('暂存失败');
                 }
-            }
-            
-            if(this.$route.query.type==0){
-                saveFillContent(data).then((result) => {
-                    if(result.status==200){
-                        this.$router.back();
-                        this.$message({
-                            message: '暂存成功!',
-                            type: 'success'
-                        });
-                        this.$store.state.data.callback();
-                    }else{
-                        this.$message.error('暂存失败!');
-                    }
-                })
-            }else{
-                saveConsignFillContent(data).then((result) => {
-                    if(result.status==200){
-                        this.$router.back();
-                        this.$message({
-                            message: '暂存成功!',
-                            type: 'success'
-                        });
-                        this.$store.state.data.callback();
-                    }else{
-                        this.$message.error('暂存失败!');
-                    }
-                })
-            }
+            })
         },
         // 提交
         submit(){
+            for (let i = 0; i < this.tableArr.length; i++) {
+                this.tableArr[i].evaluatePkid=this.bigData.evaluateId;
+                this.tableArr[i].evaluateListId=this.bigData.pkid;
+                this.tableArr[i].flag=2;
+                this.tableArr[i].doneUserNo='';
+            }
             console.log(this.tableArr);
-            let data=[];
+            
+            saveFillContent(this.tableArr).then((result) => {
+                if (result.status==200) {
+                    this.$router.back();
+                    this.$message({
+                        message: '保存成功',
+                        type: 'success'
+                    });
+                    this.$store.state.data.callback();
+                }else{
+                    this.$message.error('保存失败');
+                }
+                
+            })
         },
     },
     /**
@@ -157,6 +148,7 @@ export default {
         
     },
     created:function(){// 组件创建后
+        this.look=this.$route.query.look;
         this.nowUserName=this.$store.state.userInfo.userName;
         this.EvaluKind=this.$route.query.evaluKind;
         this.EvaluateTname=this.$route.query.evaluateTname;
@@ -164,15 +156,13 @@ export default {
         let pkid=this.$route.query.pkid;
         // 获取人物内具体指标
         evaluateContent(pkid,this.nowUserName).then((result) => {
+            this.bigData=result.data[0]
             this.tableArr=JSON.parse(result.data[0].fillHtml);
-            console.log(this.tableArr);
-            
+            this.loading=false;
         })
         //获取哪几个指标
         getTargetItem(pkid,this.nowUserName).then((result) => {
             this.tableTarget=result.data
-            console.log(this.tableTarget);
-            
         })
     },
     mounted:function(){// 组件加载完成

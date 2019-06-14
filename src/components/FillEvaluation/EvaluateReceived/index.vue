@@ -117,6 +117,7 @@ export default {
                     type: 'warning'
                   });
                 }else{
+                  this.$store.commit("setData",{callback:this.dialogCallback})
                   this.$router.push({
                     name:'EvaluateClientSecEdit',
                     query:{
@@ -156,6 +157,10 @@ export default {
      */
     modifyButtonClick(id) {
       DefaultButtons.modifyButton(pageUrl, routerName, id, this.dialogWidth);
+    },
+    // 弹出框回调函数
+    dialogCallback(data){
+        this.$refs.table.refresh();
     },
     /**
      * 行选中事件:单选时触发

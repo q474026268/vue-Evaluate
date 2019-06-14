@@ -71,7 +71,13 @@ export const constantRouterMap = [
       { 
         path: '/staffEvalutionList', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution'), name: 'staffEvalutionList',
         children: [
-          { path: '/StaffEvalutionInfo', component: () => import('../../components/ProcessTracingEvalution/StaffEvalutionInfo/StaffEvalutionInfo.vue'), name: 'StaffEvalutionInfo' },
+          { path: '/StaffEvalutionInfo', component: () => import('../../components/ProcessTracingEvalution/StaffEvalutionInfo/StaffEvalutionInfo.vue'), name: 'StaffEvalutionInfo',
+            children:[
+              {
+                path: '/StaffEvalutionInfo/tableListView', component: () => import('../../components/ProcessTracingEvalution/tableListView/tableListView.vue'), name: 'tableListView',
+              }
+            ]
+          },
         ]
       }
     ]

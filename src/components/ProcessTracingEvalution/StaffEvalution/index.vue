@@ -32,7 +32,8 @@ export default {
       rowsSelected: this.rowsSelected,
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
-      SearchPage: SearchPage
+      SearchPage: SearchPage,
+      beforeGetListData:''
     };
   },
   data: function() {
@@ -120,8 +121,19 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
+                // this.$store.commit("setData",{callback:this.dialogCallback})
                 this.$router.push({
                   name:'StaffEvalutionInfo',
+                  query:{
+                    evaluateId:row.Id,
+                    evaluKind:row.evaluKind,
+                    evaluateTName:row.evaluateTName,
+                    GroupName:row.GroupName,
+                    StartDate:row.StartDate,
+                    PlanName:row.PlanName,
+                    InputerFullName:row.InputerFullName,
+                    levelType:row.levelType
+                  }
                 })
               }
             }

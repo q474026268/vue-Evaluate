@@ -78,8 +78,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <hr size="3px" noshade="true" style="border-color:#409EFF;">
-        <span style="font-weight:bold;font-size:17px;color:#409EFF">评价计划名称</span>
+        <!-- <hr size="3px" noshade="true" style="border-color:#409EFF;">
+        <span style="font-weight:bold;font-size:17px;color:#409EFF">评价计划名称</span> -->
       </el-row>
     </el-form>
   </div>

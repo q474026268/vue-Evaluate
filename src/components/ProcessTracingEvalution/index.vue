@@ -37,6 +37,7 @@ export default {
       ) {
         case "staffEvalutionList":
           domArr[0].style.borderBottom = "2px solid #66b1ff";
+          domArr[0].style.color='#66b1ff';
           break;
       }
     }
@@ -57,6 +58,7 @@ export default {
       .querySelector("#nbgkmydDiv")
       .querySelectorAll(".nbgkmydDivSon");
     domArr[0].style.borderBottom = "2px solid #66b1ff";
+    domArr[0].style.color='#66b1ff';
   },
   beforeUpdate: function() {},
   // 组件数据更新之后

@@ -4,9 +4,9 @@
         width="60%" 
         :visible.sync="dialogFormVisible"
         :before-close="handleClose" :close-on-click-modal="false">
-            <h4>在线评价——{{modelName}}</h4>
-            <div class="pDiv"><span>评价类别：{{evaluKind}}</span>    <span>模板名称：{{modelName}}</span></div>
-            <div class="pDiv"><span>评价表名：{{evaluateTname}}</span>  <span>制表部门：{{groupName}}</span>   <span>制表时间：{{inputDate}}</span>   <span>催办提前期：{{emailDay}}天</span></div>
+            <h4>{{PlanName}}</h4>
+            <div class="pDiv"><span>评价类别：{{evaluKind}}</span>    <span>评价表名：{{evaluateTname}}</span>  <span>评价方式：{{levelType}}</span></div>
+            <div class="pDiv">  <span>制表部门：{{groupName}}</span>  <span>制表人：{{InputerFullName}}</span>  <span>制表时间：{{inputDate}}</span>   </div>
             <el-table
                 :data="tableData"
                 height="250"
@@ -17,57 +17,52 @@
                 align="center">
                 </el-table-column>
                 <el-table-column
-                prop="doUserNo"
+                prop="DoUserNo"
                 label="评价人员工号"
                 align="center">
                 </el-table-column>
                 <el-table-column
-                prop="doFullName"
+                prop="DoFullName"
                 label="评价人姓名"
                 align="center">
                 </el-table-column>
                 <el-table-column
-                prop="groupName"
+                prop="DeptName"
                 label="部门"
                 align="center">
                 </el-table-column>
                 <el-table-column
-                prop="inputDate"
-                label="填表时间"
+                prop="InputDate"
+                label="评价时间"
+                :formatter="formatter"
                 align="center">
                 </el-table-column>
                 <el-table-column
-                prop="state"
+                prop="State"
                 label="状态"
                 align="center">
                 </el-table-column>
                 <el-table-column
-                label="废弃"
+                label="操作"
+                width="190"
                 align="center">
                     <template slot-scope="scope">
                         <el-button
+                        title="废弃"
                         icon="el-icon-delete"
                         size="mini"
                         type="primary"
-                        @click="handleDelete(scope.$index, scope.row)"></el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                label="催办"
-                align="center">
-                    <template slot-scope="scope">
+                        @click="handleDiscard(scope.$index, scope.row)"></el-button>
+
                         <el-button
+                        title="催办"
                         size="mini"
                         icon="el-icon-s-promotion"
                         type="primary"
                         @click="handleCb(scope.$index, scope.row)"></el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                label="查看"
-                align="center">
-                    <template slot-scope="scope">
+
                         <el-button
+                        title="查看"
                         size="mini"
                         icon="el-icon-view"
                         type="primary"
@@ -79,10 +74,10 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="currentPage4"
-              :page-sizes="[100, 200, 300, 400]"
-              :page-size="100"
+              :page-sizes="[15, 20, 50, 100]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
             </el-pagination>
         </el-dialog>
         <router-view></router-view>
@@ -92,6 +87,7 @@
 <script>
 // import {clientList,deletePeople,sendEmail} from './customerSatisfactionViewApi.js'
 // import {getLoginInfo} from '../../OnlineEvaluation/onlineEvaluation.js'
+import {getList,deleteTableLists} from './StaffEvalutionInfo.js'
 export default {
     name:'customerSatisfactionView',
     props:{// 其他组件传入的值
@@ -100,17 +96,28 @@ export default {
     data:function(){// 自定义变量
         return {
             // 分页参数
+            // 第几页
             currentPage4: 1,
+            // 一页条数
+            pageSize:15,
+            // 总条数
+            total:0,
+            // 排序字段
+            orders:[{prop:"pkid",order:"descending"}],
             // 评价表名
             evaluateTname:'',
-            // 模板名称
-            modelName:'',
-            // 催办提前期
-            emailDay:'',
+            // 计划名称
+            PlanName:'',
+            // 制表人名
+            InputerFullName:'',
+            // 评价方式
+            levelType:'',
             // 制表日期
             inputDate:'',
             // 评价类别
             evaluKind:'',
+            // 通过夫路由传过来的id
+            evaluateId:'',
             // 制表部门
             groupName:'',
             dialogFormVisible:true,
@@ -119,86 +126,64 @@ export default {
         }
     },
     methods:{// 自定义方法
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            let filters={};
+            filters.evaluateId=this.evaluateId;
+            this.pageSize=val;
+            getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                console.log(result);
+                this.tableData=result.data.content
+                console.log(this.tableData);
+                this.total=result.data.numberOfElements;
+                
+            })
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+            let filters={};
+            filters.evaluateId=this.evaluateId;
+            this.currentPage4=val;
+            getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                console.log(result);
+                this.tableData=result.data.content
+                console.log(this.tableData);
+                this.total=result.data.numberOfElements;
+                
+            })
+        },
         handleClose(done) {
             this.$router.back();
         },
-        // 删除评价人
-        handleDelete(index,row){
-            console.log(row);
-            if(row.state!='完成'){
-                this.$confirm('是否删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    deletePeople(row.pkid).then((result) => {
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        clientList(this.$route.query.id).then((result) => {
-                            this.tableData=result.data
-                            for(let i=0;i<this.tableData.length;i++){
-                                this.tableData[i].inputDate=this.tableData[i].inputDate.substring(0,10);
-                                switch (this.tableData[i].state){
-                                    case 'finish':
-                                        this.tableData[i].state='完成';
-                                        break;
-                                    case 'save':
-                                        this.tableData[i].state='暂存';
-                                        break;
-                                    case 'start':
-                                        this.tableData[i].state='待填';
-                                        break;
-                                    case 'consign':
-                                        this.tableData[i].state='委托';
-                                        break;
-                                }
-                            }
-                        }).catch((err) => {
-                            
-                        });
-                    }).catch((err) => {
-                        
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });          
-                });
-            }else{
-                this.$message({
-                    message: '已完成，不可删除!',
-                    type: 'warning'
-                });
-            }
+        formatter(row,column){
+            return row.InputDate.substring(0,10)
+        },
+        // 废弃
+        handleDiscard(index,row){
+            
         },
         // 催办
         handleCb(index,row){
-            console.log(row);
-            sendEmail().then((result) => {
-                if(result.status == 200){
-                    this.$message({
-                        type: 'success',
-                        message: '发送邮件成功!'
-                    });
-                }else{
-                    this.$message.error('发送邮件失败!');
-                }
-            }).catch((err) => {
-                
-            });
+            
         },
         // 查看
         handleLook(index,row){
-
+            console.log(row);
+            console.log(this.evaluKind);
+            
+            this.$router.push({
+                name:'tableListView',
+                query:{
+                    evaluKind:this.evaluKind,
+                    evaluateTname:this.evaluateTname,
+                    levelType:this.levelType,
+                    InputDate:row.InputDate.substring(0,10),
+                    InputerFullName:this.InputerFullName,
+                    PKID:row.PKID,
+                    EvaluateId:row.EvaluateId,
+                    DeptName:row.DeptName
+                }
+            })
         }
     },
     /**
@@ -215,34 +200,23 @@ export default {
         
     },
     created:function(){// 组件创建后
-        this.evaluateTname=this.$route.query.evaluateTname;
-        this.modelName=this.$route.query.modelName;
-        this.emailDay=this.$route.query.emailDay;
+        this.evaluateId=this.$route.query.evaluateId;
         this.evaluKind=this.$route.query.evaluKind;
-        this.groupName=this.$route.query.groupName;
-        this.inputDate=this.$route.query.inputDate.substring(0,10);
-        clientList(this.$route.query.id).then((result) => {
-            this.tableData=result.data
-            for(let i=0;i<this.tableData.length;i++){
-                this.tableData[i].inputDate=this.tableData[i].inputDate.substring(0,10);
-                switch (this.tableData[i].state){
-                    case 'finish':
-                        this.tableData[i].state='完成';
-                        break;
-                    case 'save':
-                        this.tableData[i].state='暂存';
-                        break;
-                    case 'start':
-                        this.tableData[i].state='待填';
-                        break;
-                    case 'consign':
-                        this.tableData[i].state='委托';
-                        break;
-                }
-            }
-        }).catch((err) => {
-            
-        });
+        this.evaluateTname=this.$route.query.evaluateTName;
+        this.groupName=this.$route.query.GroupName;
+        this.inputDate=this.$route.query.StartDate.substring(0,10);
+        this.InputerFullName=this.$route.query.InputerFullName;
+        
+        this.PlanName=this.$route.query.PlanName;
+        this.levelType=this.$route.query.levelType;
+        let filters={};
+        filters.evaluateId=this.evaluateId;
+        getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+            console.log(result);
+            this.tableData=result.data.content
+            console.log(this.tableData);
+            this.total=result.data.numberOfElements;
+        })
     },
     mounted:function(){// 组件加载完成
         // DOTO

@@ -6,6 +6,7 @@
       :toolBarConfig="toolBarConfig"
       :tableBaseConfig="tableBaseConfig"
     ></z-table>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -35,7 +36,7 @@ export default {
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
       SearchPage: SearchPage,
-      beforeGetListData: ''
+      beforeGetListData: this.beforeGetListData
     };
   },
   data: function() {
@@ -109,7 +110,17 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key], row.state);
+                this.$router.push({
+                  name:'EvaluateClientSecLook',
+                  query:{
+                    evaluKind:row.evaluKind,
+                    evaluateTname:row.evaluateTname,
+                    levelType:row.levelType,
+                    startDate:row.inputDate,
+                    pkid:row.id,
+                    look:'true'
+                  }
+                })
               }
             }
           ],
@@ -139,59 +150,9 @@ export default {
     modifyButtonClick(id) {
       DefaultButtons.modifyButton(pageUrl, routerName, id, this.dialogWidth);
     },
-    /**
-     * 浏览按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
-     */
-    viewButtonClick(id, state) {
-      console.log(1111);
-      
-      switch (state) {
-        case "暂存":
-          this.$router.push({
-            path: "/handoutHistorySearch",
-            name: "handoutHistorySearch",
-            params: {
-              useType: "modify",
-              id: id
-            }
-          });
-          break;
-        case "分发":
-          this.$message({
-            message: "分发状态下不可查看",
-            type: "warning"
-          });
-          break;
-        case "完成":
-          this.$router.push({
-            path: "/evaluateTableView",
-            name: "evaluateTableView",
-            params: {
-              useType: "view",
-              id
-            }
-          });
-          break;
-      }
-    },
-    // 删除按钮点击事件
-    deleteButtonClick(id) {
-      this.$confirm("确定删除？")
-        .then(res => {
-          deleted(id).then(res => {
-            if (res.status == 200) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-              this.$refs.table.refresh();
-            }
-          });
-        })
-        .catch(err => {});
+    // 请求列表数据之前
+    beforeGetListData(currentPage, pageSize, order, filters) {
+      filters.state='完成'
     },
     /**
      * 行选中事件:单选时触发
