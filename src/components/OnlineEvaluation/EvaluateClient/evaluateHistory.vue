@@ -60,8 +60,8 @@
         <div v-show="false">
           <el-row>
             <el-col :span="6">
-              <el-form-item prop="targetCoun" label="指标个数">
-                <label>{{formData.targetCoun}}</label>
+              <el-form-item prop="targetCount" label="指标个数">
+                <label>{{formData.targetCount}}</label>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -171,8 +171,8 @@
         </el-table-column>
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
-        <el-button @click="handout()" type="primary">执行</el-button>
-        <el-button @click="saveData('form')" type="primary">暂存</el-button>
+        <el-button @click="handout(0)" type="primary">分发</el-button>
+        <el-button @click="handout(1)" type="primary">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
@@ -247,6 +247,9 @@ export default {
     },
     //调整
     update(row, number) {
+      this.formData.evaluateTname=this.evaluateTname
+      console.log("调整");
+      console.log(this.formData);
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
@@ -268,12 +271,12 @@ export default {
     //暂存
     saveData() {},
     // 分发执行
-    handout() {
+    handout(mark) {
       // 指标数据
       let targetName = this.formData.targetName.split(",");
       let targetPkid = this.formData.targetPkid.split(",");
       let headChildrens = [];
-      for (let i = 0; i < this.formData.targetCoun; i++) {
+      for (let i = 0; i < this.formData.targetCount; i++) {
         headChildrens.push({
           targetName: targetName[i],
           targetPKID: targetPkid[i]
@@ -282,9 +285,7 @@ export default {
       // 评价人与被评价人数据
       let evaluate = this.$store.state.data.evaluate;
       for (let i = 0; i < evaluate.length; i++) {
-        this.dataTable[i].doneFullArr = this.$store.state.clientView[
-          i
-        ].doneFullArr;
+        this.dataTable[i].doneFullArr = this.$store.state.clientView[i].doneFullArr;
       }
 
       let listChildrens = [];
@@ -306,6 +307,11 @@ export default {
       }
       // 主表数据
       this.formData.evaluateTname = this.evaluateTname;
+      if(mark==0){
+        this.formData.state="分发"
+      }else{
+        this.formData.state="暂存"
+      }
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
@@ -337,6 +343,9 @@ export default {
       //将数据从VueX(前面存入)中取出
       let datas = this.$store.state.history;
       this.formData = datas.formData;
+      this.evaluateTname=this.formData.evaluateTname
+      console.log("数组返回");
+      console.log(this.formData);
       // //格式化显示日期
       this.formData.inputDate = time(this.formData.inputDate);
       this.dataTable = datas.dataTable;
@@ -353,8 +362,12 @@ export default {
           this.evaluateTname = res.data.evaluPlan;
         }
         //将计划信息中的数据赋值给主表数据
-        //计划Pkid
+        //计划pKid
         this.formData.planPkid = this.planPkid;
+        //模板pKid
+        this.formData.modelPkid=this.planPkid;
+        //模板名称
+        this.formData.planName=this.evaluateTname;
         //预警提前期
         this.formData.emailDay = this.emailDay;
         //计划名称
@@ -367,7 +380,7 @@ export default {
       //被评价人列表数据
       let group = data.group;
       //主表指标个数
-      this.formData.targetCoun = index.length;
+      this.formData.targetCount = index.length;
       //主表评价人数
       this.formData.doUserCount = evaluate.length;
       //主表评价人姓名
@@ -389,15 +402,15 @@ export default {
       //主表部门ID
       this.formData.groupId = this.$store.state.userInfo.departmentId;
       //主表部门全路径ID
-      this.formData.groupFullId = "1";
+      this.formData.groupFullId = "";
       //主表部门名称
       this.formData.groupName = this.$store.state.userInfo.departmentName;
+      //主表填写人名称
+      this.formData.inputerFullName=this.$store.state.userInfo.name;
       //主表是否在过程跟踪中调整
       this.formData.eidtFlag = "是";
       //主表完整的填表人数
       this.formData.fillNum = "0";
-      //主表State
-      // this.formData.state = "待填";
       //明细表数据
       for (let i = 0; i < evaluate.length; i++) {
         this.dataTable.push({
