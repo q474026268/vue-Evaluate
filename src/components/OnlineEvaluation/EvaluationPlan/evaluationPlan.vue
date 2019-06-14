@@ -38,7 +38,7 @@
               <el-input
                 style="width:220px"
                 v-model="formData.evaluPlan"
-                placeholder="输入用户名"
+                placeholder="输入计划名称"
                 :disabled="Object.is(type,'view')"
               ></el-input>
             </el-form-item>

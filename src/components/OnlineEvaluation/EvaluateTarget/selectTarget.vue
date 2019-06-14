@@ -102,6 +102,7 @@ export default {
     getData() {
       //获取评价指标的各个类型
       getEvaluateTargetByEvaluKind("员工达优测评").then(res => {
+        //将获取的数据只取指标名称,评分标准进行拼接
         let hash = [];
         for (let i = 0; i < res.data.length; i++) {
           hash.push({
@@ -110,27 +111,32 @@ export default {
             EvaluStand: res.data[i].EvaluStand
           });
         }
+        //将重复的指标名称进行查重去除
         let hashs=[];
         for(let i=0;i<hash.length;i++){
-          if(hashs[hash[i].targetName]&&hashs[hash[i].targetName]!=""){//有这个下标
-              hashs[hash[i].targetName]+=(hash[i].EvaluStand+""+hash[i].Description+"");
-          }else{// 没有下标
-               hashs[hash[i].targetName]=hash[i].EvaluStand+hash[i].Description;
+          if(hashs.indexOf(hash[i].targetName)==-1){
+              hashs.push(hash[i].targetName)
           }
-         
-            
         }
-        console.log(hash);
-        console.log(hashs);
-        // console.log(hashs);
-        // this.tableData = res.data;
+        //根据指标名称添加评价标准
+        let targetDataArr=[]
+        for (let i = 0; i < hashs.length; i++) {
+          targetDataArr.push({targetName:hashs[i],evaluStand:[]})
+          for (let j = 0; j < hash.length; j++) {
+            if(hash[j].targetName==targetDataArr[i].targetName){
+              targetDataArr[i].evaluStand.push(hash[j].EvaluStand+':'+hash[j].Description)
+            }
+          }
+        }
+        //得到的指标名称和评价标准复制和主表数据
+       this.tableData=targetDataArr
       });
     },
     // 行选中事件
     handleSelectionChange(rows) {
       this.selectedDatas = [];
-      rows.forEach(({ pkid, targetName }) => {
-        this.selectedDatas.push({ pkid, targetName });
+      rows.forEach(({ pkid, targetName,evaluStand }) => {
+        this.selectedDatas.push({ pkid, targetName,evaluStand });
       });
     },
     // 选择 条/页
