@@ -50,7 +50,11 @@
               <el-input v-model="formDataDetail.flag" v-show="false"></el-input>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="评分标准"></el-table-column>
+          <el-table-column align="center" label="评分标准">
+            <template slot-scope="scope">
+              <label>{{ scope.row.evaluStand }}</label>
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作" v-if="!Object.is(type,'view')">
             <template slot-scope="scope">
               <el-button
@@ -188,8 +192,8 @@ export default {
     },
     //指标数据回调
     targetDialogCallback(data) {
-      data.forEach(({ pkid: targetPKID, targetName }) => {
-        this.formDataDetail.push({ targetPKID, targetName, doType: "add" });
+      data.forEach(({ pkid: targetPKID, targetName,evaluStand }) => {
+        this.formDataDetail.push({ targetPKID, targetName,evaluStand,doType: "add" });
       });
     }
   },
