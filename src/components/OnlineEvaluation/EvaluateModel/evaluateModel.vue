@@ -145,6 +145,7 @@ export default {
       if (valid1 && valid2 && this.beforeSubmit()) {
         let data = Object.assign({}, this.formData);
         data["childrens"] = Array.from(newFormDataDetail);
+        console.log(data);
         save(data).then(res => {
           if (res.status == 200) {
             let callback =this.$store.state.data.callback;
@@ -192,9 +193,10 @@ export default {
     },
     //指标数据回调
     targetDialogCallback(data) {
-      data.forEach(({ pkid: targetPKID, targetName,evaluStand }) => {
-        this.formDataDetail.push({ targetPKID, targetName,evaluStand,doType: "add" });
+      data.forEach(({ pkid: pkid, targetName,evaluStand }) => {
+        this.formDataDetail.push({ pkid, targetName,evaluStand,doType: "add" });
       });
+      console.log(this.formDataDetail);
     }
   },
   /**

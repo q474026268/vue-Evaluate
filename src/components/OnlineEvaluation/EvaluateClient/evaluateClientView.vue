@@ -169,6 +169,9 @@ export default {
     saveData() {
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {  
+          for(let i=0;i<this.$store.state.clientView.length;i++){
+            this.tableColumn[i+1].doUserNo=this.$store.state.clientView[i].userNo;
+          }
           let datas = {
             tableColumn: this.tableColumn,
             userNo: this.userNo
@@ -218,8 +221,7 @@ export default {
       for (let i = 0; i < targetNames.length; i++) {
         this.tData.push({ target: targetNames[i] });
       }
-      this.tableColumn.push({ id: "target0", doneFullName: "指标名称" });
-
+      this.tableColumn.push({ id: "target0", doneFullName: "指标名称"});
       //循环被评价人姓名
       let doneFullName = [];
       for (let i = 0; i < datas[this.number].doneFullArr.length; i++) {

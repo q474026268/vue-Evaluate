@@ -108,7 +108,8 @@ export default {
           hash.push({
             targetName: res.data[i].TargetName,
             Description: res.data[i].Description,
-            EvaluStand: res.data[i].EvaluStand
+            EvaluStand: res.data[i].EvaluStand,
+            pkid:res.data[i].PKID
           });
         }
         //将重复的指标名称进行查重去除
@@ -118,10 +119,16 @@ export default {
             hashs.push(hash[i].targetName);
           }
         }
+        let pkid = [];
+        for (let i = 0; i < hash.length; i++) {
+          if (pkid.indexOf(hash[i].pkid) == -1) {
+            pkid.push(hash[i].pkid);
+          }
+        }
         //根据指标名称添加评价标准
         let targetDataArr = [];
         for (let i = 0; i < hashs.length; i++) {
-          targetDataArr.push({ targetName: hashs[i], evaluStand: [] });
+          targetDataArr.push({ targetName: hashs[i], evaluStand:[],pkid:pkid[i]});
           for (let j = 0; j < hash.length; j++) {
             if (hash[j].targetName == targetDataArr[i].targetName) {
               targetDataArr[i].evaluStand.push(
@@ -155,7 +162,6 @@ export default {
       for(let i=0;i<this.selectedDatas.length;i++){
         this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStands;
       }
-      console.log(this.selectedDatas);
     },
     // 选择 条/页
     handleSize(pageSize) {
