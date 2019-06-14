@@ -47,6 +47,11 @@ export function randomString(len) {
       const v = c == 'x' ? r : (r & 0x3 | 0x8)
       return v.toString(16)
     })
+    
+  }
+  export const time=(data)=>{
+    let time=data.slice(0,10)
+    return time;
   }
   // 转换时间格式
   export const formatDate = (date) => {

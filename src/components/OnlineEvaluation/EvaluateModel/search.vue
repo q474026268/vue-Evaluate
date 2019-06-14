@@ -78,7 +78,7 @@ export default {
     // 自定义变量
     return {
       searchData: {
-        evaluKind: "内部客户满意度评测"
+        evaluKind: "",
       },
       evaluKindOptions: []
     };

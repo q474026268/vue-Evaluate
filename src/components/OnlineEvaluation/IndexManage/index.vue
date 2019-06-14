@@ -21,7 +21,7 @@ import ZTable from "../../zTable";
 import SearchPage from "./search";
 import { getList, deleted } from "./indexManage.js";
 import { formatDate } from "@/utils/common.js";
-import { planStates } from "../onlineEvaluation.js";
+import { States } from "../onlineEvaluation.js";
 import IndexManageRightList from "./indexManageRightList.vue";
 // 路由的名称
 const routerName = "indexManage";
@@ -51,7 +51,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 140px)",
+        tableHeight: "410px",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }]
       },
@@ -85,7 +85,7 @@ export default {
           width: 100,
           sortable: true,
           formatter: function(row, column) {
-            return planStates[row.flag];
+            return States[row.flag].label;
           }
         }
       ],

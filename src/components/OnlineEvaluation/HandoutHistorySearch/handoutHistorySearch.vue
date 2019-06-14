@@ -59,7 +59,7 @@
         <el-table-column prop="doFullName" label="评价人"></el-table-column>
         <el-table-column prop="doneFullName" label="被评价人"></el-table-column>
         <el-table-column prop="targetName" label="指标名称"></el-table-column>
-        <el-table-column label="调整">
+        <el-table-column label="查看">
           <el-button @click="view()" size="mini">查看</el-button>
         </el-table-column>
       </el-table>
@@ -93,7 +93,7 @@ export default {
       rowSelected: this.rowSelected,
       rowsSelected: this.rowsSelected,
       rowsSelectedAll: this.rowsSelectedAll,
-      getList: this.getList,
+      getList: "",
       SearchPage: ""
     };
   },
@@ -112,21 +112,16 @@ export default {
       // 弹出窗口宽度
       dialogWidth: "70%",
       //表单数据
-      dataTable: []
+      dataTable: [],
+      //返回方式
+      back: ""
     };
   },
   methods: {
     // 自定义方法
     view() {
-      let formData = this.formData;
-      // 被评价人列表数据
-      let dataTable = this.dataTable;
-      this.$store.commit("setData", {
-        formData: formData,
-        dataTable: dataTable
-      });
       this.$router.push({
-        name: "evaluateClientView",
+        name: "handoutView",
         query: {
           useType: "view"
         }
@@ -145,7 +140,6 @@ export default {
     saveData() {
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {
-          //this.$refs.saveButton.loading = true;
           let data = this.formData;
           // 合并明细数据
           let newFormDataDetail = [
@@ -191,10 +185,12 @@ export default {
         }
       });
     },
+    //根据id获取数据
     async getData() {
       await get(this.id).then(res => {
         if (res.status == 200) {
           this.formData = res.data[0];
+          this.formData.inputDate = formatDate(this.formData.inputDate);
           //评价人
           const evaluate = res.data[0].doFullName.split(",");
           //被评价人
@@ -232,24 +228,9 @@ export default {
     },
     // 分发
     handout() {},
-    getList() {
-      return Promise.resolve({ status: 200, data: [] });
-    },
     // 弹出框回调函数
     dialogCallback(data) {
       this.$refs.table.refresh();
-    },
-    modifyButtonClick() {
-      DefaultButtons.modifyButton(pageUrl, routerName);
-    },
-    /**
-     * 浏览按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
-     */
-    viewButtonClick() {
-      DefaultButtons.viewButton(pageUrl, routerName);
     }
   },
   /**
@@ -260,34 +241,19 @@ export default {
    * computed是有缓存的功能
    */
   computed: {},
-  watch: {
-    // 监听明细数据的变化，添加错误信息翻译
-    formDataDetail: function(curVal, oldVal) {
-      let dics = {};
-      for (let index of curVal.keys()) {
-        let count = index + 1;
-        dics["name_" + index] = "第" + count + "行的名称";
-        dics["model_" + index] = "第" + count + "行的型号";
-        dics["count_" + index] = "第" + count + "行的数量";
-        dics["price_" + index] = "第" + count + "行的单价";
-      }
-      addDictionary(dics);
-    }
-  },
+  watch: {},
   created: function() {
     // 组件创建后
-    this.type = this.$route.query.useType;
     this.id = this.$route.query.id;
     this.back = this.$route.query.back;
+    this.type=this.$route.query.useType;
     if (!Object.is(this.type, "add")) {
       if (this.back != 1) {
         this.getData();
       } else {
-        //从VueX中取出数据
         this.formData = this.$store.state.yt.formData;
         this.dataTable = this.$store.state.yt.dataTable;
       }
-    } else {
     }
   },
   mounted: function() {
@@ -298,7 +264,6 @@ export default {
   },
   updated: function() {
     // 组件数据更新之后
-    this.formData.inputDate = formatDate(this.formData.inputDate);
   }
 };
 </script>

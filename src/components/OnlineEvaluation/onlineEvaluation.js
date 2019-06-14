@@ -28,24 +28,24 @@ export function getEvaluStand() {
     return Promise.resolve({ status: 200, data: evaluStandOptions });
 }
 
-
-
 // 计划状态
-export const planStates = {
-    0: '暂存',
-    1: '开始',
-    2: '执行',
-    3: '完成'
-}
-let planStateOptions = [];
-Object.keys(planStates).forEach((key) => {
-    planStateOptions.push({
-        value: key,
-        label: planStates[key]
-    });
-});
+export const planStates = [
+    {
+        value: 0,
+        label: '暂存'
+    }, {
+        value: 1,
+        label: '开始'
+    }, {
+        value: 2,
+        label: '执行'
+    }, {
+        value: 3,
+        label: '完成'
+    }
+]
 export function getPlanState() {
-    return Promise.resolve({ status: 200, data: planStateOptions });
+    return Promise.resolve({ status: 200, data: planStates });
 }
 
 // 评价表状态
@@ -67,19 +67,19 @@ export function getEvaluteState() {
 
 
 // 指标管理状态
-export const States = {
-    0: '有效',
-    1: '无效'
-}
-let StateOptions = [];
-Object.keys(States).forEach((key) => {
-    StateOptions.push({
-        value: key,
-        label: States[key]
-    });
-});
+export const States = [
+    {
+        value: 0,
+        label: "有效"
+    },
+    {
+        value: 1,
+        label: "无效"
+    }
+]
+
 export function PlanState() {
-    return Promise.resolve({ status: 200, data: StateOptions });
+    return Promise.resolve({ status: 200, data: States });
 }
 
 // 评价方式

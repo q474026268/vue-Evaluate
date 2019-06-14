@@ -14,7 +14,6 @@ import ZTable from "../../zTable";
 import SearchPage from "./search";
 import { getList, deleted } from "./handoutHistorySearch.js";
 import { formatDate } from "@/utils/common.js";
-
 // 路由的名称
 const routerName = "handoutHistorySearch";
 // 主键字段
@@ -34,7 +33,7 @@ export default {
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
       SearchPage: SearchPage,
-      beforeGetListData: this.beforeGetListData
+      beforeGetListData: ""
     };
   },
   data: function() {
@@ -57,7 +56,7 @@ export default {
         },
         {
           id: "planName",
-          text: "评价计划",
+          text: "评价名称",
           align: "center",
           width: 80,
           sortable: true
@@ -148,33 +147,6 @@ export default {
   methods: {
     // 自定义方法
     /**
-     * 添加按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
-     */
-    addButtonClick() {
-      this.$store.commit("setData", {
-        useType: "add",
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
-    },
-    /**
-     * 修改按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
-     */
-    modifyButtonClick(id) {
-      this.$store.commit("setData", {
-        useType: "modify",
-        id,
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
-    },
-    /**
      * 浏览按钮点击事件
      * pageUrl：页面的路由路径
      * routerName：路由名称
@@ -183,11 +155,13 @@ export default {
     viewButtonClick(id, state) {
       switch (state) {
         case "暂存":
-          this.$store.commit("setData", {
-            useType: "modify",
-            id
+          this.$router.push({
+            name: "handoutHistorySearch",
+            query: {
+              useType: "view",
+              id
+            }
           });
-          this.$router.push({ name: "handoutHistorySearch" });
           break;
         case "分发":
           this.$message({
@@ -198,7 +172,7 @@ export default {
         case "完成":
           this.$router.push({
             name: "handoutHistorySearch",
-            query:{
+            query: {
               useType: "view",
               id
             }
@@ -206,28 +180,10 @@ export default {
           break;
       }
     },
-    // 删除按钮点击事件
-    deleteButtonClick(id) {
-      this.$confirm("确定删除？")
-        .then(res => {
-          deleted(id).then(res => {
-            if (res.status == 200) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-              this.$refs.table.refresh();
-            }
-          });
-        })
-        .catch(err => {});
-    },
     // 弹出框回调函数
     dialogCallback(data) {
       this.$refs.table.refresh();
     },
-
-    beforeGetListData() {},
     /**
      * 行选中事件:单选时触发
      * currentRow:当前行 oldCurrentRow:上一次选中的行
@@ -261,15 +217,12 @@ export default {
   },
   mounted: function() {
     // 组件加载完成
-    // DOTO
   },
   beforeUpdate: function() {
     // 组件数据更新之前
-    // DOTO
   },
   updated: function() {
     // 组件数据更新之后
-    // DOTO
   }
 };
 </script>

@@ -15,7 +15,7 @@ import DefaultButtons from "../../zTable/zTable.js";
 import SearchPage from "./search";
 import { getList, deleted, get } from "./evaluateModel.js";
 import { formatDate } from "@/utils/common.js";
-
+import { time } from "@/utils/common.js";
 // 表单的路由路径
 const pageUrl = "/evaluateModel";
 // 路由的名称
@@ -87,7 +87,7 @@ export default {
           width: 80,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.inputDate);
+            return time(row.inputDate);
           }
         },
         {
@@ -132,7 +132,8 @@ export default {
                     this.$router.push({
                       name: "evaluateClient",
                       query: {
-                        useType: "add"
+                        useType: "add",
+                        isUse:"true"
                       }
                     });
                   }
