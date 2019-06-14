@@ -5,7 +5,7 @@
     :visible="visible"
     @close="close"
     :modal="false"
-    width="30%"
+    width="45%"
   >
     <div class="head-area">
       <el-form ref="form" :inline="true">
@@ -30,7 +30,7 @@
       fit
       highlight-current-row
       @selection-change="handleSelectionChange"
-      height="300"
+      height="400"
       v-loading.body="listLoading"
       element-loading-text="Loading"
     >
@@ -112,32 +112,50 @@ export default {
           });
         }
         //将重复的指标名称进行查重去除
-        let hashs=[];
-        for(let i=0;i<hash.length;i++){
-          if(hashs.indexOf(hash[i].targetName)==-1){
-              hashs.push(hash[i].targetName)
+        let hashs = [];
+        for (let i = 0; i < hash.length; i++) {
+          if (hashs.indexOf(hash[i].targetName) == -1) {
+            hashs.push(hash[i].targetName);
           }
         }
         //根据指标名称添加评价标准
-        let targetDataArr=[]
+        let targetDataArr = [];
         for (let i = 0; i < hashs.length; i++) {
-          targetDataArr.push({targetName:hashs[i],evaluStand:[]})
+          targetDataArr.push({ targetName: hashs[i], evaluStand: [] });
           for (let j = 0; j < hash.length; j++) {
-            if(hash[j].targetName==targetDataArr[i].targetName){
-              targetDataArr[i].evaluStand.push(hash[j].EvaluStand+':'+hash[j].Description)
+            if (hash[j].targetName == targetDataArr[i].targetName) {
+              targetDataArr[i].evaluStand.push(
+                hash[j].EvaluStand + ":" + hash[j].Description
+              );
             }
           }
         }
         //得到的指标名称和评价标准复制和主表数据
-       this.tableData=targetDataArr
+        this.tableData = targetDataArr;
+        let evaluStand = [];
+        for (let i = 0; i < targetDataArr.length; i++) {
+          evaluStand.push(targetDataArr[i].evaluStand);
+        }
       });
     },
     // 行选中事件
     handleSelectionChange(rows) {
       this.selectedDatas = [];
-      rows.forEach(({ pkid, targetName,evaluStand }) => {
-        this.selectedDatas.push({ pkid, targetName,evaluStand });
+      rows.forEach(({ pkid, targetName, evaluStand }) => {
+        this.selectedDatas.push({ pkid, targetName, evaluStand });
       });
+      for (let i = 0; i < this.selectedDatas.length; i++) {
+        this.selectedDatas[i].evaluStands = "";
+        for (let j = 0; j < this.selectedDatas[i].evaluStand.length; j++) {
+          if(i==j){
+            this.selectedDatas[i].evaluStands += this.selectedDatas[i].evaluStand;
+          }
+        }
+      }
+      for(let i=0;i<this.selectedDatas.length;i++){
+        this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStands;
+      }
+      console.log(this.selectedDatas);
     },
     // 选择 条/页
     handleSize(pageSize) {

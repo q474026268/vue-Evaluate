@@ -15,7 +15,7 @@
           <el-input v-model="formData.flag" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item prop="evaluKind" label="模板类别" class="item">
-          <el-select v-model="formData.evaluKind" placeholder="请选择">
+          <el-select v-model="formData.evaluKind" placeholder="请选择" :disabled="true">
             <el-option
               v-for="item in evaluKindOptions"
               :key="item.value"

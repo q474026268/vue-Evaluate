@@ -248,8 +248,6 @@ export default {
     //调整
     update(row, number) {
       this.formData.evaluateTname=this.evaluateTname
-      console.log("调整");
-      console.log(this.formData);
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
@@ -344,8 +342,6 @@ export default {
       let datas = this.$store.state.history;
       this.formData = datas.formData;
       this.evaluateTname=this.formData.evaluateTname
-      console.log("数组返回");
-      console.log(this.formData);
       // //格式化显示日期
       this.formData.inputDate = time(this.formData.inputDate);
       this.dataTable = datas.dataTable;
