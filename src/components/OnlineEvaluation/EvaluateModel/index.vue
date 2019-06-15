@@ -91,7 +91,7 @@ export default {
           }
         },
         {
-          id: "inputerFullName",
+          id: "inputFullName",
           text: "创建人",
           align: "center",
           width: 60,
