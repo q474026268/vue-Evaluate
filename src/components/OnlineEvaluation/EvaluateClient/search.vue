@@ -44,8 +44,8 @@
                         start-placeholder="开始日期" end-placeholder="结束日期" style="width:250px;"></el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
-                    <!-- <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button> -->
+                <el-col :span="3">
+                    <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
                     <el-button style="margin-top: 4px;" type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
                 </el-col>
             </el-row>
