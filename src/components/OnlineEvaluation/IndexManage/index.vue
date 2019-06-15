@@ -13,47 +13,46 @@
     </el-col>
     <el-col :span="10">
       <div class="right_button">
-      <el-button
-        type="primary"
-        icon="el-icon-plus"
-        size="small"
-        @click.prevent="addButtonClickRight()"
-      >添加</el-button>
-      <el-button
-        type="primary"
-        icon="el-icon-edit"
-        size="small"
-        @click.prevent="modifyButtonClickRight(targetPkid)"
-      >修改</el-button>
-      <el-button
-        type="primary"
-        icon="el-icon-delete"
-        size="small"
-        @click.prevent="deleteButtonClickRight(targetPkid)"
-      >删除</el-button>
-      <!-- <el-button
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click.prevent="addButtonClickRight()"
+        >添加</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          size="small"
+          @click.prevent="modifyButtonClickRight(targetPkid,formPkid)"
+        >修改</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-delete"
+          size="small"
+          @click.prevent="deleteButtonClickRight(targetPkid)"
+        >删除</el-button>
+        <!-- <el-button
               type="primary"
               icon="el-icon-view"
               size="mini"
               @click.prevent="viewButtonClickRight(scope.row.pkid)"
-      >浏览</el-button>-->
+        >浏览</el-button>-->
       </div>
       <div class="rightList">
-      <el-table
-        ref="rightList"
-        :data="rightList"
-        :row-style="{cursor:'pointer'}"
-        border
-        fit
-        highlight-current-row
-        height="400"
-        @row-click="openDetails"
-      >
-        <el-table-column align="center" type="selection"></el-table-column>
-        <el-table-column prop="pkid" label="pkid" align="center"></el-table-column>
-        <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
-        <el-table-column prop="description" label="典型行为" align="center"></el-table-column>
-      </el-table>
+        <el-table
+          ref="rightList"
+          :data="rightList"
+          :row-style="{cursor:'pointer'}"
+          border
+          fit
+          highlight-current-row
+          height="400"
+          @row-click="openDetails"
+        >
+          <el-table-column prop="pkid" label="pkid" align="center" v-if="false"></el-table-column>
+          <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
+          <el-table-column prop="description" label="典型行为" align="center"></el-table-column>
+        </el-table>
       </div>
     </el-col>
   </el-row>
@@ -186,7 +185,9 @@ export default {
           // 下拉显示
           dropdown: [],
           //指标列表的pkid
-          targetPkid:""
+          targetPkid: "",
+          //主表的pkid
+          formPkid: ""
         }
       }
     };
@@ -282,11 +283,12 @@ export default {
         .catch(err => {});
     },
     //指标列表修改
-    modifyButtonClickRight(id) {
+    modifyButtonClickRight(id, formPkid) {
       DefaultButtons.modifyButton(
         "indexManage",
         "indexManageRight",
         id,
+        formPkid,
         this.dialogCallback
       );
     },
@@ -296,16 +298,25 @@ export default {
     // },
     //指标列表增加
     addButtonClickRight() {
-      DefaultButtons.addButton(
-        "indexManage",
-        "indexManageRight",
-        this.dialogCallback
-      );
+      console.log(this.formPkid);
+      if ((this.formPkid == undefined)) {
+        this.$message({
+          message: "未选择指标",
+          type: "warning"
+        });
+      } else {
+        this.$router.push({
+          path: "/indexManageRight",
+          query: {
+            useType: "add",
+            firstPkid: this.formPkid
+          }
+        });
+      }
     },
     //右侧列表行选中事件：单选是触发
-    openDetails (row) {
-        this.targetPkid=row.pkid;
-        console.log(this.targetPkid);
+    openDetails(row) {
+      this.targetPkid = row.pkid;
     },
     // 弹出框回调函数
     dialogCallback(data) {
@@ -316,6 +327,7 @@ export default {
      * currentRow:当前行 oldCurrentRow:上一次选中的行
      */
     rowSelected(currentRow, oldCurrentRow) {
+      this.formPkid = currentRow.pkid;
       //获取指标明细表
       findTargetDetail(currentRow.pkid).then(res => {
         let arr = [];
@@ -376,10 +388,10 @@ export default {
 #indexManageList {
   float: left;
 }
-.rightList{
+.rightList {
   margin-top: 13%;
 }
-.right_button{
+.right_button {
   margin-top: 1%;
   margin-left: 50%;
 }
