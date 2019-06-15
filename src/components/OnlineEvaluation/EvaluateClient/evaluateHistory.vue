@@ -312,7 +312,6 @@ export default {
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      console.log(data);
       save(data).then(res => {
         if (res.status == 200) {
           this.$message({

@@ -114,7 +114,6 @@ export default {
   created: function() {
     //获取打分方式
     getLevelType().then(res => {
-      console.log(res.data);
       if (res.status == 200) {
         this.levelTypeOptions = res.data;
       }
