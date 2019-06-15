@@ -30,7 +30,7 @@ export function get(pkid) {
     })
 }
 
-export function deleted(pkid) {
+export function deletedRight(pkid) {
     return request({
         url: '/targetSecond/deleteEvaluateTargetSecond',
         data: {

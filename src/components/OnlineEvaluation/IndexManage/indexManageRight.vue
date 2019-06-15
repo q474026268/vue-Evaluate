@@ -85,8 +85,12 @@ export default {
     saveData(formName) {
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
-          //this.$refs.saveButton.loading = true;
           let data = Object.assign({}, this.formData);
+          data.inputerUserNo=this.$store.state.userInfo.id;
+          data.inputerFullName=this.$store.state.userInfo.name;
+          data.groupId=this.$store.state.userInfo.departmentId;
+          data.groupName=this.$store.state.userInfo.departmentName;
+          data.inputDate=formatDate(new Date());
           save(data).then(res => {
             if (res.status == 200) {
               this.callback();

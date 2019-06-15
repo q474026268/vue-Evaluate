@@ -46,3 +46,13 @@ export function deleted(pkid) {
         method: 'POST'
     })
 }
+
+export function findTargetDetail(pkid) {
+    return request({
+        url: '/evaluateTarget/findTargetDetail',
+        data: {
+            pkid
+        },
+        method: 'POST'
+    })
+}

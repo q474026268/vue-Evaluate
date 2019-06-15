@@ -114,6 +114,7 @@ import { save, get } from "./evaluationPlan.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
+
 export default {
   name: "evaluationPlan",
   props: {
@@ -154,8 +155,8 @@ export default {
           data.inputerUserNo=this.$store.state.userInfo.id;
           data.inputerFullName=this.$store.state.userInfo.name;
           data.groupId=this.$store.state.userInfo.departmentId;
-          data.groupFullId=this.$store.state.userInfo.departmentName;
-          data.inputDate=new Date();
+          data.groupName=this.$store.state.userInfo.departmentName;
+          data.inputDate=formatDate(new Date());
           save(data).then(res => {
             if (res.status == 200) {
               this.$store.state.data.callback({

@@ -158,7 +158,6 @@
         </div>
       </el-form>
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
-        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="doFullName" label="评价人" width="100" align="center"></el-table-column>
         <el-table-column prop="doneFullName" label="被评价人" align="center"></el-table-column>
         <el-table-column prop="targetName" label="指标" width="300" align="center"></el-table-column>
