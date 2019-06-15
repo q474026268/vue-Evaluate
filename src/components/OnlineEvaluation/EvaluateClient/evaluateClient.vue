@@ -1,7 +1,12 @@
 <template>
   <div id="evaluateClient">
-    <el-dialog :title="formData.planName" :visible="true" @close="close" :width="dialogWidth" 
-    :close-on-click-modal="false">
+    <el-dialog
+      :title="formData.planName"
+      :visible="true"
+      @close="close"
+      :width="dialogWidth"
+      :close-on-click-modal="false"
+    >
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <el-row>
           <el-col :span="8">
@@ -27,6 +32,7 @@
                 v-model="formData.levelType"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
+                :change="levelTypeChange()"
               >
                 <el-option
                   v-for="item in levelTypeOptions"
@@ -162,12 +168,12 @@
                 <label>{{ scope.$index+1 }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="员工号" width="66">
+            <el-table-column align="center" label="员工号">
               <template slot-scope="scope">
                 <label>{{ scope.row.userNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名" width="55">
+            <el-table-column align="center" label="姓名">
               <template slot-scope="scope">
                 <label>{{ scope.row.doFullName }}</label>
               </template>
@@ -177,12 +183,12 @@
                 <label>{{ scope.row.doUserName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="部门" width="68">
+            <el-table-column align="center" label="部门">
               <template slot-scope="scope">
                 <label>{{ scope.row.groupName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作" min-width="40">
+            <el-table-column align="center" label="操作" v-if="showOperation()">
               <template slot-scope="scope">
                 <el-button
                   :disabled="Object.is(type,'view')"
@@ -248,7 +254,7 @@ export default {
       deleteDetailData_index: [],
       deleteDetailData_evaluate: [],
       // 弹出窗口宽度
-      dialogWidth: "70%",
+      dialogWidth: "80%",
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表
@@ -266,12 +272,30 @@ export default {
     //获取从selectDepart中查询到的数据存放到中
     departDialogCallback(data) {
       //被评价人明细数据
-      for (let i = 0; i < data.length; i++) {
-        this.formDataDetail_group.push({
-          doneFullName: data[i].name,
-          doneUserNo: data[i].id,
-          groupName: data[i].departmentName
-        });
+      if (this.formData.levelType == "互评") {
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_group.push({
+            doneFullName: data[i].name,
+            doneUserNo: data[i].id,
+            groupName: data[i].departmentName
+          });
+        }
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_evaluate.push({
+            doFullName: data[i].name,
+            userNo: data[i].id,
+            groupName: data[i].departmentName,
+            doUserName: data[i].userName
+          });
+        }
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_group.push({
+            doneFullName: data[i].name,
+            doneUserNo: data[i].id,
+            groupName: data[i].departmentName
+          });
+        }
       }
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
@@ -288,9 +312,9 @@ export default {
     },
     // 添加行
     addDetailRow_group() {
-      if(this.formData.levelType==undefined){
-        this.$message.error('请先选择评价方式')
-      }else{
+      if (this.formData.levelType == undefined) {
+        this.$message.error("请先选择评价方式");
+      } else {
         this.$refs.depart.open();
       }
     },
@@ -298,18 +322,31 @@ export default {
       this.formDataDetail_index.push({ doType: "add" });
     },
     addDetailRow_evaluate() {
-      if(this.formData.levelType==undefined){
-        this.$message.error('请先选择评价方式')
-      }else{
+      if (this.formData.levelType == undefined) {
+        this.$message.error("请先选择评价方式");
+      } else if (this.formData.levelType == "互评") {
+        this.$message.error("请选择被评价人");
+      } else {
         this.$refs.user.open();
       }
     },
     // 删除行
     handleDelete_group(index, row) {
-      this.formDataDetail_group.splice(index, 1);
-      this.deleteDetailData_group.push(
-        Object.assign(row, { doType: "delete" })
-      );
+      if (this.formData.levelType == "互评") {
+        this.formDataDetail_group.splice(index, 1);
+        this.deleteDetailData_group.push(
+          Object.assign(row, { doType: "delete" })
+        );
+        this.formDataDetail_evaluate.splice(index, 1);
+        this.deleteDetailData_evaluate.push(
+          Object.assign(row, { doType: "delete" })
+        );
+      } else {
+        this.formDataDetail_group.splice(index, 1);
+        this.deleteDetailData_group.push(
+          Object.assign(row, { doType: "delete" })
+        );
+      }
     },
     handleDelete_index(index, row) {
       this.formDataDetail_index.splice(index, 1);
@@ -366,6 +403,18 @@ export default {
           }
         }
       });
+    },
+    //根据评论状态是否显示评价人列表操作
+    showOperation() {
+      if (this.formData.levelType == "互评") {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    //评价方式改变
+    levelTypeChange() {
+      
     }
   },
   /**
