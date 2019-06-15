@@ -287,7 +287,11 @@ export default {
     },
     // 添加行
     addDetailRow_group() {
-      this.$refs.depart.open();
+      if(this.formData.levelType==undefined){
+        this.$message.error('请先选择评价方式')
+      }else{
+        this.$refs.depart.open();
+      }
     },
     addDetailRow_index() {
       this.formDataDetail_index.push({ doType: "add" });
@@ -328,29 +332,33 @@ export default {
           let index = this.formDataDetail_index;
           // 评价人列表数据
           let evaluate = this.formDataDetail_evaluate;
-          let formData = this.formData;
-          if (this.isUse != "true") {
-            let targetName = [];
-            let targetPkid = [];
-            for (let i = 0; i < index.length; i++) {
-              targetName.push(index[i].targetName);
-              targetPkid.push(index[i].targetPkid);
+          if (group.length == 0 || evaluate.length == 0) {
+            this.$message.error("评价人和被评价人不能为空");
+          } else {
+            let formData = this.formData;
+            if (this.isUse != "true") {
+              let targetName = [];
+              let targetPkid = [];
+              for (let i = 0; i < index.length; i++) {
+                targetName.push(index[i].targetName);
+                targetPkid.push(index[i].targetPkid);
+              }
+              this.formData.targetName = targetName.join(",");
+              this.formData.targetPkid = targetPkid.join(",");
             }
-            this.formData.targetName = targetName.join(",");
-            this.formData.targetPkid = targetPkid.join(",");
+            this.$store.commit("setData", {
+              formData: this.formData,
+              group,
+              index,
+              evaluate
+            });
+            this.$router.push({
+              path: "/evaluateHistory",
+              query: {
+                useType: "add"
+              }
+            });
           }
-          this.$store.commit("setData", {
-            formData: this.formData,
-            group,
-            index,
-            evaluate
-          });
-          this.$router.push({
-            path: "/evaluateHistory",
-            query: {
-              useType: "add"
-            }
-          });
         }
       });
     }
