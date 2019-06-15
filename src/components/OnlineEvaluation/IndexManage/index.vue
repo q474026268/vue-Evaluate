@@ -11,9 +11,9 @@
         <router-view></router-view>
       </div>
     </el-col>
-    <el-col :span="10">
+    <!-- <el-col :span="10">
       <IndexManageRightList></IndexManageRightList>
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 <script>
@@ -43,7 +43,7 @@ export default {
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
       beforeGetListData: this.beforeGetListData,
-      SearchPage: SearchPage,
+      SearchPage: SearchPage
     };
   },
   data: function() {
@@ -120,7 +120,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key]);
+                this.modifyButtonClick(row[key], row.flag);
               }
             },
             {
@@ -128,7 +128,7 @@ export default {
               text: "删除",
               icon: "el-icon-delete",
               click: row => {
-                this.deleteButtonClick(row[key]);
+                this.deleteButtonClick(row[key], row.flag);
               }
             },
             {
@@ -167,13 +167,20 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id) {
-      this.$store.commit("setData", {
-        useType: "modify",
-        id,
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
+    modifyButtonClick(id, flag) {
+      if (flag == "1") {
+        this.$message({
+          message: '该条记录已经是无效，不可修改',
+          type:'warning'
+        });
+      } else {
+        this.$store.commit("setData", {
+          useType: "modify",
+          id,
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: routerName });
+      }
     },
     /**
      * 浏览按钮点击事件
@@ -190,20 +197,28 @@ export default {
       this.$router.push({ name: routerName });
     },
     // 删除按钮点击事件
-    deleteButtonClick(id) {
-      this.$confirm("确定删除？")
-        .then(res => {
-          deleted(id).then(res => {
-            if (res.status == 200) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-              this.$refs.table.refresh();
-            }
-          });
+    deleteButtonClick(id, flag) {
+      if (flag == 1) {
+        this.$message({
+          message: '该条记录已经是无效，不可修改',
+          type:'warning'
         })
-        .catch(err => {});
+      
+      } else {
+        this.$confirm("确定删除？")
+          .then(res => {
+            deleted(id).then(res => {
+              if (res.status == 200) {
+                this.$message({
+                  message: "删除成功",
+                  type: "success"
+                });
+                this.$refs.table.refresh();
+              }
+            });
+          })
+          .catch(err => {});
+      }
     },
     // 弹出框回调函数
     dialogCallback(data) {

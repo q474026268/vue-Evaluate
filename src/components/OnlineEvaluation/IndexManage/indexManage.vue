@@ -44,6 +44,7 @@
 import { save, get } from "./indexManage.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
+import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
 export default {
   name: "indexManage",
@@ -79,6 +80,16 @@ export default {
     saveData(formName) {
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
+          //部门ID
+          this.formData.groupId = this.$store.state.userInfo.departmentId;
+          //部门名称
+          this.formData.groupName = this.$store.state.userInfo.departmentName;
+          //录入人ID
+          this.formData.inputerUserNo = this.$store.state.userInfo.id;
+          //录入人姓名
+          this.formData.inputerFullName = this.$store.state.userInfo.name;
+          //录入时间
+          this.formData.inputDate = formatDate(new Date());
           let data = Object.assign({}, this.formData);
           save(data).then(res => {
             if (res.status == 200) {

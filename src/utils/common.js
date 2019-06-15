@@ -56,7 +56,16 @@ export function randomString(len) {
   // 转换时间格式
   export const formatDate = (date) => {
     var d = new Date(date);  
-    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); 
+    var time="";
+    if(d.getMonth() + 1<10){
+        time=d.getFullYear() + '-0' + (d.getMonth() + 1) + '-' + d.getDate(); 
+      if(d.getDate()<10){
+        time=d.getFullYear() + '-0' + (d.getMonth() + 1) + '-0' + d.getDate(); 
+      }
+    }else{
+      time=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    }
+    return time; 
   }
   export const echartsEcidiColor = {
     color: [
