@@ -57,13 +57,19 @@
           ></el-input>
         </el-col>
 
-        <el-col :span="1">
+        <el-col :span="3">
           <el-button
             type="primary"
             @click="searching"
             size="small"
             icon="el-icon-search"
-          >筛选</el-button>
+          >查询</el-button>
+          <el-button
+            type="primary"
+            @click="clear"
+            size="small"
+            icon="el-icon-refresh"
+          >清空</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -94,8 +100,10 @@ export default {
     clear() {
       this.searchData = {
         evaluKind: "",
-        evaluPlan: "",
-        flag: ""
+        markType: "",
+        planName: "",
+        dateFrame: "",
+        evaluateTname: "",
       };
     }
   },

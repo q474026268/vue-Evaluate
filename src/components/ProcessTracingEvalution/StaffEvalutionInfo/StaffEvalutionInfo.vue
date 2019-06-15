@@ -148,7 +148,6 @@ export default {
                 this.tableData=result.data.content
                 console.log(this.tableData);
                 this.total=result.data.numberOfElements;
-                
             })
         },
         handleClose(done) {
@@ -159,26 +158,32 @@ export default {
         },
         // 废弃
         handleDiscard(index,row){
-            deleteTableLists(row.PKID).then((result) => {
-                if (result.status==200) {
-                    this.$message({
-                        message: '废弃成功',
-                        type: 'success'
-                    });
-                }else{
-                    this.$message.error('废弃失败');
-                }
-            })
-
-            let filters={};
-            filters.evaluateId=this.evaluateId;
-            this.pageSize=val;
-            getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                console.log(result);
-                this.tableData=result.data.content
-                console.log(this.tableData);
-                this.total=result.data.numberOfElements;
-            })
+            if (row.State=='废弃') {
+                this.$message({
+                    message: '该条目已废弃，不可再废弃',
+                    type: 'warning'
+                });
+            }else{
+                deleteTableLists(row.PKID).then((result) => {
+                    if (result.status==200) {
+                        this.$message({
+                            message: '废弃成功',
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message.error('废弃失败');
+                    }
+                })
+    
+                let filters={};
+                filters.evaluateId=this.evaluateId;
+                getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                    console.log(result);
+                    this.tableData=result.data.content
+                    console.log(this.tableData);
+                    this.total=result.data.numberOfElements;
+                })
+            }
         },
         // 催办
         handleCb(index,row){
