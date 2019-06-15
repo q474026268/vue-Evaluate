@@ -1,6 +1,7 @@
 <template>
   <div id="evaluateClient">
-    <el-dialog :title="formData.planName" :visible="true" @close="close" :width="dialogWidth">
+    <el-dialog :title="formData.planName" :visible="true" @close="close" :width="dialogWidth" 
+    :close-on-click-modal="false">
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <el-row>
           <el-col :span="8">
@@ -297,7 +298,11 @@ export default {
       this.formDataDetail_index.push({ doType: "add" });
     },
     addDetailRow_evaluate() {
-      this.$refs.user.open();
+      if(this.formData.levelType==undefined){
+        this.$message.error('请先选择评价方式')
+      }else{
+        this.$refs.user.open();
+      }
     },
     // 删除行
     handleDelete_group(index, row) {
