@@ -47,3 +47,13 @@ export function deleted(pkid){
         method: 'POST'
     })
 }
+
+export function getRunningPlan(){
+    return request({
+        url: '/evaluateModel/getRunningPlan',
+        data:{
+            // pkid
+        },
+        method: 'POST'
+    })
+}

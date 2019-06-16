@@ -312,15 +312,16 @@ export default {
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
-      save(data).then(res => {
-        if (res.status == 200) {
-          this.$message({
-            message: "保存成功",
-            type: "success"
-          });
-           this.close();
-        }
-      });
+      console.log(data);
+      // save(data).then(res => {
+      //   if (res.status == 200) {
+      //     this.$message({
+      //       message: "保存成功",
+      //       type: "success"
+      //     });
+      //      this.close();
+      //   }
+      // });
      
     },
   },
@@ -360,7 +361,7 @@ export default {
         //计划pKid
         this.formData.planPkid = this.planPkid;
         //模板pKid
-        this.formData.modelPkid=this.planPkid;
+        this.formData.modelPkid=this.$route.query.modelPkid;
         //模板名称
         this.formData.planName=this.evaluateTname;
         //预警提前期

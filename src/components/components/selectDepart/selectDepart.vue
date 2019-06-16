@@ -116,7 +116,7 @@ export default {
           text: "部门",
           align: "center",
           width: 100
-        },
+        }
       ],
       // 选中的值
       selectedDatas: [],
@@ -139,8 +139,55 @@ export default {
     search() {},
     // 确定
     determine() {
-      this.callback(this.selectedDatas);
-      this.close();
+      if (this.$store.state.group.length == 0) {
+        this.callback(this.selectedDatas);
+        this.close();
+      } else {
+        //存储评价名相同
+        let message = [];
+        //存储评价名不相同的
+        let check = [];
+        for (let i = 0; i < this.$store.state.group.length; i++) {
+          for (let j = 0; j < this.selectedDatas.length; j++) {
+            if (
+              this.$store.state.group[i].doneFullName ==
+              this.selectedDatas[j].name
+            ) {
+              message.push({
+                name: this.selectedDatas[j].name
+              });
+            } else {
+              check=this.selectedDatas[j];
+            }
+          }
+        }
+        console.log("message");
+        console.log(message);
+        console.log("check");
+        console.log(check);
+        let name = "";
+        for (let i = 0; i < message.length; i++) {
+          name += message[i].name + " ";
+        }
+        if (message.length == 0&&check.length==0) {
+          this.$message.error("被评价人不能为空");
+        } else {
+          this.$message.error(name + "已存在");
+        }
+        let checkSelect = [];
+        for (let i = 0; i < check.length; i++) {
+          for (let j = 0; j < this.selectedDatas; j++) {
+            if (check[i].name == this.selectedDatas[j].name) {
+              checkSelect.push(this.selectedDatas[j]);
+            }
+          }
+        }
+        console.log("checkSelect");
+        console.log(checkSelect);
+        // this.selectedDatas=checkSelect;
+        // this.callback(this.selectedDatas);
+        // this.close();
+      }
     },
     search() {
       let requestParams = {

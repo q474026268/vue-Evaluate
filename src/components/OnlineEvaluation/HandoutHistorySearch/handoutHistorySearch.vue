@@ -60,7 +60,9 @@
         <el-table-column prop="doneFullName" label="被评价人"></el-table-column>
         <el-table-column prop="targetName" label="指标名称"></el-table-column>
         <el-table-column label="查看">
-          <el-button @click="view()" size="mini">查看</el-button>
+          <template slot-scope="scope">
+            <el-button @click="view(scope.row.doFullName)" size="mini">查看</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
@@ -119,13 +121,24 @@ export default {
   },
   methods: {
     // 自定义方法
-    view() {
-      this.$router.push({
-        name: "handoutView",
-        query: {
-          useType: "view"
-        }
-      });
+    view(doFullName) {
+      if (this.type == "modify") {
+        this.$router.push({
+          name: "handoutView",
+          query: {
+            useType: "modify",
+            id: this.formData.id,
+            doFullName: doFullName
+          }
+        });
+      } else if (this.type == "view") {
+        this.$router.push({
+          name: "handoutView",
+          query: {
+            useType: "view"
+          }
+        });
+      }
     },
     //关闭窗口返回的页面
     close() {
@@ -246,7 +259,7 @@ export default {
     // 组件创建后
     this.id = this.$route.query.id;
     this.back = this.$route.query.back;
-    this.type=this.$route.query.useType;
+    this.type = this.$route.query.useType;
     if (!Object.is(this.type, "add")) {
       if (this.back != 1) {
         this.getData();

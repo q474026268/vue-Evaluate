@@ -32,7 +32,7 @@
                 v-model="formData.levelType"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
-                :change="levelTypeChange()"
+                :change="levelTypeChange(formData.levelType)"
               >
                 <el-option
                   v-for="item in levelTypeOptions"
@@ -297,6 +297,8 @@ export default {
           });
         }
       }
+      let group = this.formDataDetail_group;
+      this.$store.commit("setGroup", group);
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
     userDialogCallback(data) {
@@ -309,6 +311,8 @@ export default {
           doUserName: data[i].userName
         });
       }
+      let evaluate = this.formDataDetail_evaluate;
+      this.$store.commit("setEvaluate", evaluate);
     },
     // 添加行
     addDetailRow_group() {
@@ -347,6 +351,8 @@ export default {
           Object.assign(row, { doType: "delete" })
         );
       }
+      let group = this.formDataDetail_group;
+      this.$store.commit("setGroup", group);
     },
     handleDelete_index(index, row) {
       this.formDataDetail_index.splice(index, 1);
@@ -359,6 +365,8 @@ export default {
       this.deleteDetailData_evaluate.push(
         Object.assign(row, { doType: "delete" })
       );
+      let evaluate = this.formDataDetail_evaluate;
+      this.$store.commit("setEvaluate", evaluate);
     },
     // 表单提交前事件
     beforeSubmit() {
@@ -397,7 +405,8 @@ export default {
             this.$router.push({
               path: "/evaluateHistory",
               query: {
-                useType: "add"
+                useType: "add",
+                modelPkid:this.id
               }
             });
           }
@@ -413,8 +422,14 @@ export default {
       }
     },
     //评价方式改变
-    levelTypeChange() {
-      
+    levelTypeChange(data) {
+      // console.log(data);
+      // if (data == undefined) {
+      // } else {
+      //   for (let i = 0; i < this.formDataDetail_group.length; i++) {
+      //     this.formDataDetail_group[i] = "";
+      //   }
+      // }
     }
   },
   /**
@@ -435,6 +450,9 @@ export default {
     // 获取模板数据
     this.formData = data.main;
     this.formDataDetail_index = data.detail;
+    //在存储数据前 先清空vueX中的被评价人与评价人数据
+    this.$store.state.group=[];
+    this.$store.state.evaluate=[];
   },
   mounted: function() {
     // 组件加载完成

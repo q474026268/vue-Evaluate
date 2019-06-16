@@ -158,7 +158,7 @@ export default {
           this.$router.push({
             name: "handoutHistorySearch",
             query: {
-              useType: "view",
+              useType: "modify",
               id
             }
           });
