@@ -423,6 +423,14 @@ export default {
     },
     //评价方式改变
     levelTypeChange() {
+      console.log(111111);
+      
+      let item=[]
+      if(this.$store.state.group.length>0){
+        this.$store.commit('clearGroup',item)
+        console.log(this.$store.state.group);
+        
+      }
     }
   },
   /**

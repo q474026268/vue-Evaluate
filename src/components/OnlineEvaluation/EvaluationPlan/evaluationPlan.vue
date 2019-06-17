@@ -186,7 +186,7 @@ export default {
           this.formData = res.data;
         }
       });
-    },
+    }
   },
   /**
    * 计算属性（自定义方法）
