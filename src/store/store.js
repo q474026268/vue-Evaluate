@@ -73,6 +73,7 @@ export const store = new Vuex.Store({
     //被评价人是否相同
     setGroup(state, item){
       state.group=item;
+      console.log(state.group);
     },
     //评价人是否相同
     setEvaluate(state, item){

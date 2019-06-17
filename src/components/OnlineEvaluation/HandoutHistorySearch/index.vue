@@ -154,6 +154,12 @@ export default {
      */
     viewButtonClick(id, state) {
       switch (state) {
+        case "开始":
+          this.$message({
+            message: "开始状态下不可查看",
+            type: "warning"
+          });
+          break;
         case "暂存":
           this.$router.push({
             name: "handoutHistorySearch",

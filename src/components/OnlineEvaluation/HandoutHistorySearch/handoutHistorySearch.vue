@@ -139,7 +139,9 @@ export default {
         this.$router.push({
           name: "handoutView",
           query: {
-            useType: "view"
+            useType: "view",
+            id: this.formData.id,
+            doFullName: doFullName
           }
         });
       }
@@ -202,6 +204,9 @@ export default {
           this.$message({
             message: "分发成功",
             type: "success"
+          });
+          this.$router.push({
+            name: "handoutHistorySearchList"
           });
         }
       });

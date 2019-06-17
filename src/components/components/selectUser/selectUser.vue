@@ -137,39 +137,36 @@ export default {
     },
     // 确定
     determine() {
-      let isHave = false;
-      if (this.$store.state.evaluate.length == 0) {
+       if (this.$store.state.evaluate.length == 0) {
         this.callback(this.selectedDatas);
         this.close();
       } else {
-        if (isHave == false) {
-          let message = [];
-          for (let i = 0; i < this.$store.state.evaluate.length; i++) {
-            for (let j = 0; j < this.selectedDatas.length; j++) {
-              if (
-                this.$store.state.evaluate[i].doFullName ==
-                this.selectedDatas[j].name
-              ) {
-                message.push({
-                  name: this.selectedDatas[j].name
-                });
-              } else {
-                isHave = true;
-              }
+        //存储评价名相同
+        let messageName = [];
+        //存储评价名不相同的
+        let message = [];
+        for (let i = 0; i < this.selectedDatas.length; i++) {
+          let isHave = false;
+          for (let j = 0; j < this.$store.state.evaluate.length; j++) {
+            if (
+              this.$store.state.evaluate[j].userNo == this.selectedDatas[i].id
+            ) {
+              messageName.push(this.selectedDatas[i].name + " ");
+              isHave = true;
+              break;
             }
           }
-          let name = "";
-          for (let i = 0; i < message.length; i++) {
-            name += message[i].name + " ";
-          }
-          if (message.length == 0) {
-            this.$message.error("被评价人不能为空");
+          if (!isHave) {
+            if (messageName.length > 0) {
+              this.$message.error(messageName + "已经存在");
+            } else {
+              message.push(this.selectedDatas[i]);
+              this.callback(message);
+              this.close();
+            }
           } else {
-            this.$message.error(name + "已存在");
+            this.$message.error(messageName + "已经存在");
           }
-        } else {
-          this.callback(this.selectedDatas);
-          this.close();
         }
       }
     },
