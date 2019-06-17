@@ -56,3 +56,11 @@ export function findTargetDetail(pkid) {
         method: 'POST'
     })
 }
+
+// 导出
+export function exportTarget(){
+    return request({
+        url: '/evaluateTarget/exportTarget',
+        method: 'GET'
+    })
+}

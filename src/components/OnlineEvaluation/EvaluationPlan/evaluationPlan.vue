@@ -53,7 +53,6 @@
                 value-format="yyyy-MM-dd"
                 placeholder="选择开始时间"
                 :disabled="Object.is(type,'view')"
-                :change="startDateChange()"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -66,7 +65,6 @@
                 value-format="yyyy-MM-dd"
                 placeholder="选择结束时间"
                 :disabled="Object.is(type,'view')"
-                :change="endDateChange()"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -150,6 +148,11 @@ export default {
     },
     //根据按钮状态保存数据( 保存,暂存)
     saveData(formName, btnType) {
+      if (this.formData.endDate<this.formData.startDate) {
+        this.$message.error('完成时间不能小于开始时间');
+        this.formData.endDate='';
+        return false;
+      }
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
           let data = Object.assign({}, this.formData);
@@ -184,31 +187,6 @@ export default {
         }
       });
     },
-    //开始时间判定
-    startDateChange(){
-      if(!this.formData.endDate){
-        if(!this.formData.endDate<this.formData.startDate){
-          this.$message({
-            message:'开始时间不能小于结束时间',
-            type:"warning"
-          })
-          this.formData.startDate="";
-        }
-      }
-    },
-    //结束时间判定
-    endDateChange(){
-      if(!this.formData.startDate){
-        if(!this.formData.endDate<this.formData.startDate){
-          this.$message({
-            message:'结束时间不能小于开始时间',
-            type:"warning"
-          })
-          this.formData.endDate="";
-        }
-      }
-    }
-
   },
   /**
    * 计算属性（自定义方法）

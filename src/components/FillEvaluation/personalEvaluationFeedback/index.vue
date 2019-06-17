@@ -46,7 +46,7 @@ export default {
       tableBaseConfig: {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
-        currentSort: [{ prop: "id", order: "descending" }],
+        currentSort: [{ prop: "pkid", order: "descending" }],
         opertionColumnWidth:65
       },
       // 列表配置
@@ -152,7 +152,8 @@ export default {
     },
     // 请求列表数据之前
     beforeGetListData(currentPage, pageSize, order, filters) {
-      filters.state='完成'
+        filters.loginUser=this.$store.state.userInfo.userName;
+        filters.state='完成';
     },
     /**
      * 行选中事件:单选时触发

@@ -4,14 +4,6 @@
       <el-row type="flex" justify="space-between" class="margin-top">
         <el-col :span="2">
             <el-input
-              v-model="searchData.evaluateTName"
-              placeholder="测评表名称"
-              size="small"
-              clearable
-            ></el-input>
-        </el-col>
-        <el-col :span="2">
-            <el-input
               v-model="searchData.GroupName"
               placeholder="制表部门"
               size="small"
@@ -51,6 +43,14 @@
               start-placeholder="起始日期"
               end-placeholder="结束日期"
             ></el-date-picker>
+        </el-col>
+        <el-col :span="4">
+            <el-input
+              v-model="searchData.evaluateTName"
+              placeholder="测评表名称"
+              size="small"
+              clearable
+            ></el-input>
         </el-col>
         <el-col :span="3">
           <el-button
