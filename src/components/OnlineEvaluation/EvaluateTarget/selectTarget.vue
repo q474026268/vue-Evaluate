@@ -52,7 +52,7 @@
   </el-dialog>
 </template>
 <script>
-import { getEvaluateTargetByEvaluKind } from "./evaluateTarget.js";
+import { getEvaluateTargetByEvaluKind,getTargetIndexListB } from "./evaluateTarget.js";
 export default {
   name: "selectTarget",
   props: ["callback"],
@@ -92,7 +92,51 @@ export default {
       this.visible = false;
     },
     // 查询
-    search() {},
+    search() {
+      getTargetIndexListB(this.searchData.targetName).then((result) => {
+        //将获取的数据只取指标名称,评分标准进行拼接
+        let hash = [];
+        for (let i = 0; i < res.data.length; i++) {
+          hash.push({
+            targetName: res.data[i].TargetName,
+            Description: res.data[i].Description,
+            EvaluStand: res.data[i].EvaluStand,
+            pkid:res.data[i].PKID
+          });
+        }
+        //将重复的指标名称进行查重去除
+        let hashs = [];
+        for (let i = 0; i < hash.length; i++) {
+          if (hashs.indexOf(hash[i].targetName) == -1) {
+            hashs.push(hash[i].targetName);
+          }
+        }
+        let pkid = [];
+        for (let i = 0; i < hash.length; i++) {
+          if (pkid.indexOf(hash[i].pkid) == -1) {
+            pkid.push(hash[i].pkid);
+          }
+        }
+        //根据指标名称添加评价标准
+        let targetDataArr = [];
+        for (let i = 0; i < hashs.length; i++) {
+          targetDataArr.push({ targetName: hashs[i], evaluStand:[],pkid:pkid[i]});
+          for (let j = 0; j < hash.length; j++) {
+            if (hash[j].targetName == targetDataArr[i].targetName) {
+              targetDataArr[i].evaluStand.push(
+                hash[j].EvaluStand + ":" + hash[j].Description
+              );
+            }
+          }
+        }
+        //得到的指标名称和评价标准复制和主表数据
+        this.tableData = targetDataArr;
+        let evaluStand = [];
+        for (let i = 0; i < targetDataArr.length; i++) {
+          evaluStand.push(targetDataArr[i].evaluStand);
+        }
+      })
+    },
     // 确定
     determine() {
       this.callback(this.selectedDatas);

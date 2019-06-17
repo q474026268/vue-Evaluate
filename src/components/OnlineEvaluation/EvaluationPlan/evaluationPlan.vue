@@ -103,14 +103,14 @@
       </div>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
         <el-button ref="saveButton" type="primary" @click="saveData('form',1)">保存</el-button>
-        <el-button ref="saveButton" type="primary" @click="saveData('form',0)">暂存</el-button>
+        <el-button ref="saveButton" type="primary" @click="zcData('form',0)">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { save, get } from "./evaluationPlan.js";
+import { save, get,getRunningEP } from "./evaluationPlan.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
@@ -145,6 +145,49 @@ export default {
     // 表单提交前事件
     beforeSubmit() {
       return true;
+    },
+    //根据按钮状态保存数据( 保存,暂存)
+    saveData(formName, btnType) {
+      getRunningEP().then((result) => {
+        if(result.data){
+          this.$message({
+            message: '已有计划正在进行中，您可暂存该计划',
+            type: 'warning'
+          });
+        }else{
+          if (this.formData.endDate<this.formData.startDate) {
+            this.$message.error('完成时间不能小于开始时间');
+            this.formData.endDate='';
+            return false;
+          }
+          this.$refs[formName].validate(valid => {
+            if (valid && this.beforeSubmit()) {
+              let data = Object.assign({}, this.formData);
+              data.flag = btnType;
+              data.inputerUserNo=this.$store.state.userInfo.id;
+              data.inputerFullName=this.$store.state.userInfo.name;
+              data.groupId=this.$store.state.userInfo.departmentId;
+              data.groupName=this.$store.state.userInfo.departmentName;
+              data.inputDate=formatDate(new Date());
+              save(data).then(res => {
+                if (res.status == 200) {
+                  this.$store.state.data.callback({
+                    type: this.type,
+                    data: res.data
+                  });
+                  this.close();
+                  this.$message({
+                    message: '存储成功',
+                    type: 'success'
+                  });
+                }else{
+                  this.$message.error('保存失败，该时间段已存在相同类型的评价计划');
+                }
+              });
+            }
+          });
+        }
+      })
     },
     //根据按钮状态保存数据( 保存,暂存)
     saveData(formName, btnType) {

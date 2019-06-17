@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {evaluateContent,getTargetItem,saveFillContent,saveConsignFillContent} from './evaluateClientSecApi.js'
+import {evaluateContent,getTargetItem,saveFillContent,saveConsignFillContent,getDeatailList} from './evaluateClientSecApi.js'
 export default {
     name:'evaluateClientSec',
     props:{// 其他组件传入的值
@@ -154,16 +154,35 @@ export default {
         this.EvaluateTname=this.$route.query.evaluateTname;
         this.StartDate=this.$route.query.startDate.substring(0,10);
         let pkid=this.$route.query.pkid;
-        // 获取人物内具体指标
-        evaluateContent(pkid,this.nowUserName).then((result) => {
-            this.bigData=result.data[0]
-            this.tableArr=JSON.parse(result.data[0].fillHtml);
-            this.loading=false;
-        })
-        //获取哪几个指标
-        getTargetItem(pkid,this.nowUserName).then((result) => {
-            this.tableTarget=result.data
-        })
+        let id=this.$route.query.id
+        if (this.look) {
+            getDeatailList(pkid).then((result) => {
+                this.bigData=result.data;
+                this.tableArr=result.data;
+                this.loading=false;
+                console.log(this.tableArr);
+                
+            }),
+            //获取哪几个指标
+            getTargetItem(id,this.nowUserName).then((result) => {
+                this.tableTarget=result.data
+                console.log(this.tableTarget);
+                
+            })
+        }else{
+            // 获取人物内具体指标
+            evaluateContent(pkid,this.nowUserName).then((result) => {
+                this.bigData=result.data[0]
+                this.tableArr=JSON.parse(result.data[0].fillHtml);
+                this.loading=false;
+            }),
+            //获取哪几个指标
+            getTargetItem(pkid,this.nowUserName).then((result) => {
+                this.tableTarget=result.data
+                console.log(this.tableTarget);
+                
+            })
+        }
     },
     mounted:function(){// 组件加载完成
         // DOTO

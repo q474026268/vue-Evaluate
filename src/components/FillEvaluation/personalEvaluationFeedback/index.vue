@@ -117,7 +117,8 @@ export default {
                     evaluateTname:row.evaluateTname,
                     levelType:row.levelType,
                     startDate:row.inputDate,
-                    pkid:row.id,
+                    pkid:row.pkid,
+                    id:row.id,
                     look:'true'
                   }
                 })

@@ -7,6 +7,14 @@ export function evaluateContent(pkid,doUserName){
     })
 }
 
+/* 获取查看评价表 */
+export function getDeatailList(pkid){
+    return request({
+        url: `/writerList/getDeatailList?pkid=${pkid}`,
+        method: 'GET'
+    })
+}
+
 // 保存填写
 export function saveFillContent(data){
     return request({
