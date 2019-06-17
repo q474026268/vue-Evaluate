@@ -60,7 +60,12 @@
 <script>
 import ZTable from "../../zTable";
 import SearchPage from "./search";
-import { getList, deleted, findTargetDetail,exportTarget } from "./indexManage.js";
+import {
+  getList,
+  deleted,
+  findTargetDetail,
+  exportTarget
+} from "./indexManage.js";
 import { formatDate } from "@/utils/common.js";
 import { States } from "../onlineEvaluation.js";
 import DefaultButtons from "../../zTable/zTable.js";
@@ -159,7 +164,7 @@ export default {
               //       });
               //     }
               // });
-              window.open('api/evaluateTarget/exportTarget')
+              window.open("api/evaluateTarget/exportTarget");
             }
           }
         ],
@@ -277,7 +282,6 @@ export default {
     },
     //指标列表删除
     deleteButtonClickRight(id) {
-      console.log(id);
       this.$confirm("确定删除？")
         .then(res => {
           deletedRight(id).then(res => {
@@ -286,7 +290,12 @@ export default {
                 message: "删除成功",
                 type: "success"
               });
-              this.$refs.table.refresh();
+              for (let i = 0; i < this.rightList.length; i++) {
+                if (this.rightList[i].pkid == this.targetPkid) {
+                  this.rightList.splice(i, 1);
+                  break;
+                }
+              }
             }
           });
         })
@@ -294,13 +303,32 @@ export default {
     },
     //指标列表修改
     modifyButtonClickRight(id, formPkid) {
-      DefaultButtons.modifyButton(
-        "indexManage",
-        "indexManageRight",
-        id,
-        formPkid,
-        this.dialogCallback
-      );
+      if (this.formPkid == undefined) {
+        this.$message({
+          message: "未选择指标",
+          type: "warning"
+        });
+      } else {
+        if (id == undefined) {
+          this.$message({
+            message: "未选择评分标准",
+            type: "warning"
+          });
+        } else {
+          this.$router.push({
+            path: "/indexManageRight",
+            query: {
+              useType: "modify",
+              firstPkid: this.formPkid,
+              id,
+              formPkid
+            }
+          });
+          this.$store.commit("setData", {
+            callback: this.rightListLoad
+          });
+        }
+      }
     },
     // //指标列表查看
     // viewButtonClickRight(id) {
@@ -308,8 +336,7 @@ export default {
     // },
     //指标列表增加
     addButtonClickRight() {
-      console.log(this.formPkid);
-      if ((this.formPkid == undefined)) {
+      if (this.formPkid == undefined) {
         this.$message({
           message: "未选择指标",
           type: "warning"
@@ -322,6 +349,9 @@ export default {
             firstPkid: this.formPkid
           }
         });
+        this.$store.commit("setData", {
+          callback: this.rightListLoad
+        });
       }
     },
     //右侧列表行选中事件：单选是触发
@@ -330,7 +360,22 @@ export default {
     },
     // 弹出框回调函数
     dialogCallback(data) {
+      console.log(data);
       this.$refs.table.refresh();
+    },
+    //右边指标列表数据回调
+    rightListLoad() {
+      findTargetDetail(this.formPkid).then(res => {
+        let arr = [];
+        for (let i = 0; i < res.data.length; i++) {
+          arr.push({
+            evaluStand: res.data[i].EvaluStand,
+            description: res.data[i].Description,
+            pkid: res.data[i].PKID
+          });
+        }
+        this.rightList = arr;
+      });
     },
     /**
      * 行选中事件:单选时触发
@@ -399,7 +444,7 @@ export default {
   float: left;
 }
 .rightList {
-  margin-top: 13%;
+  margin-top: 12%;
 }
 .right_button {
   margin-top: 1%;

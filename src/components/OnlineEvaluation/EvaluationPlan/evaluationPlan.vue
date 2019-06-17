@@ -200,7 +200,6 @@ export default {
     // 组件创建后
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
-    this.dialogCallback = this.$store.state.data.dialogCallback;
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

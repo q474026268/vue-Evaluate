@@ -102,7 +102,7 @@ export default {
                 message: "保存成功",
                 type: "success"
               });
-              this.callback();
+              this.$store.state.data.callback()
               this.close();
             }
           });
@@ -130,6 +130,7 @@ export default {
     this.type = this.$route.query.useType;
     this.id = this.$route.query.id;
     this.firstPkid=this.$route.query.firstPkid;
+    this.dialogCallback = this.$route.query.dialogCallback;
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

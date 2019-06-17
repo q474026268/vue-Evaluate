@@ -1,7 +1,7 @@
 <template>
   <div id="firstPage">
-    <el-dialog title="在线评价-年终员工达优测评" :visible="true" @close="close" :width="dialogWidth">
-      <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
+    <el-dialog title="在线评价-年终员工达优测评" :visible="true" @close="close" :width="dialogWidth" :close-on-click-modal="false">
+      <el-form ref="form" :model="formData" :rules="formRules" label-width="100px" >
         <el-row>
           <el-col :span="8">
             <!-- <el-form-item prop="pkid" label="编号" v-show="false">

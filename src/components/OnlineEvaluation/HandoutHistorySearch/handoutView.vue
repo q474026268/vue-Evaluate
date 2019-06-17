@@ -153,7 +153,8 @@ export default {
           name: "handoutHistorySearch",
           query: {
             useType: "view",
-            back: "1"
+            back: "1",
+            id:this.id
           }
         });
       } else if (this.type == "modify") {
@@ -161,7 +162,8 @@ export default {
           name: "handoutHistorySearch",
           query: {
             useType: "modify",
-            back: "1"
+            back: "1",
+            id:this.id
           }
         });
       }

@@ -153,6 +153,9 @@ export default {
      * dialogWidth；窗口宽度
      */
     viewButtonClick(id, state) {
+       this.$store.commit("setData", {
+        callback: this.dialogCallback
+      });
       switch (state) {
         case "开始":
           this.$message({

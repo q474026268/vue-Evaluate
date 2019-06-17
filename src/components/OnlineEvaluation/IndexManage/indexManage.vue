@@ -34,7 +34,12 @@
         </el-form-item>
       </el-form>
       <div id="toolbar" class="toolbar" slot="footer">
-        <el-button ref="saveButton" type="primary" @click="saveData('form')">保存</el-button>
+        <el-button
+          ref="saveButton"
+          type="primary"
+          @click="saveData('form')"
+          v-show="!Object.is(type,'view')"
+        >保存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
@@ -93,6 +98,10 @@ export default {
           let data = Object.assign({}, this.formData);
           save(data).then(res => {
             if (res.status == 200) {
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
               this.$store.state.data.callback({
                 type: this.type,
                 data: res.data

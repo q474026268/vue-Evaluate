@@ -66,7 +66,6 @@
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
         <el-button @click="handout" type="primary">分发</el-button>
-        <el-button @click="saveData" type="primary">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
@@ -205,9 +204,8 @@ export default {
             message: "分发成功",
             type: "success"
           });
-          this.$router.push({
-            name: "handoutHistorySearchList"
-          });
+          this.$store.state.data.callback();
+          this.close();
         }
       });
     },
