@@ -148,6 +148,11 @@ export default {
     },
     //根据按钮状态保存数据( 保存,暂存)
     saveData(formName, btnType) {
+      if (this.formData.endDate<this.formData.startDate) {
+        this.$message.error('完成时间不能小于开始时间');
+        this.formData.endDate='';
+        return false;
+      }
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
           let data = Object.assign({}, this.formData);
@@ -181,7 +186,7 @@ export default {
           this.formData = res.data;
         }
       });
-    }
+    },
   },
   /**
    * 计算属性（自定义方法）

@@ -60,7 +60,7 @@
 <script>
 import ZTable from "../../zTable";
 import SearchPage from "./search";
-import { getList, deleted, findTargetDetail } from "./indexManage.js";
+import { getList, deleted, findTargetDetail,exportTarget } from "./indexManage.js";
 import { formatDate } from "@/utils/common.js";
 import { States } from "../onlineEvaluation.js";
 import DefaultButtons from "../../zTable/zTable.js";
@@ -150,7 +150,17 @@ export default {
             text: "导出",
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
-            click: () => {}
+            click: () => {
+              // exportTarget().then((res) => {
+              //     if(res.status == 200){
+              //       this.$message({
+              //           message: '导出成功',
+              //           type: 'success'
+              //       });
+              //     }
+              // });
+              window.open('api/evaluateTarget/exportTarget')
+            }
           }
         ],
         // 列表行内按钮
