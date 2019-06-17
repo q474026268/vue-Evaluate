@@ -49,7 +49,7 @@
           height="400"
           @row-click="openDetails"
         >
-          <el-table-column prop="pkid" label="pkid" align="center" v-if="false"></el-table-column>
+          <el-table-column prop="pkid" label="pkid" align="center" ></el-table-column>
           <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
           <el-table-column prop="description" label="典型行为" align="center"></el-table-column>
         </el-table>
@@ -282,24 +282,37 @@ export default {
     },
     //指标列表删除
     deleteButtonClickRight(id) {
-      this.$confirm("确定删除？")
-        .then(res => {
-          deletedRight(id).then(res => {
-            if (res.status == 200) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-              for (let i = 0; i < this.rightList.length; i++) {
-                if (this.rightList[i].pkid == this.targetPkid) {
-                  this.rightList.splice(i, 1);
-                  break;
-                }
-              }
-            }
+      if (this.formPkid == undefined) {
+        this.$message({
+          message: "未选择指标",
+          type: "warning"
+        });
+      } else {
+        if (id == undefined || this.targetPkid==undefined) {
+          this.$message({
+            message: "未选择评分标准",
+            type: "warning"
           });
-        })
-        .catch(err => {});
+        } else {
+          this.$confirm("确定删除？").then(res => {
+              deletedRight(id).then(res => {
+                if (res.status == 200) {
+                  this.$message({
+                    message: "删除成功",
+                    type: "success"
+                  });
+                  for (let i = 0; i < this.rightList.length; i++) {
+                    if (this.rightList[i].pkid == this.targetPkid) {
+                      this.rightList.splice(i, 1);
+                      break;
+                    }
+                  }
+                }
+              });
+            })
+            .catch(err => {});
+        }
+      }
     },
     //指标列表修改
     modifyButtonClickRight(id, formPkid) {
@@ -309,7 +322,7 @@ export default {
           type: "warning"
         });
       } else {
-        if (id == undefined) {
+        if (id == undefined || this.targetPkid==undefined) {
           this.$message({
             message: "未选择评分标准",
             type: "warning"
@@ -330,10 +343,6 @@ export default {
         }
       }
     },
-    // //指标列表查看
-    // viewButtonClickRight(id) {
-    //   DefaultButtons.viewButton("indexManage", "indexManageRight", id);
-    // },
     //指标列表增加
     addButtonClickRight() {
       if (this.formPkid == undefined) {
@@ -385,6 +394,7 @@ export default {
       this.formPkid = currentRow.pkid;
       //获取指标明细表
       findTargetDetail(currentRow.pkid).then(res => {
+        this.targetPkid=undefined;
         let arr = [];
         for (let i = 0; i < res.data.length; i++) {
           arr.push({

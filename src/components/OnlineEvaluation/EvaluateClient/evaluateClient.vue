@@ -57,17 +57,12 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item prop="groupName" label="制表部门" class="item">
               <label>{{formData.groupName}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item prop="emailDay" label="任务提示设置" class="item">
-              <label>{{formData.emailDay}}天</label>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item prop="markType" label="打分方式" class="item">
               <el-select
                 v-model="formData.markType"

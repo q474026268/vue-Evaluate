@@ -43,7 +43,9 @@ export default {
       tableBaseConfig: {
         tableHeight: "calc(100% - 159.2px)",
         // 默认排序
-        currentSort: [{ prop: "id", order: "descending" }]
+        currentSort: [{ prop: "id", order: "descending" }],
+        //操作列宽
+        opertionColumnWidth:"80px"
       },
       // 列表配置
       tableColumnConfig: [
@@ -65,7 +67,7 @@ export default {
           id: "evaluKind",
           text: "评价类别",
           align: "center",
-          width: 80,
+          width: 120,
           sortable: true
         },
         {
@@ -79,7 +81,7 @@ export default {
           id: "groupName",
           text: "制表部门",
           align: "center",
-          width: 100,
+          width: 200,
           sortable: true
         },
         {

@@ -40,7 +40,7 @@
           <el-col :span="17">
           <el-form-item label="创建人">
             <el-input
-              v-model="searchData.inputerFullName"
+              v-model="searchData.inputFullName"
               placeholder="输入创建人"
               style="width:230px;margin-left:10px;"
               clearable

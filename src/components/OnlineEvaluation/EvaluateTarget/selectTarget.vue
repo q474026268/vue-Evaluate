@@ -6,6 +6,7 @@
     @close="close"
     :modal="false"
     width="45%"
+    :close-on-click-modal="false"
   >
     <div class="head-area">
       <el-form ref="form" :inline="true">

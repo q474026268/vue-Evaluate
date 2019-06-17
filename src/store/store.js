@@ -12,10 +12,10 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     userInfo: {
-      "id": '001',
-      "userName": "rong_hg",
+      "id": '21961',
+      "userName": "zhang_tq",
       "avatar": "ce386f75-8a6f-4af4-a97f-257a820e9505",
-      "name": "荣红光",
+      "name": "张天齐",
       "sex": null,
       "birthday": null,
       "phone": null,
@@ -42,6 +42,7 @@ export const store = new Vuex.Store({
     group:[],
     evaluate:[],
     leaveType:"",
+    fromPkid:"",
   },
   mutations: {
     setData(state, item) {
@@ -93,5 +94,9 @@ export const store = new Vuex.Store({
         state.evaluate.splice(0,state.evaluate.length);
       }
     },
+    //fromPkid是否改变
+    setFromPkid(state,item){
+        state.fromPkid=item;
+    }
   }
 })

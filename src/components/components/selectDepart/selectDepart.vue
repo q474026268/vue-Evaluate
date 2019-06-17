@@ -5,7 +5,7 @@
     :visible="visible"
     @close="close"
     :modal="false"
-    width="30%"
+    width="40%"
     :close-on-click-modal="false"
   >
     <div class="head-area">
@@ -195,8 +195,8 @@ export default {
         },
         method: "GET",
         headers: {
-          JSESSIONID: "20DBF4658572B6D1B0CC836484C9EA17",
-          io: "wmztgwSmaM5O2ZawAACB"
+          JSESSIONID: "32BE7F7C37887A04966D4F292BFB8149",
+          io: "UxqALTJEkf59WLCsAAA0"
         }
       };
       request(requestParams).then(res => {

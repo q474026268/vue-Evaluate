@@ -82,12 +82,6 @@ export default {
           }
         },
         {
-          id: "alertDay",
-          text: "预警提前期",
-          align: "center",
-          sortable: true
-        },
-        {
           id: "inputerFullName",
           text: "编制人",
           align: "center",
