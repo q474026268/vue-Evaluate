@@ -51,7 +51,7 @@
         <el-col :span="4">
           <el-input
             v-model="searchData.evaluateTname"
-            placeholder="请输入测评表名称进行查询"
+            placeholder="评价表名"
             size="small"
             clearable
           ></el-input>

@@ -111,12 +111,12 @@ export default {
               icon: "el-icon-tickets",
               click: row => {
                 console.log(row);
-                if(row.state=='完成'){
-                  this.$message({
-                    message: '该表以完成，不可再编辑！',
-                    type: 'warning'
-                  });
-                }else{
+                // if(row.state=='完成'){
+                //   this.$message({
+                //     message: '该表以完成，不可再编辑！',
+                //     type: 'warning'
+                //   });
+                // }else{
                   this.$store.commit("setData",{callback:this.dialogCallback})
                   this.$router.push({
                     name:'EvaluateClientSecEdit',
@@ -128,7 +128,7 @@ export default {
                       pkid:row.id,
                     }
                   })
-                }
+                // }
               }
             }
           ],
@@ -174,7 +174,8 @@ export default {
     rowsSelected(rows) {},
     // 请求列表数据之前
     beforeGetListData(currentPage,pageSize,order,filters){
-        filters.loginUser=this.$store.state.userInfo.userName
+        filters.loginUser=this.$store.state.userInfo.userName;
+        filters.state='待填';
     },
     /**
      * 点击全选的checkbox触发
