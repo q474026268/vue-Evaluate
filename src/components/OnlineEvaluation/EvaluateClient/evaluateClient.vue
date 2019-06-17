@@ -32,7 +32,7 @@
                 v-model="formData.levelType"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
-                :change="levelTypeChange(formData.levelType)"
+                :change="levelTypeChange()"
               >
                 <el-option
                   v-for="item in levelTypeOptions"
@@ -422,14 +422,15 @@ export default {
       }
     },
     //评价方式改变
-    levelTypeChange(data) {
-      // console.log(data);
-      // if (data == undefined) {
-      // } else {
-      //   for (let i = 0; i < this.formDataDetail_group.length; i++) {
-      //     this.formDataDetail_group[i] = "";
-      //   }
-      // }
+    levelTypeChange() {
+      console.log(111111);
+      
+      let item=[]
+      if(this.$store.state.group.length>0){
+        this.$store.commit('clearGroup',item)
+        console.log(this.$store.state.group);
+        
+      }
     }
   },
   /**
