@@ -60,3 +60,11 @@ export function complete(pkid) {
         method: 'POST'
     })
 }
+
+// 判断是否有计划正在进行
+export function getRunningEP(pkid) {
+    return request({
+        url: '/evaluatePlan/getRunningEP',
+        method: 'GET'
+    })
+}

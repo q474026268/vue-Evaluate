@@ -217,6 +217,8 @@ export default {
     },
     // 排序
     sorting(data) {
+      console.log(data);
+      
       this.currentSort = [{ order: data.order, prop: data.prop }];
       this.getListData();
     },

@@ -57,3 +57,10 @@ export function getEvaluateTargetByEvaluKind(evaluKind){
     })
 }
 
+// 选择指标中，根据指标名称查询
+export function getTargetIndexListB(targetName){
+    return request({
+        url: `/evaluateModel/getTargetIndexListB?&targetName=${targetName}`,
+        method: 'GET'
+    })
+}
