@@ -76,3 +76,13 @@ export function getTargetNames(id) {
         method: 'POST'
     })
 }
+
+export function getSaveTableList(id,DoFullName) {
+    return request({
+        url: '/evaluateHandoutHistory/getSaveTableList',
+        data: {
+            id,DoFullName
+        },
+        method: 'POST'
+    })
+}

@@ -13,7 +13,7 @@
 import ZTable from "../../zTable";
 import DefaultButtons from "../../zTable/zTable.js";
 import SearchPage from "./search";
-import { getList, deleted, get } from "./evaluateModel.js";
+import { getList, deleted, get, getRunningPlan } from "./evaluateModel.js";
 import { formatDate } from "@/utils/common.js";
 import { time } from "@/utils/common.js";
 // 表单的路由路径
@@ -45,7 +45,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 120px)",
+        tableHeight: "calc(100% - 220px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }]
       },
@@ -65,14 +65,13 @@ export default {
           width: 200,
           sortable: true
         },
-        {
-          id: "modelName",
-          text: "评价方式",
-          align: "center",
-          width: 200,
-          sortable: true
-        },
-
+        // {
+        //   id: "modelName",
+        //   text: "评价方式",
+        //   align: "center",
+        //   width: 200,
+        //   sortable: true
+        // },
         {
           id: "groupName",
           text: "所属部门",
@@ -91,7 +90,7 @@ export default {
           }
         },
         {
-          id: "inputerFullName",
+          id: "inputFullName",
           text: "创建人",
           align: "center",
           width: 60,
@@ -125,25 +124,31 @@ export default {
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: () => {
-              if (this.selectedPkid != "") {
-                get(this.selectedPkid).then(res => {
-                  if (res.status == 200) {
-                    this.$store.commit("setData", { data: res.data });
-                    this.$router.push({
-                      name: "evaluateClient",
-                      query: {
-                        useType: "add",
-                        isUse:"true"
+              getRunningPlan().then(res => {
+                if (res.data == 0) {
+                  this.$message.error("暂无评价计划");
+                } else {
+                  if (this.selectedPkid != "") {
+                    get(this.selectedPkid).then(res => {
+                      if (res.status == 200) {
+                        this.$store.commit("setData", { data: res.data });
+                        this.$router.push({
+                          name: "evaluateClient",
+                          query: {
+                            useType: "add",
+                            isUse: "true"
+                          }
+                        });
                       }
                     });
+                  } else {
+                    this.$message({
+                      message: "先选择模板",
+                      type: "warning"
+                    });
                   }
-                });
-              } else {
-                this.$message({
-                  message: "先选择模板",
-                  type: "warning"
-                });
-              }
+                }
+              });
             }
           },
           {
@@ -201,7 +206,7 @@ export default {
      * dialogWidth；窗口宽度
      */
     addButtonClick() {
-     this.$store.commit("setData", {
+      this.$store.commit("setData", {
         useType: "add",
         callback: this.dialogCallback
       });
@@ -214,7 +219,7 @@ export default {
      * dialogWidth；窗口宽度
      */
     modifyButtonClick(id) {
-     this.$store.commit("setData", {
+      this.$store.commit("setData", {
         id,
         useType: "modify",
         callback: this.dialogCallback

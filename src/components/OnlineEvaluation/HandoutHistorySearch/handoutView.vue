@@ -99,6 +99,7 @@ import ZTable from "@/components/zTable";
 // import { save, get } from "./evaluateClient.js";
 import { formatDate } from "@/utils/common.js";
 import { getSelect } from "../onlineEvaluation.js";
+import { getSaveTableList } from "./handoutHistorySearch.js";
 // 主表主键字段
 const mainKey = "id";
 export default {
@@ -132,7 +133,10 @@ export default {
       //员工号
       userNo: "",
       //下标
-      number: ""
+      number: "",
+      id: "",
+      //评价人姓名
+      doFullName: ""
     };
   },
   methods: {
@@ -201,6 +205,14 @@ export default {
   created: function() {
     // 组件创建后
     this.type = this.$route.query.useType;
+    this.id = this.$route.query.id;
+    this.doFullName = this.$route.query.doFullName;
+    let targets = [];
+    getSaveTableList(this.id, this.doFullName).then(res => {
+      targets.push(res.data[0].fillHtml.split("},"));
+    });
+    console.log(targets);
+    console.log(targets.length);
     let datas = this.$store.state.yt;
     this.formData = datas.formData;
     this.formData.inputDate = formatDate(this.formData.inputDate);
@@ -229,10 +241,10 @@ export default {
     //循环添加指标等级
     for (let j = 0; j < this.tData.length; j++) {
       for (let i = 1; i < this.tableColumn.length; i++) {
-        this.tableColumn[i]["target" + (j + 1)] ="A"
-          // datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
-        this.tableColumn[i]["optional" + (j + 1)] =true
-          // datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
+        this.tableColumn[i]["target" + (j + 1)] = "A";
+        // datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
+        this.tableColumn[i]["optional" + (j + 1)] = true;
+        // datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
       }
     }
   },

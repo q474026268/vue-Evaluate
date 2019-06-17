@@ -10,7 +10,7 @@
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <!-- <el-form-item prop="pkid" label="编号" v-show="false">
           <el-input v-model="formData.pkid" :disabled="true"></el-input>
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item prop="flag" v-show="false">
           <el-input v-model="formData.flag" :disabled="true"></el-input>
         </el-form-item>
@@ -82,6 +82,7 @@ import "@/style/masterSlave.css";
 import { save, get } from "./evaluateModel.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
+import { formatDate } from "@/utils/common.js";
 import Rules, { addDictionary } from "./validate.js";
 import SelectTarget from "../EvaluateTarget/selectTarget.vue";
 export default {
@@ -101,7 +102,7 @@ export default {
       // 表单数据
       formData: {
         evaluKind: "员工达优测评表",
-        flag:'0'
+        flag: "0"
       },
       // 明细数据
       formDataDetail: [],
@@ -135,6 +136,11 @@ export default {
       await this.$refs[formName].validate(valid => {
         valid2 = valid;
       });
+      this.formData.inputerUserNo = this.$store.state.userInfo.id;
+      this.formData.inputFullName= this.$store.state.userInfo.name;
+      this.formData.groupId = this.$store.state.userInfo.departmentId;
+      this.formData.groupName = this.$store.state.userInfo.departmentName;
+      this.formData.inputDate = formatDate(new Date());
       // 合并明细数据
       let newFormDataDetail = [
         ...this.formDataDetail,
@@ -148,21 +154,25 @@ export default {
         console.log(data);
         save(data).then(res => {
           if (res.status == 200) {
-            let callback =this.$store.state.data.callback;
+            let callback = this.$store.state.data.callback;
             if (callback) {
               callback({ type: this.type, data: res.data });
             }
             if (mark == 0) {
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
               this.close();
             } else {
               // 保存并使用
-              this.$store.commit("setData",{
-                data:res.data
-              })
+              this.$store.commit("setData", {
+                data: res.data
+              });
               this.$router.push({
                 name: "evaluateClient",
                 query: {
-                  useType: "add",
+                  useType: "add"
                 }
               });
             }
@@ -193,10 +203,14 @@ export default {
     },
     //指标数据回调
     targetDialogCallback(data) {
-      data.forEach(({ pkid: pkid, targetName,evaluStand }) => {
-        this.formDataDetail.push({ pkid, targetName,evaluStand,doType: "add" });
+      data.forEach(({ pkid: pkid, targetName, evaluStand }) => {
+        this.formDataDetail.push({
+          pkid,
+          targetName,
+          evaluStand,
+          doType: "add"
+        });
       });
-      console.log(this.formDataDetail);
     }
   },
   /**

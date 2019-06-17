@@ -92,8 +92,8 @@
               v-model="searchData.dateFrame"
               type="daterange"
               range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              start-placeholder="制表开始日期"
+              end-placeholder="制表结束日期"
               style="width:250px;"
             ></el-date-picker>
           </el-form-item>

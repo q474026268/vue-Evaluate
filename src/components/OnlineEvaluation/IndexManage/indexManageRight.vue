@@ -45,6 +45,7 @@
 import { save, get } from "./indexManageRightList.js";
 import { getEvaluStand } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
+import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
 export default {
   name: "indexManageRight",
@@ -68,7 +69,9 @@ export default {
       dialogCallback: function() {},
       callback: function() {
         this.dialogCallback({ type: this.type, data: this.formData });
-      }
+      },
+      //主表id
+      firstPkid:""
     };
   },
   methods: {
@@ -85,10 +88,20 @@ export default {
     saveData(formName) {
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
-          //this.$refs.saveButton.loading = true;
           let data = Object.assign({}, this.formData);
+          data.flag = 0;
+          data.inputerUserNo = this.$store.state.userInfo.id;
+          data.inputerFullName = this.$store.state.userInfo.name;
+          data.groupId = this.$store.state.userInfo.departmentId;
+          data.groupName = this.$store.state.userInfo.departmentName;
+          data.inputDate = formatDate(new Date());
+          data.firstPkid=this.firstPkid;
           save(data).then(res => {
             if (res.status == 200) {
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
               this.callback();
               this.close();
             }
@@ -114,10 +127,9 @@ export default {
   computed: {},
   created: function() {
     // 组件创建后
-    // DOTO
-    this.type = this.$route.params.useType;
-    this.id = this.$route.params.id;
-    this.dialogCallback = this.$route.params.dialogCallback;
+    this.type = this.$route.query.useType;
+    this.id = this.$route.query.id;
+    this.firstPkid=this.$route.query.firstPkid;
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

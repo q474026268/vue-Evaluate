@@ -158,7 +158,6 @@
         </div>
       </el-form>
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
-        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="doFullName" label="评价人" width="100" align="center"></el-table-column>
         <el-table-column prop="doneFullName" label="被评价人" align="center"></el-table-column>
         <el-table-column prop="targetName" label="指标" width="300" align="center"></el-table-column>
@@ -314,15 +313,15 @@ export default {
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
       console.log(data);
-      save(data).then(res => {
-        if (res.status == 200) {
-          this.$message({
-            message: "保存成功",
-            type: "success"
-          });
-           this.close();
-        }
-      });
+      // save(data).then(res => {
+      //   if (res.status == 200) {
+      //     this.$message({
+      //       message: "保存成功",
+      //       type: "success"
+      //     });
+      //      this.close();
+      //   }
+      // });
      
     },
   },
@@ -362,7 +361,7 @@ export default {
         //计划pKid
         this.formData.planPkid = this.planPkid;
         //模板pKid
-        this.formData.modelPkid=this.planPkid;
+        this.formData.modelPkid=this.$route.query.modelPkid;
         //模板名称
         this.formData.planName=this.evaluateTname;
         //预警提前期

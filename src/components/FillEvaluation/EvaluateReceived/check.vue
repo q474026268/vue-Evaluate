@@ -165,7 +165,6 @@ export default {
               }
             });
           } else if (Object.is(this.type, "modify")) {
-            console.log(data);
             update(data).then(res => {
               if (res.status == 200) {
                 this.$message({

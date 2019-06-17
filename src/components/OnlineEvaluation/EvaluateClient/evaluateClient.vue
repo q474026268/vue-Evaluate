@@ -1,6 +1,12 @@
 <template>
   <div id="evaluateClient">
-    <el-dialog :title="formData.planName" :visible="true" @close="close" :width="dialogWidth">
+    <el-dialog
+      :title="formData.planName"
+      :visible="true"
+      @close="close"
+      :width="dialogWidth"
+      :close-on-click-modal="false"
+    >
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <el-row>
           <el-col :span="8">
@@ -26,6 +32,7 @@
                 v-model="formData.levelType"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
+                :change="levelTypeChange(formData.levelType)"
               >
                 <el-option
                   v-for="item in levelTypeOptions"
@@ -161,12 +168,12 @@
                 <label>{{ scope.$index+1 }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="员工号" width="66">
+            <el-table-column align="center" label="员工号">
               <template slot-scope="scope">
                 <label>{{ scope.row.userNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名" width="55">
+            <el-table-column align="center" label="姓名">
               <template slot-scope="scope">
                 <label>{{ scope.row.doFullName }}</label>
               </template>
@@ -176,12 +183,12 @@
                 <label>{{ scope.row.doUserName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="部门" width="68">
+            <el-table-column align="center" label="部门">
               <template slot-scope="scope">
                 <label>{{ scope.row.groupName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作" min-width="40">
+            <el-table-column align="center" label="操作" v-if="showOperation()">
               <template slot-scope="scope">
                 <el-button
                   :disabled="Object.is(type,'view')"
@@ -247,7 +254,7 @@ export default {
       deleteDetailData_index: [],
       deleteDetailData_evaluate: [],
       // 弹出窗口宽度
-      dialogWidth: "70%",
+      dialogWidth: "80%",
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表
@@ -265,13 +272,33 @@ export default {
     //获取从selectDepart中查询到的数据存放到中
     departDialogCallback(data) {
       //被评价人明细数据
-      for (let i = 0; i < data.length; i++) {
-        this.formDataDetail_group.push({
-          doneFullName: data[i].name,
-          doneUserNo: data[i].id,
-          groupName: data[i].departmentName
-        });
+      if (this.formData.levelType == "互评") {
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_group.push({
+            doneFullName: data[i].name,
+            doneUserNo: data[i].id,
+            groupName: data[i].departmentName
+          });
+        }
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_evaluate.push({
+            doFullName: data[i].name,
+            userNo: data[i].id,
+            groupName: data[i].departmentName,
+            doUserName: data[i].userName
+          });
+        }
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          this.formDataDetail_group.push({
+            doneFullName: data[i].name,
+            doneUserNo: data[i].id,
+            groupName: data[i].departmentName
+          });
+        }
       }
+      let group = this.formDataDetail_group;
+      this.$store.commit("setGroup", group);
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
     userDialogCallback(data) {
@@ -284,23 +311,48 @@ export default {
           doUserName: data[i].userName
         });
       }
+      let evaluate = this.formDataDetail_evaluate;
+      this.$store.commit("setEvaluate", evaluate);
     },
     // 添加行
     addDetailRow_group() {
-      this.$refs.depart.open();
+      if (this.formData.levelType == undefined) {
+        this.$message.error("请先选择评价方式");
+      } else {
+        this.$refs.depart.open();
+      }
     },
     addDetailRow_index() {
       this.formDataDetail_index.push({ doType: "add" });
     },
     addDetailRow_evaluate() {
-      this.$refs.user.open();
+      if (this.formData.levelType == undefined) {
+        this.$message.error("请先选择评价方式");
+      } else if (this.formData.levelType == "互评") {
+        this.$message.error("请选择被评价人");
+      } else {
+        this.$refs.user.open();
+      }
     },
     // 删除行
     handleDelete_group(index, row) {
-      this.formDataDetail_group.splice(index, 1);
-      this.deleteDetailData_group.push(
-        Object.assign(row, { doType: "delete" })
-      );
+      if (this.formData.levelType == "互评") {
+        this.formDataDetail_group.splice(index, 1);
+        this.deleteDetailData_group.push(
+          Object.assign(row, { doType: "delete" })
+        );
+        this.formDataDetail_evaluate.splice(index, 1);
+        this.deleteDetailData_evaluate.push(
+          Object.assign(row, { doType: "delete" })
+        );
+      } else {
+        this.formDataDetail_group.splice(index, 1);
+        this.deleteDetailData_group.push(
+          Object.assign(row, { doType: "delete" })
+        );
+      }
+      let group = this.formDataDetail_group;
+      this.$store.commit("setGroup", group);
     },
     handleDelete_index(index, row) {
       this.formDataDetail_index.splice(index, 1);
@@ -313,6 +365,8 @@ export default {
       this.deleteDetailData_evaluate.push(
         Object.assign(row, { doType: "delete" })
       );
+      let evaluate = this.formDataDetail_evaluate;
+      this.$store.commit("setEvaluate", evaluate);
     },
     // 表单提交前事件
     beforeSubmit() {
@@ -328,31 +382,54 @@ export default {
           let index = this.formDataDetail_index;
           // 评价人列表数据
           let evaluate = this.formDataDetail_evaluate;
-          let formData = this.formData;
-          if (this.isUse != "true") {
-            let targetName = [];
-            let targetPkid = [];
-            for (let i = 0; i < index.length; i++) {
-              targetName.push(index[i].targetName);
-              targetPkid.push(index[i].targetPkid);
+          if (group.length == 0 || evaluate.length == 0) {
+            this.$message.error("评价人和被评价人不能为空");
+          } else {
+            let formData = this.formData;
+            if (this.isUse != "true") {
+              let targetName = [];
+              let targetPkid = [];
+              for (let i = 0; i < index.length; i++) {
+                targetName.push(index[i].targetName);
+                targetPkid.push(index[i].targetPkid);
+              }
+              this.formData.targetName = targetName.join(",");
+              this.formData.targetPkid = targetPkid.join(",");
             }
-            this.formData.targetName = targetName.join(",");
-            this.formData.targetPkid = targetPkid.join(",");
+            this.$store.commit("setData", {
+              formData: this.formData,
+              group,
+              index,
+              evaluate
+            });
+            this.$router.push({
+              path: "/evaluateHistory",
+              query: {
+                useType: "add",
+                modelPkid:this.id
+              }
+            });
           }
-          this.$store.commit("setData", {
-            formData: this.formData,
-            group,
-            index,
-            evaluate
-          });
-          this.$router.push({
-            path: "/evaluateHistory",
-            query: {
-              useType: "add"
-            }
-          });
         }
       });
+    },
+    //根据评论状态是否显示评价人列表操作
+    showOperation() {
+      if (this.formData.levelType == "互评") {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    //评价方式改变
+    levelTypeChange(data) {
+      // console.log(data);
+      // if (data == undefined) {
+      // } else {
+      //   for (let i = 0; i < this.formDataDetail_group.length; i++) {
+      //     this.formDataDetail_group[i] = "";
+      //   }
+      // }
     }
   },
   /**
@@ -373,6 +450,9 @@ export default {
     // 获取模板数据
     this.formData = data.main;
     this.formDataDetail_index = data.detail;
+    //在存储数据前 先清空vueX中的被评价人与评价人数据
+    this.$store.state.group=[];
+    this.$store.state.evaluate=[];
   },
   mounted: function() {
     // 组件加载完成

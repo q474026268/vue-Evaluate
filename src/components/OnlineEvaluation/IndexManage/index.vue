@@ -12,17 +12,59 @@
       </div>
     </el-col>
     <el-col :span="10">
-      <IndexManageRightList></IndexManageRightList>
+      <div class="right_button">
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click.prevent="addButtonClickRight()"
+        >添加</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          size="small"
+          @click.prevent="modifyButtonClickRight(targetPkid,formPkid)"
+        >修改</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-delete"
+          size="small"
+          @click.prevent="deleteButtonClickRight(targetPkid)"
+        >删除</el-button>
+        <!-- <el-button
+              type="primary"
+              icon="el-icon-view"
+              size="mini"
+              @click.prevent="viewButtonClickRight(scope.row.pkid)"
+        >浏览</el-button>-->
+      </div>
+      <div class="rightList">
+        <el-table
+          ref="rightList"
+          :data="rightList"
+          :row-style="{cursor:'pointer'}"
+          border
+          fit
+          highlight-current-row
+          height="400"
+          @row-click="openDetails"
+        >
+          <el-table-column prop="pkid" label="pkid" align="center" v-if="false"></el-table-column>
+          <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
+          <el-table-column prop="description" label="典型行为" align="center"></el-table-column>
+        </el-table>
+      </div>
     </el-col>
   </el-row>
 </template>
 <script>
 import ZTable from "../../zTable";
 import SearchPage from "./search";
-import { getList, deleted } from "./indexManage.js";
+import { getList, deleted, findTargetDetail } from "./indexManage.js";
 import { formatDate } from "@/utils/common.js";
 import { States } from "../onlineEvaluation.js";
-import IndexManageRightList from "./indexManageRightList.vue";
+import DefaultButtons from "../../zTable/zTable.js";
+import { getListRight, deletedRight } from "./indexManageRightList.js";
 // 路由的名称
 const routerName = "indexManage";
 // 主键字段
@@ -30,8 +72,7 @@ const key = "pkid";
 export default {
   name: "indexManageList",
   components: {
-    ZTable,
-    IndexManageRightList
+    ZTable
   },
   props: {
     // 其他组件传入的值
@@ -43,12 +84,13 @@ export default {
       rowsSelectedAll: this.rowsSelectedAll,
       getList: getList,
       beforeGetListData: this.beforeGetListData,
-      SearchPage: SearchPage,
+      SearchPage: SearchPage
     };
   },
   data: function() {
     // 自定义变量
     return {
+      rightList: [],
       // 列表的其他配置
       tableBaseConfig: {
         tableHeight: "410px",
@@ -120,7 +162,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key]);
+                this.modifyButtonClick(row[key], row.flag);
               }
             },
             {
@@ -128,7 +170,7 @@ export default {
               text: "删除",
               icon: "el-icon-delete",
               click: row => {
-                this.deleteButtonClick(row[key]);
+                this.deleteButtonClick(row[key], row.flag);
               }
             },
             {
@@ -141,7 +183,11 @@ export default {
             }
           ],
           // 下拉显示
-          dropdown: []
+          dropdown: [],
+          //指标列表的pkid
+          targetPkid: "",
+          //主表的pkid
+          formPkid: ""
         }
       }
     };
@@ -167,13 +213,20 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id) {
-      this.$store.commit("setData", {
-        useType: "modify",
-        id,
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
+    modifyButtonClick(id, flag) {
+      if (flag == "1") {
+        this.$message({
+          message: "该条记录已经是无效，不可修改",
+          type: "warning"
+        });
+      } else {
+        this.$store.commit("setData", {
+          useType: "modify",
+          id,
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: routerName });
+      }
     },
     /**
      * 浏览按钮点击事件
@@ -190,10 +243,34 @@ export default {
       this.$router.push({ name: routerName });
     },
     // 删除按钮点击事件
-    deleteButtonClick(id) {
+    deleteButtonClick(id, flag) {
+      if (flag == 1) {
+        this.$message({
+          message: "该条记录已经是无效，不可修改",
+          type: "warning"
+        });
+      } else {
+        this.$confirm("确定删除？")
+          .then(res => {
+            deleted(id).then(res => {
+              if (res.status == 200) {
+                this.$message({
+                  message: "删除成功",
+                  type: "success"
+                });
+                this.$refs.table.refresh();
+              }
+            });
+          })
+          .catch(err => {});
+      }
+    },
+    //指标列表删除
+    deleteButtonClickRight(id) {
+      console.log(id);
       this.$confirm("确定删除？")
         .then(res => {
-          deleted(id).then(res => {
+          deletedRight(id).then(res => {
             if (res.status == 200) {
               this.$message({
                 message: "删除成功",
@@ -205,6 +282,42 @@ export default {
         })
         .catch(err => {});
     },
+    //指标列表修改
+    modifyButtonClickRight(id, formPkid) {
+      DefaultButtons.modifyButton(
+        "indexManage",
+        "indexManageRight",
+        id,
+        formPkid,
+        this.dialogCallback
+      );
+    },
+    // //指标列表查看
+    // viewButtonClickRight(id) {
+    //   DefaultButtons.viewButton("indexManage", "indexManageRight", id);
+    // },
+    //指标列表增加
+    addButtonClickRight() {
+      console.log(this.formPkid);
+      if ((this.formPkid == undefined)) {
+        this.$message({
+          message: "未选择指标",
+          type: "warning"
+        });
+      } else {
+        this.$router.push({
+          path: "/indexManageRight",
+          query: {
+            useType: "add",
+            firstPkid: this.formPkid
+          }
+        });
+      }
+    },
+    //右侧列表行选中事件：单选是触发
+    openDetails(row) {
+      this.targetPkid = row.pkid;
+    },
     // 弹出框回调函数
     dialogCallback(data) {
       this.$refs.table.refresh();
@@ -213,7 +326,21 @@ export default {
      * 行选中事件:单选时触发
      * currentRow:当前行 oldCurrentRow:上一次选中的行
      */
-    rowSelected(currentRow, oldCurrentRow) {},
+    rowSelected(currentRow, oldCurrentRow) {
+      this.formPkid = currentRow.pkid;
+      //获取指标明细表
+      findTargetDetail(currentRow.pkid).then(res => {
+        let arr = [];
+        for (let i = 0; i < res.data.length; i++) {
+          arr.push({
+            evaluStand: res.data[i].EvaluStand,
+            description: res.data[i].Description,
+            pkid: res.data[i].PKID
+          });
+        }
+        this.rightList = arr;
+      });
+    },
     /**
      * 行选中事件:多选时触发
      * rows：选中的所有行
@@ -260,5 +387,12 @@ export default {
 <style scope>
 #indexManageList {
   float: left;
+}
+.rightList {
+  margin-top: 13%;
+}
+.right_button {
+  margin-top: 1%;
+  margin-left: 50%;
 }
 </style>

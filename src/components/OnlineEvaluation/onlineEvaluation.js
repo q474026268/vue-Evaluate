@@ -17,16 +17,20 @@ export function getEvaluKind() {
 // 典型行为描述评价类别
 const evaluStandOptions = [
     {
-        value: '员工达优测评',
-        label: '员工达优测评'
+        value: '标杆(A)',
+        label: '标杆(A)'
     }, {
-        value: '内部客户满意度评测',
-        label: '内部客户满意度评测'
+        value: '需改进(B)',
+        label: '需改进(B)'
+    },{
+        value: '警示(C)',
+        label: '警示(C)'
     }
 ]
 export function getEvaluStand() {
     return Promise.resolve({ status: 200, data: evaluStandOptions });
 }
+
 
 // 计划状态
 export const planStates = [

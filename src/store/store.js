@@ -38,7 +38,9 @@ export const store = new Vuex.Store({
     history: {},
     clientView: [],
     Initialization: [],
-    evaluStand:[]
+    evaluStand:[],
+    group:[],
+    evaluate:[]
   },
   mutations: {
     setData(state, item) {
@@ -67,5 +69,14 @@ export const store = new Vuex.Store({
     setInitialization(state, item) {
       state.Initialization = item
     },
+    //
+    //被评价人是否相同
+    setGroup(state, item){
+      state.group=item;
+    },
+    //评价人是否相同
+    setEvaluate(state, item){
+      state.evaluate=item;
+    }
   }
 })

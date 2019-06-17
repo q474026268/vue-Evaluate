@@ -191,9 +191,14 @@ export default {
      * dialogWidth；窗口宽度
      */
     modifyButtonClick(id,row) {
-      if (row.flag==2 || row.flag==3) {
+      if (row.flag==2) {
         this.$message({
-          message: '根据该条目状态判断，不可修改',
+          message: '计划已经执行，不可修改',
+          type: 'warning'
+        });
+      }else if(row.flag==3){
+         this.$message({
+          message: '计划已经完成，不可修改',
           type: 'warning'
         });
       }else{
@@ -221,7 +226,7 @@ export default {
     },
     // 删除按钮点击事件
     deleteButtonClick(id, flag) {
-      if (flag == 0) {
+      if (flag == 0||flag==1) {
         this.$confirm("确定删除？")
           .then(res => {
             deleted(id).then(res => {
@@ -235,9 +240,14 @@ export default {
             });
           })
           .catch(err => {});
-      } else {
+      } else if(flag==2){
+         this.$message({
+          message: "计划已经执行，不能删除计划",
+          type: "warning"
+        });
+      } else if(flag==3){
         this.$message({
-          message: "计划已经开始，不能删除计划",
+          message: "计划已经完成，不能删除计划",
           type: "warning"
         });
       }

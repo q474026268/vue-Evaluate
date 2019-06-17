@@ -202,7 +202,7 @@ export default {
               }
             });
           } else if (Object.is(this.type, "modify")) {
-            console.log(data);
+
             update(data).then(res => {
               if (res.status == 200) {
                 this.$message({
@@ -240,7 +240,6 @@ export default {
       });
       
       // 获取明细数据
-      console.log(this.id)
       await getDetailList(this.id).then((res) => {
           if(res.status == 200){
              this.formDataDetail = res.data;
