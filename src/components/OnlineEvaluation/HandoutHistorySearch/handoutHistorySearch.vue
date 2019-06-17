@@ -55,11 +55,10 @@
         </el-row>
       </el-form>
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="doFullName" label="评价人"></el-table-column>
-        <el-table-column prop="doneFullName" label="被评价人"></el-table-column>
-        <el-table-column prop="targetName" label="指标名称"></el-table-column>
-        <el-table-column label="查看">
+        <el-table-column prop="doFullName" label="评价人" align="center"></el-table-column>
+        <el-table-column prop="doneFullName" label="被评价人" align="center"></el-table-column>
+        <el-table-column prop="targetName" label="指标名称" align="center"></el-table-column>
+        <el-table-column label="查看" align="center">
           <template slot-scope="scope">
             <el-button @click="view(scope.row.doFullName)" size="mini">查看</el-button>
           </template>
@@ -80,7 +79,12 @@ import "@/style/masterSlave.css";
 import { guid } from "@/utils/common.js";
 // 验证配置文件
 import { addDictionary } from "./validate.js";
-import { get, getDetailList, getTargetNames } from "./handoutHistorySearch.js";
+import {
+  get,
+  getDetailList,
+  getTargetNames,
+  saveStartPlan
+} from "./handoutHistorySearch.js";
 import { formatDate } from "@/utils/common.js";
 // 主表主键字段
 const mainKey = "guid";
@@ -150,54 +154,6 @@ export default {
     beforeSubmit() {
       return true;
     },
-    saveData() {
-      this.$validator.validateAll().then(valid => {
-        if (valid && this.beforeSubmit()) {
-          let data = this.formData;
-          // 合并明细数据
-          let newFormDataDetail = [
-            ...this.formDataDetail,
-            ...this.deleteDetailData
-          ];
-          // 添加明细数据
-          // 将明细的数据放在主表的childrens属性里面，后端的实体类也要有这个childrens属性
-          data["childrens"] = Array.from(newFormDataDetail);
-          if (Object.is(this.type, "add")) {
-            save(data).then(res => {
-              if (res.status == 200) {
-                this.$message({
-                  message: "保存成功",
-                  type: "success"
-                });
-                this.close();
-              }
-            });
-          } else if (Object.is(this.type, "modify")) {
-            update(data).then(res => {
-              if (res.status == 200) {
-                this.$message({
-                  message: "保存成功",
-                  type: "success"
-                });
-                this.close();
-              }
-            });
-          }
-        }
-        // 弹出错误信息
-        if (!valid) {
-          let message = ``;
-          for (let item of this.errors.items) {
-            message += '<p style="margin-bottom:2px;">' + item.msg + "</p>";
-          }
-          this.$message({
-            dangerouslyUseHTMLString: true,
-            message: message,
-            type: "error"
-          });
-        }
-      });
-    },
     //根据id获取数据
     async getData() {
       await get(this.id).then(res => {
@@ -240,7 +196,16 @@ export default {
       });
     },
     // 分发
-    handout() {},
+    handout() {
+      saveStartPlan(this.id).then(res => {
+        if (res.status == 200) {
+          this.$message({
+            message: "分发成功",
+            type: "success"
+          });
+        }
+      });
+    },
     // 弹出框回调函数
     dialogCallback(data) {
       this.$refs.table.refresh();

@@ -59,12 +59,12 @@
                 v-model="tableColumn[index]['optional'+(scope.$index+1)]"
                 @change="Change"
                 v-if="item.id != 'target0'"
-                :disabled="Object.is(type,'view') || !(tableColumn[index]['optional'+(scope.$index+1)])"
+                :disabled="Object.is(type,'view') || !(tableColumn[index]['optional'+(scope.$index+1)])||Object.is(type,'modify')"
               ></el-checkbox>
               <el-select
                 v-if="item.id != 'target0'"
                 v-model="tableColumn[index]['target'+(scope.$index+1)]"
-                :disabled="Object.is(type,'view') || !(tableColumn[index]['optional'+(scope.$index+1)])"
+                :disabled="Object.is(type,'view') || !(tableColumn[index]['optional'+(scope.$index+1)])||Object.is(type,'modify')"
                 @change="Change"
                 size="mini"
                 style="width:110px"
@@ -83,7 +83,7 @@
         </el-table>
       </div>
       <div id="toolbar" class="toolbar" slot="footer">
-        <el-button @click="saveData(1)" type="primary" v-show="Object.is(type,'modify')">保存</el-button>
+        <el-button @click="saveData(1)" type="primary" v-show="Object.is(type,'add')">保存</el-button>
         <el-button @click="saveData(0)" type="primary" v-show="Object.is(type,'add')">暂存</el-button>
         <el-button @click="cancel" icon="el-icon-close" v-show="Object.is(type,'modify')">取消</el-button>
         <el-button @click="close" icon="el-icon-close" v-show="Object.is(type,'view')">关闭</el-button>
@@ -173,24 +173,6 @@ export default {
     // 表单提交前
     beforeSubmit() {
       return true;
-    },
-    //保存数据
-    saveData() {
-      this.$validator.validateAll().then(valid => {
-        if (valid && this.beforeSubmit()) {
-          let datas = {
-            tableColumn: this.tableColumn,
-            userNo: this.userNo
-          };
-          datas.tableColumn.shift();
-          this.$store.commit("setOne", datas);
-          this.$message({
-            message: "保存成功",
-            type: "success"
-          });
-          this.cancel();
-        }
-      });
     }
   },
   /**
@@ -207,12 +189,6 @@ export default {
     this.type = this.$route.query.useType;
     this.id = this.$route.query.id;
     this.doFullName = this.$route.query.doFullName;
-    let targets = [];
-    getSaveTableList(this.id, this.doFullName).then(res => {
-      targets.push(res.data[0].fillHtml.split("},"));
-    });
-    console.log(targets);
-    console.log(targets.length);
     let datas = this.$store.state.yt;
     this.formData = datas.formData;
     this.formData.inputDate = formatDate(this.formData.inputDate);
@@ -226,27 +202,17 @@ export default {
     for (let i = 0; i < targetNames.length; i++) {
       this.tData.push({ target: targetNames[i] });
     }
-    this.tableColumn.push({ id: "target0", name: "指标名称" });
-
     //循环被评价人姓名
     let doneFullName = [];
     doneFullName = datas.dataTable[0].doneFullName.split(",");
-    //将被评价人姓名循环加入
-    for (let j = 0; j < doneFullName.length; j++) {
-      this.tableColumn.push({
-        id: "target" + (j + 1),
-        name: doneFullName[j]
-      });
-    }
-    //循环添加指标等级
-    for (let j = 0; j < this.tData.length; j++) {
-      for (let i = 1; i < this.tableColumn.length; i++) {
-        this.tableColumn[i]["target" + (j + 1)] = "A";
-        // datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
-        this.tableColumn[i]["optional" + (j + 1)] = true;
-        // datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
+    getSaveTableList(this.id, this.doFullName).then(res => {
+      this.tableColumn = JSON.parse(res.data[0].fillHtml);
+      //将被评价人姓名循环加入
+      for (let j = 0; j < doneFullName.length; j++) {
+        this.tableColumn[j].name = doneFullName[j];
       }
-    }
+      this.tableColumn.unshift({ id: "target0", name: "指标名称" });
+    });
   },
   mounted: function() {
     // 组件加载完成
