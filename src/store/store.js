@@ -40,7 +40,8 @@ export const store = new Vuex.Store({
     Initialization: [],
     evaluStand:[],
     group:[],
-    evaluate:[]
+    evaluate:[],
+    leaveType:"",
   },
   mutations: {
     setData(state, item) {
@@ -78,9 +79,19 @@ export const store = new Vuex.Store({
     //评价人是否相同
     setEvaluate(state, item){
       state.evaluate=item;
+      console.log(state.evaluate);
     },
+    //被评价人是否相同
     clearGroup(state,item){
       state.group=item
-    }
+    },
+    //评价方式是否改变
+    setLeaveType(state,item){
+      if(state.leaveType!=item){
+        state.leaveType=item
+        state.group.splice(0,state.group.length);
+        state.evaluate.splice(0,state.evaluate.length);
+      }
+    },
   }
 })
