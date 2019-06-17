@@ -94,8 +94,7 @@ export default {
     },
     // 查询
     search() {
-      getTargetIndexListB(this.searchData.targetName).then((result) => {
-        //将获取的数据只取指标名称,评分标准进行拼接
+      getTargetIndexListB(this.searchData.targetName).then(res => {
         let hash = [];
         for (let i = 0; i < res.data.length; i++) {
           hash.push({
@@ -136,6 +135,7 @@ export default {
         for (let i = 0; i < targetDataArr.length; i++) {
           evaluStand.push(targetDataArr[i].evaluStand);
         }
+        console.log(this.tableData);
       })
     },
     // 确定
@@ -196,17 +196,18 @@ export default {
       rows.forEach(({ pkid, targetName, evaluStand }) => {
         this.selectedDatas.push({ pkid, targetName, evaluStand });
       });
-      for (let i = 0; i < this.selectedDatas.length; i++) {
-        this.selectedDatas[i].evaluStands = "";
-        for (let j = 0; j < this.selectedDatas[i].evaluStand.length; j++) {
-          if(i==j){
-            this.selectedDatas[i].evaluStands += this.selectedDatas[i].evaluStand;
-          }
-        }
-      }
-      for(let i=0;i<this.selectedDatas.length;i++){
-        this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStands;
-      }
+      console.log(this.selectedDatas);
+      // for (let i = 0; i < this.selectedDatas.length; i++) {
+      //   this.selectedDatas[i].evaluStands = "";
+      //   for (let j = 0; j < this.selectedDatas[i].evaluStand.length; j++) {
+      //     if(i==j){
+      //       this.selectedDatas[i].evaluStands += this.selectedDatas[i].evaluStand;
+      //     }
+      //   }
+      // }
+      // for(let i=0;i<this.selectedDatas.length;i++){
+      //   this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStands;
+      // }
     },
     // 选择 条/页
     handleSize(pageSize) {

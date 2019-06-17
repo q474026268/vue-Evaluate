@@ -94,9 +94,5 @@ export const store = new Vuex.Store({
         state.evaluate.splice(0,state.evaluate.length);
       }
     },
-    //fromPkid是否改变
-    setFromPkid(state,item){
-        state.fromPkid=item;
-    }
   }
 })

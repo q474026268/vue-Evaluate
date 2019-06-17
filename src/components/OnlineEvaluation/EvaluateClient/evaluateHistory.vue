@@ -305,7 +305,7 @@ export default {
       // 主表数据
       this.formData.evaluateTname = this.evaluateTname;
       if(mark==0){
-        this.formData.state="分发"
+        this.formData.state="开始"
       }else{
         this.formData.state="暂存"
       }
