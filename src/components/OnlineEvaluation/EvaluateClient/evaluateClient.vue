@@ -280,14 +280,17 @@ export default {
             groupName: data[i].departmentName
           });
         }
+        let arr = [];
         for (let i = 0; i < data.length; i++) {
-          this.formDataDetail_evaluate.push({
+          arr.push({
             doFullName: data[i].name,
             userNo: data[i].id,
             groupName: data[i].departmentName,
             doUserName: data[i].userName
           });
         }
+        this.$store.commit("setEvaluates",arr)
+        this.formDataDetail_evaluate=this.$store.state.evaluates
       } else {
         for (let i = 0; i < data.length; i++) {
           this.formDataDetail_group.push({
@@ -412,7 +415,7 @@ export default {
               path: "/evaluateHistory",
               query: {
                 useType: "add",
-                modelPkid:this.id
+                modelPkid: this.id
               }
             });
           }
@@ -429,8 +432,8 @@ export default {
     },
     //评价方式改变
     levelTypeChange() {
-      let data=this.formData.levelType;
-      this.$store.commit('setLeaveType',data)
+      let data = this.formData.levelType;
+      this.$store.commit("setLeaveType", data);
     }
   },
   /**
@@ -452,8 +455,8 @@ export default {
     this.formData = data.main;
     this.formDataDetail_index = data.detail;
     //在存储数据前 先清空vueX中的被评价人与评价人数据
-    this.$store.state.group=[];
-    this.$store.state.evaluate=[];
+    this.$store.state.group = [];
+    this.$store.state.evaluate = [];
   },
   mounted: function() {
     // 组件加载完成

@@ -45,6 +45,7 @@ export const store = new Vuex.Store({
     fromPkid:"",
     target:[],
     handout:{},
+    evaluates:[],
   },
   mutations: {
     setData(state, item) {
@@ -92,6 +93,7 @@ export const store = new Vuex.Store({
         state.leaveType=item
         state.group.splice(0,state.group.length);
         state.evaluate.splice(0,state.evaluate.length);
+        state.evaluates.splice(0,state.evaluates.length)
       }
     },
     //对指标进行查重
@@ -101,6 +103,10 @@ export const store = new Vuex.Store({
     //对模板表管理进行刷新
     setHandout(state,item){
       state.handout=item;
+    },
+    //评价人数据存储
+     setEvaluates(state,item){
+      state.evaluates=item;
     }
   }
 })
