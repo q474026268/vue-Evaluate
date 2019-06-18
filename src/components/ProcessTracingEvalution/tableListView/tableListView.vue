@@ -96,6 +96,7 @@ export default {
             getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
                 console.log(result.data.content);
                 this.peopleTargetArr=result.data.content;
+                this.total=result.data.totalElements
                 for (let i = 0; i < this.targetArr.length; i++) {
                     this.targetArr[i].targetInfoArr=[];
                     for (let j = 0; j < this.peopleTargetArr.length; j++) {
@@ -116,6 +117,7 @@ export default {
             getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
                 console.log(result.data.content);
                 this.peopleTargetArr=result.data.content;
+                this.total=result.data.totalElements
                 for (let i = 0; i < this.targetArr.length; i++) {
                     this.targetArr[i].targetInfoArr=[];
                     for (let j = 0; j < this.peopleTargetArr.length; j++) {
@@ -158,9 +160,10 @@ export default {
         getTargetItem(evaluateId).then((result) => {
             this.targetArr=result.data;
             console.log(this.targetArr);
-            
             getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
                 console.log(result.data.content);
+                console.log(result.data);
+                this.total=result.data.totalElements
                 this.peopleTargetArr=result.data.content;
                 for (let i = 0; i < this.targetArr.length; i++) {
                     this.targetArr[i].targetInfoArr=[];
