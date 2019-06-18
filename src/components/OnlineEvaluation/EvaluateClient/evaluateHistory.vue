@@ -4,9 +4,6 @@
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px" >
         <el-row>
           <el-col :span="8">
-            <!-- <el-form-item prop="pkid" label="编号" v-show="false">
-              <el-input v-model="formData.pkid" :disabled="true"></el-input>
-            </el-form-item>-->
           </el-col>
         </el-row>
         <el-row>
@@ -185,10 +182,7 @@ import DefaultButtons from "../../zTable/zTable.js";
 import { guid } from "@/utils/common.js";
 // 验证配置文件
 import { addDictionary } from "../HandoutHistorySearch/validate.js";
-import {
-  get,
-  getDetailList
-} from "../HandoutHistorySearch/handoutHistorySearch.js";
+import {get,getDetailList} from "../HandoutHistorySearch/handoutHistorySearch.js";
 import { time } from "@/utils/common.js";
 import { getCurrentEvaluate } from "./evaluateClient.js";
 import { save } from "./evaluateClient.js";
@@ -284,7 +278,6 @@ export default {
       for (let i = 0; i < evaluate.length; i++) {
         this.dataTable[i].doneFullArr = this.$store.state.clientView[i].doneFullArr;
       }
-
       let listChildrens = [];
       for (let i = 0; i < this.dataTable.length; i++) {
         listChildrens.push({
@@ -453,8 +446,6 @@ export default {
           }
         }
       }
-      console.log("vueX存储数据");
-      console.log(itemArr);
       this.$store.commit("setClientView", itemArr);
     }
   },

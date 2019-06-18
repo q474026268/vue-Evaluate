@@ -214,9 +214,6 @@ export default {
     // 自定义方法
     /**
      * 添加按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
      */
     addButtonClick() {
       this.$store.commit("setData", {
@@ -227,9 +224,6 @@ export default {
     },
     /**
      * 修改按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
      */
     modifyButtonClick(id, row) {
       if (row.flag == 2) {
@@ -253,9 +247,6 @@ export default {
     },
     /**
      * 浏览按钮点击事件
-     * pageUrl：页面的路由路径
-     * routerName：路由名称
-     * dialogWidth；窗口宽度
      */
     viewButtonClick(id) {
       this.$store.commit("setData", {

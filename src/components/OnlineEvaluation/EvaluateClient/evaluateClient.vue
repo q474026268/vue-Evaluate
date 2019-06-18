@@ -217,8 +217,11 @@ import { get, getCurrentEvaluate } from "./evaluateClient.js";
 import { guid } from "@/utils/common.js";
 // 验证配置文件
 import Rules from "./validate.js";
+//引用组件被评价人
 import SelectDepart from "@/components/components/selectDepart/selectDepart";
+//引用组件评价人
 import SelectUser from "@/components/components/selectUser/selectUser";
+//获取评价方式和打分方式
 import { getLevelType, getMarkType } from "../onlineEvaluation.js";
 // 主表主键字段
 const mainKey = "id";
@@ -268,6 +271,7 @@ export default {
     //获取从selectDepart中查询到的数据存放到中
     departDialogCallback(data) {
       //被评价人明细数据
+      //如果评价方式是互评就将被评价人数据赋值给评价人
       if (this.formData.levelType == "互评") {
         for (let i = 0; i < data.length; i++) {
           this.formDataDetail_group.push({
@@ -293,6 +297,7 @@ export default {
           });
         }
       }
+      //将被评价人明细数据存储到VueX中
       let group = this.formDataDetail_group;
       this.$store.commit("setGroup", group);
     },
@@ -307,10 +312,11 @@ export default {
           doUserName: data[i].userName
         });
       }
+      //将评价人明细数据存储到VueX中
       let evaluate = this.formDataDetail_evaluate;
       this.$store.commit("setEvaluate", evaluate);
     },
-    // 添加行
+    // 被评价人添加行
     addDetailRow_group() {
       if (this.formData.levelType == undefined) {
         this.$message.error("请先选择评价方式");
@@ -318,9 +324,11 @@ export default {
         this.$refs.depart.open();
       }
     },
+    //指标添加行
     addDetailRow_index() {
       this.formDataDetail_index.push({ doType: "add" });
     },
+    //评价人添加行
     addDetailRow_evaluate() {
       if (this.formData.levelType == undefined) {
         this.$message.error("请先选择评价方式");
@@ -330,7 +338,7 @@ export default {
         this.$refs.user.open();
       }
     },
-    // 删除行
+    // 被评价人删除行
     handleDelete_group(index, row) {
       if (this.formData.levelType == "互评") {
         this.formDataDetail_group.splice(index, 1);
@@ -350,12 +358,14 @@ export default {
       let group = this.formDataDetail_group;
       this.$store.commit("setGroup", group);
     },
+    //指标删除行
     handleDelete_index(index, row) {
       this.formDataDetail_index.splice(index, 1);
       this.deleteDetailData_index.push(
         Object.assign(row, { doType: "delete" })
       );
     },
+    //评价人删除行
     handleDelete_evaluate(index, row) {
       this.formDataDetail_evaluate.splice(index, 1);
       this.deleteDetailData_evaluate.push(

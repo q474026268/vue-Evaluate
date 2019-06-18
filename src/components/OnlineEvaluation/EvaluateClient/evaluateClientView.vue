@@ -97,6 +97,7 @@ import ZTable from "@/components/zTable";
 // 请求后端接口的方法
 import { save, get } from "./evaluateClient.js";
 import { formatDate } from "@/utils/common.js";
+//查询等级
 import { getSelect } from "../onlineEvaluation.js";
 // 主表主键字段
 const mainKey = "id";
@@ -168,7 +169,6 @@ export default {
     //保存数据
     saveData() {
       let arr=JSON.parse(JSON.stringify(this.$store.state.clientView));
-      console.log(arr);
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {  
           for(let i=1;i<this.tableColumn.length;i++){
@@ -208,10 +208,7 @@ export default {
     this.type = this.$route.query.useType;
     const data = this.$store.state.history;
     this.userNo = data.userNo;
-    console.log(this.userNo);
     let datas = this.$store.state.clientView;
-    console.log("获取VueX数据");
-    console.log(this.$store.state.clientView);
     //格式化表单显示日期
     this.formData.inputDate = formatDate(data.formData.inputDate);
     if (Object.is(this.type, "modify")) {
@@ -254,6 +251,7 @@ export default {
   },
   mounted: function() {
     // 组件加载完成
+    //获取查询等级
     getSelect().then(res => {
       if (res.status == 200) {
         this.selectOptions = res.data;

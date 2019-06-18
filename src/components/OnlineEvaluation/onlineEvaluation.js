@@ -117,7 +117,7 @@ export function getMarkType() {
 }
 
 
-// 查询登记
+// 查询等级
 const selectOptions = [
     {
         value: 'A',

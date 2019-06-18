@@ -12,7 +12,7 @@ export function getList(currentPage,pageSize,orders,filters){
         method: 'POST'
     })
 }
-
+//保存数据
 export function save(data){
     return request({
         url: '/evaluateTable/saveEvaluateTable',
@@ -26,7 +26,7 @@ export function save(data){
         }
     })
 }
-
+//根据id查询数据
 export function get(id){
     return request({
         url: '/evaluateModel/getEvaluateModelByPkid',
@@ -36,7 +36,7 @@ export function get(id){
         method: 'POST'
     })
 }
-
+//根据id删除数据
 export function deleted(id){
     return request({
         url: '/evaluateClient/deleteEvaluateClient',

@@ -223,6 +223,7 @@ export default {
         }
       });
     },
+    //根据id获取数据
     async getData() {
       await get(this.id).then(res => {
         if (res.status == 200) {
