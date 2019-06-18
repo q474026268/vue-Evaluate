@@ -95,7 +95,6 @@ export default {
         // 暂存
         temporaryStorage(){
             this.bigData.fillHtml=JSON.stringify(this.tableArr);
-            
             saveConsignFillContent(this.bigData).then((result) => {
                 if (result.status==200) {
                     this.$router.back();
@@ -118,7 +117,7 @@ export default {
                 this.tableArr[i].doneUserNo='';
             }
             console.log(this.tableArr);
-            
+
             saveFillContent(this.tableArr).then((result) => {
                 if (result.status==200) {
                     this.$router.back();

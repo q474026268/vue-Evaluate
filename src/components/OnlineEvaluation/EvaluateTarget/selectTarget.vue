@@ -184,10 +184,6 @@ export default {
         }
         //得到的指标名称和评价标准复制和主表数据
         this.tableData = targetDataArr;
-        let evaluStand = [];
-        for (let i = 0; i < targetDataArr.length; i++) {
-          evaluStand.push(targetDataArr[i].evaluStand);
-        }
       });
     },
     // 行选中事件
@@ -196,17 +192,8 @@ export default {
       rows.forEach(({ pkid, targetName, evaluStand }) => {
         this.selectedDatas.push({ pkid, targetName, evaluStand });
       });
-      console.log(this.selectedDatas);
-      for (let i = 0; i < this.selectedDatas.length; i++) {
-        this.selectedDatas[i].evaluStands = "";
-        for (let j = 0; j < this.selectedDatas[i].evaluStand.length; j++) {
-          if(i==j){
-            this.selectedDatas[i].evaluStands += this.selectedDatas[i].evaluStand;
-          }
-        }
-      }
       for(let i=0;i<this.selectedDatas.length;i++){
-        this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStands;
+        this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStand.join(" ")
       }
     },
     // 选择 条/页
