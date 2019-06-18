@@ -311,7 +311,8 @@ export default {
             message: "保存成功",
             type: "success"
           });
-           this.close();
+          this.$store.state.handout.callback()
+          this.close();
         }
       });
      

@@ -124,6 +124,9 @@ export default {
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: () => {
+              this.$store.commit("setHandout", {
+                callback: this.dialogCallback
+              });
               getRunningPlan().then(res => {
                 if (res.data == 0) {
                   this.$message.error("暂无评价计划");

@@ -43,7 +43,8 @@ export const store = new Vuex.Store({
     evaluate:[],
     leaveType:"",
     fromPkid:"",
-    target:[]
+    target:[],
+    handout:{},
   },
   mutations: {
     setData(state, item) {
@@ -96,6 +97,10 @@ export const store = new Vuex.Store({
     //对指标进行查重
     setTarget(state,item){
       state.target=item
+    },
+    //对模板表管理进行刷新
+    setHandout(state,item){
+      state.handout=item;
     }
   }
 })

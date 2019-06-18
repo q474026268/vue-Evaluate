@@ -268,7 +268,7 @@ export default {
     close() {
       this.$router.push("/");
     },
-    //获取从selectDepart中查询到的数据存放到中
+    //获取从selectDepart中查询到的数据存放
     departDialogCallback(data) {
       //被评价人明细数据
       //如果评价方式是互评就将被评价人数据赋值给评价人
