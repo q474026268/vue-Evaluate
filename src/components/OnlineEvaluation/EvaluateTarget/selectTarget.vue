@@ -135,13 +135,42 @@ export default {
         for (let i = 0; i < targetDataArr.length; i++) {
           evaluStand.push(targetDataArr[i].evaluStand);
         }
-        console.log(this.tableData);
       })
     },
     // 确定
     determine() {
-      this.callback(this.selectedDatas);
-      this.close();
+      if (this.$store.state.target.length == 0) {
+        this.callback(this.selectedDatas);
+        this.close();
+      } else {
+        //存储指标名称相同
+        let messageName = [];
+        //存储指标名称不相同的
+        let message = [];
+        for (let i = 0; i < this.selectedDatas.length; i++) {
+          let isHave = false;
+          for (let j = 0; j < this.$store.state.target.length; j++) {
+            if (this.$store.state.target[j].targetName == this.selectedDatas[i].targetName) {
+              messageName.push(this.selectedDatas[i].targetName + " ");
+              isHave = true;
+              break;
+            }
+          }
+          if (!isHave) {
+            if (messageName.length > 0) {
+              this.$message.error("指标:"+messageName + "已经存在");
+            } else {
+              message.push(this.selectedDatas[i]);
+              if (i == this.selectedDatas.length - 1) {
+                this.callback(message);
+                this.close();
+              }
+            }
+          } else {
+            this.$message.error("指标:"+messageName + "已经存在");
+          }
+        }
+      }
     },
     // 获取数据
     getData() {

@@ -220,6 +220,8 @@ export default {
         if (res.status == 200) {
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
+          let target = this.formDataDetail;
+          this.$store.commit("setTarget", target);
         }
       });
     },
@@ -230,6 +232,9 @@ export default {
     // 删除行
     handleDelete(index, row) {
       this.formDataDetail.splice(index, 1);
+      console.log(this.formDataDetail);
+      let target = this.formDataDetail;
+      this.$store.commit("setTarget", target);
       if (Object.is(row.doType, "add")) {
         return;
       }
@@ -245,6 +250,8 @@ export default {
           doType: "add"
         });
       });
+      let target = this.formDataDetail;
+      this.$store.commit("setTarget", target);
     }
   },
   /**
@@ -260,6 +267,7 @@ export default {
     // 组件创建后
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
+    this.$store.state.target = [];
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

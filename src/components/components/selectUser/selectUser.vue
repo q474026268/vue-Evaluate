@@ -161,8 +161,10 @@ export default {
               this.$message.error(messageName + "已经存在");
             } else {
               message.push(this.selectedDatas[i]);
-              this.callback(message);
-              this.close();
+              if (i == this.selectedDatas.length - 1) {
+                this.callback(message);
+                this.close();
+              }
             }
           } else {
             this.$message.error(messageName + "已经存在");

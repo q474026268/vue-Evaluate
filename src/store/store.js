@@ -43,6 +43,7 @@ export const store = new Vuex.Store({
     evaluate:[],
     leaveType:"",
     fromPkid:"",
+    target:[]
   },
   mutations: {
     setData(state, item) {
@@ -75,12 +76,10 @@ export const store = new Vuex.Store({
     //被评价人是否相同
     setGroup(state, item){
       state.group=item;
-      console.log(state.group);
     },
     //评价人是否相同
     setEvaluate(state, item){
       state.evaluate=item;
-      console.log(state.evaluate);
     },
     //被评价人是否相同
     clearGroup(state,item){
@@ -94,5 +93,9 @@ export const store = new Vuex.Store({
         state.evaluate.splice(0,state.evaluate.length);
       }
     },
+    //对指标进行查重
+    setTarget(state,item){
+      state.target=item
+    }
   }
 })
