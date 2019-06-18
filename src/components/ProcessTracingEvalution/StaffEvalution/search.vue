@@ -34,9 +34,10 @@
               clearable
             ></el-input>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
             <el-date-picker
               size="small"
+              style="width:100%"
               v-model="searchData.dateFrame"
               type="daterange"
               range-separator="至"
@@ -52,7 +53,7 @@
               clearable
             ></el-input>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-button
             type="primary"
             @click="searching"

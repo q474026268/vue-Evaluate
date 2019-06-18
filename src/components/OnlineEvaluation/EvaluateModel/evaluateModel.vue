@@ -79,7 +79,7 @@
 </template>
 <script>
 import "@/style/masterSlave.css";
-import { save, get } from "./evaluateModel.js";
+import { save, get, getRunningPlan } from "./evaluateModel.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
 import { formatDate } from "@/utils/common.js";
@@ -137,7 +137,7 @@ export default {
         valid2 = valid;
       });
       this.formData.inputerUserNo = this.$store.state.userInfo.id;
-      this.formData.inputFullName= this.$store.state.userInfo.name;
+      this.formData.inputFullName = this.$store.state.userInfo.name;
       this.formData.groupId = this.$store.state.userInfo.departmentId;
       this.formData.groupName = this.$store.state.userInfo.departmentName;
       this.formData.inputDate = formatDate(new Date());
@@ -151,33 +151,67 @@ export default {
       if (valid1 && valid2 && this.beforeSubmit()) {
         let data = Object.assign({}, this.formData);
         data["childrens"] = Array.from(newFormDataDetail);
-        console.log(data);
-        save(data).then(res => {
-          if (res.status == 200) {
-            let callback = this.$store.state.data.callback;
-            if (callback) {
-              callback({ type: this.type, data: res.data });
+        if (mark == 0) {
+          save(data).then(res => {
+            if (res.status == 200) {
+              let callback = this.$store.state.data.callback;
+              if (callback) {
+                callback({ type: this.type, data: res.data });
+              }
+              if (mark == 0) {
+                this.$message({
+                  message: "保存成功",
+                  type: "success"
+                });
+                this.close();
+              } else {
+                // 保存并使用
+                this.$store.commit("setData", {
+                  data: res.data
+                });
+                this.$router.push({
+                  name: "evaluateClient",
+                  query: {
+                    useType: "add"
+                  }
+                });
+              }
             }
-            if (mark == 0) {
-              this.$message({
-                message: "保存成功",
-                type: "success"
-              });
-              this.close();
+          });
+        } else {
+          getRunningPlan().then(res => {
+            if (res.data == 0) {
+              this.$message.error("暂无评价计划");
             } else {
-              // 保存并使用
-              this.$store.commit("setData", {
-                data: res.data
-              });
-              this.$router.push({
-                name: "evaluateClient",
-                query: {
-                  useType: "add"
+              save(data).then(res => {
+                if (res.status == 200) {
+                  let callback = this.$store.state.data.callback;
+                  if (callback) {
+                    callback({ type: this.type, data: res.data });
+                  }
+                  if (mark == 0) {
+                    this.$message({
+                      message: "保存成功",
+                      type: "success"
+                    });
+                    this.close();
+                  } else {
+                    // 保存并使用
+                    this.$store.commit("setData", {
+                      data: res.data
+                    });
+                    this.$router.push({
+                      name: "evaluateClient",
+                      query: {
+                        useType: "add"
+                      }
+                    });
+                  }
                 }
               });
             }
-          }
-        });
+          });
+        }
       }
     },
     //根据id获取数据
