@@ -146,7 +146,7 @@ export default {
     beforeSubmit() {
       return true;
     },
-    //根据按钮状态保存数据( 保存,暂存)
+    //保存
     saveData(formName, btnType) {
       getRunningEP().then((result) => {
         if(result.data){
@@ -189,8 +189,8 @@ export default {
         }
       })
     },
-    //根据按钮状态保存数据( 保存,暂存)
-    saveData(formName, btnType) {
+    //暂存
+    zcData(formName, btnType) {
       if (this.formData.endDate<this.formData.startDate) {
         this.$message.error('完成时间不能小于开始时间');
         this.formData.endDate='';

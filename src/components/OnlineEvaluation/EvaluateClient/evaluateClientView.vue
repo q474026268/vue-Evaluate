@@ -167,11 +167,14 @@ export default {
     },
     //保存数据
     saveData() {
+      let arr=JSON.parse(JSON.stringify(this.$store.state.clientView));
+      console.log(arr);
       this.$validator.validateAll().then(valid => {
         if (valid && this.beforeSubmit()) {  
-          for(let i=0;i<this.$store.state.clientView.length;i++){
-            this.tableColumn[i+1].doUserNo=this.$store.state.clientView[i].userNo;
+          for(let i=1;i<this.tableColumn.length;i++){
+            this.tableColumn[i].doUserNo=arr[0].doneFullArr[i-1].doUserNo;
           }
+          console.log(this.tableColumn);
           let datas = {
             tableColumn: this.tableColumn,
             userNo: this.userNo
@@ -188,7 +191,7 @@ export default {
           this.cancel();
         }
       });
-    }
+     }
   },
   /**
    * 计算属性（自定义方法）
@@ -205,7 +208,10 @@ export default {
     this.type = this.$route.query.useType;
     const data = this.$store.state.history;
     this.userNo = data.userNo;
+    console.log(this.userNo);
     let datas = this.$store.state.clientView;
+    console.log("获取VueX数据");
+    console.log(this.$store.state.clientView);
     //格式化表单显示日期
     this.formData.inputDate = formatDate(data.formData.inputDate);
     if (Object.is(this.type, "modify")) {
@@ -244,6 +250,7 @@ export default {
         }
       }
     }
+    console.log(this.$store.state.clientView);
   },
   mounted: function() {
     // 组件加载完成

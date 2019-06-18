@@ -49,7 +49,7 @@
           height="400"
           @row-click="openDetails"
         >
-          <el-table-column prop="pkid" label="pkid" align="center" ></el-table-column>
+          <el-table-column prop="pkid" label="pkid" align="center" v-if="false"></el-table-column>
           <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
           <el-table-column prop="description" label="典型行为" align="center"></el-table-column>
         </el-table>

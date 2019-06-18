@@ -453,6 +453,8 @@ export default {
           }
         }
       }
+      console.log("vueX存储数据");
+      console.log(itemArr);
       this.$store.commit("setClientView", itemArr);
     }
   },

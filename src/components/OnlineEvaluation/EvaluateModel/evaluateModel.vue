@@ -101,7 +101,7 @@ export default {
       type: "",
       // 表单数据
       formData: {
-        evaluKind: "员工达优测评表",
+        evaluKind: "员工达优测评",
         flag: "0"
       },
       // 明细数据
