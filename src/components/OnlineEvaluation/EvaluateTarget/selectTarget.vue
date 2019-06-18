@@ -53,7 +53,10 @@
   </el-dialog>
 </template>
 <script>
-import { getEvaluateTargetByEvaluKind,getTargetIndexListB } from "./evaluateTarget.js";
+import {
+  getEvaluateTargetByEvaluKind,
+  getTargetIndexListB
+} from "./evaluateTarget.js";
 export default {
   name: "selectTarget",
   props: ["callback"],
@@ -101,7 +104,7 @@ export default {
             targetName: res.data[i].TargetName,
             Description: res.data[i].Description,
             EvaluStand: res.data[i].EvaluStand,
-            pkid:res.data[i].PKID
+            pkid: res.data[i].PKID
           });
         }
         //将重复的指标名称进行查重去除
@@ -120,7 +123,11 @@ export default {
         //根据指标名称添加评价标准
         let targetDataArr = [];
         for (let i = 0; i < hashs.length; i++) {
-          targetDataArr.push({ targetName: hashs[i], evaluStand:[],pkid:pkid[i]});
+          targetDataArr.push({
+            targetName: hashs[i],
+            evaluStand: [],
+            pkid: pkid[i]
+          });
           for (let j = 0; j < hash.length; j++) {
             if (hash[j].targetName == targetDataArr[i].targetName) {
               targetDataArr[i].evaluStand.push(
@@ -135,7 +142,7 @@ export default {
         for (let i = 0; i < targetDataArr.length; i++) {
           evaluStand.push(targetDataArr[i].evaluStand);
         }
-      })
+      });
     },
     // 确定
     determine() {
@@ -150,15 +157,20 @@ export default {
         for (let i = 0; i < this.selectedDatas.length; i++) {
           let isHave = false;
           for (let j = 0; j < this.$store.state.target.length; j++) {
-            if (this.$store.state.target[j].targetName == this.selectedDatas[i].targetName) {
+            if (
+              this.$store.state.target[j].targetName ==
+              this.selectedDatas[i].targetName
+            ) {
               messageName.push(this.selectedDatas[i].targetName + " ");
-              isHave = true;
-              break;
+              if (j == this.$store.state.target.length - 1) {
+                isHave = true;
+                break;
+              }
             }
           }
           if (!isHave) {
             if (messageName.length > 0) {
-              this.$message.error("指标:"+messageName + "已经存在");
+              this.$message.error("指标:" + messageName + "已经存在");
             } else {
               message.push(this.selectedDatas[i]);
               if (i == this.selectedDatas.length - 1) {
@@ -167,7 +179,7 @@ export default {
               }
             }
           } else {
-            this.$message.error("指标:"+messageName + "已经存在");
+            this.$message.error("指标:" + messageName + "已经存在");
           }
         }
       }
@@ -183,7 +195,7 @@ export default {
             targetName: res.data[i].TargetName,
             Description: res.data[i].Description,
             EvaluStand: res.data[i].EvaluStand,
-            pkid:res.data[i].PKID
+            pkid: res.data[i].PKID
           });
         }
         //将重复的指标名称进行查重去除
@@ -202,7 +214,11 @@ export default {
         //根据指标名称添加评价标准
         let targetDataArr = [];
         for (let i = 0; i < hashs.length; i++) {
-          targetDataArr.push({ targetName: hashs[i], evaluStand:[],pkid:pkid[i]});
+          targetDataArr.push({
+            targetName: hashs[i],
+            evaluStand: [],
+            pkid: pkid[i]
+          });
           for (let j = 0; j < hash.length; j++) {
             if (hash[j].targetName == targetDataArr[i].targetName) {
               targetDataArr[i].evaluStand.push(
@@ -221,8 +237,10 @@ export default {
       rows.forEach(({ pkid, targetName, evaluStand }) => {
         this.selectedDatas.push({ pkid, targetName, evaluStand });
       });
-      for(let i=0;i<this.selectedDatas.length;i++){
-        this.selectedDatas[i].evaluStand=this.selectedDatas[i].evaluStand.join(" ")
+      for (let i = 0; i < this.selectedDatas.length; i++) {
+        this.selectedDatas[i].evaluStand = this.selectedDatas[
+          i
+        ].evaluStand.join(" ");
       }
     },
     // 选择 条/页

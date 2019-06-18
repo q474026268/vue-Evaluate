@@ -153,6 +153,7 @@
                 icon="el-icon-plus"
                 size="mini"
                 title="添加行"
+                :disabled="!showOperation()"
               ></el-button>
             </div>
           </div>

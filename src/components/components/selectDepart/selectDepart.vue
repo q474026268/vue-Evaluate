@@ -150,10 +150,14 @@ export default {
         for (let i = 0; i < this.selectedDatas.length; i++) {
           let isHave = false;
           for (let j = 0; j < this.$store.state.group.length; j++) {
-            if (this.$store.state.group[j].doneUserNo == this.selectedDatas[i].id ) {
+            if (
+              this.$store.state.group[j].doneUserNo == this.selectedDatas[i].id
+            ) {
               messageName.push(this.selectedDatas[i].name + " ");
-              isHave = true;
-              break;
+              if (j == this.$store.state.group.lengtht - 1) {
+                isHave = true;
+                break;
+              }
             }
           }
           if (!isHave) {

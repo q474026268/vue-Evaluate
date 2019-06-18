@@ -116,7 +116,7 @@ export default {
           text: "部门",
           align: "center",
           width: 100
-        },
+        }
       ],
       // 选中的值
       selectedDatas: [],
@@ -137,7 +137,7 @@ export default {
     },
     // 确定
     determine() {
-       if (this.$store.state.evaluate.length == 0) {
+      if (this.$store.state.evaluate.length == 0) {
         this.callback(this.selectedDatas);
         this.close();
       } else {
@@ -152,8 +152,10 @@ export default {
               this.$store.state.evaluate[j].userNo == this.selectedDatas[i].id
             ) {
               messageName.push(this.selectedDatas[i].name + " ");
-              isHave = true;
-              break;
+              if (j == this.$store.state.evaluate.length - 1) {
+                isHave = true;
+                break;
+              }
             }
           }
           if (!isHave) {
