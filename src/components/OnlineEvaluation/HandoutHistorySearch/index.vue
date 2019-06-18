@@ -60,7 +60,7 @@ export default {
           id: "planName",
           text: "评价名称",
           align: "center",
-          width: 80,
+          width: 120,
           sortable: true
         },
         {
@@ -88,7 +88,7 @@ export default {
           id: "inputDate",
           text: "制表时间",
           align: "center",
-          width: 80,
+          width: 120,
           sortable: true,
           formatter: function(row, column) {
             return formatDate(row.inputDate);
@@ -98,7 +98,7 @@ export default {
           id: "inputerFullName",
           text: "制表人",
           align: "center",
-          width: 60,
+          width: 80,
           sortable: true
         },
         {
