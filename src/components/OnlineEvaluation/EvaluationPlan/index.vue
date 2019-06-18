@@ -12,7 +12,7 @@
 <script>
 import ZTable from "../../zTable";
 import SearchPage from "./search";
-import { getList, deleted, complete } from "./evaluationPlan.js";
+import { getList, deleted, complete, getRunningET } from "./evaluationPlan.js";
 import { formatDate } from "@/utils/common.js";
 import { planStates } from "../onlineEvaluation.js";
 
@@ -53,7 +53,7 @@ export default {
           id: "evaluKind",
           text: "评价类别",
           align: "center",
-          sortable: true,
+          sortable: true
         },
         {
           id: "evaluPlan",
@@ -119,9 +119,53 @@ export default {
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             icon: "el-icon-success",
             click: () => {
-              complete(this.selectedPkid).then(res => {
+              if (this.selectedPkid == undefined || this.selectedPkid == "") {
+                this.$message({
+                  message: "请先选择要完成的计划",
+                  type: "warning"
+                });
+                return false;
+              }
+              if (this.flag == 3) {
+                this.$message({
+                  message: "计划已经完成",
+                  type: "warning"
+                });
+                return;
+              }
+              getRunningET(this.selectedPkid).then(res => {
                 if (res.status == 200) {
-                  this.$refs.table.refresh();
+                  if (res.data == true) {
+                    this.$message({
+                      message:
+                        "该计划还有测评表正在进行，请等待全部测评表结束后完成计划",
+                      type: "warning"
+                    });
+                  } else {
+                    this.$confirm("确定完成计划吗？")
+                      .then(res => {
+                        complete(this.selectedPkid).then(res => {
+                          if (res.status == 200) {
+                            this.$message({
+                              message: "完成计划成功",
+                              type: "success"
+                            });
+                            this.$refs.table.refresh();
+                          } else {
+                            this.$message({
+                              message: "完成计划失败",
+                              type: "warning"
+                            });
+                          }
+                        });
+                      })
+                      .catch(err => {});
+                  }
+                } else {
+                  this.$message({
+                    message: "完成计划失败",
+                    type: "warning"
+                  });
                 }
               });
             }
@@ -136,7 +180,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key],row);
+                this.modifyButtonClick(row[key], row);
               }
             },
             {
@@ -160,11 +204,14 @@ export default {
           dropdown: []
         }
       },
-      selectedPkid: ""
+      //查询的记录的pkid
+      selectedPkid: "",
+      //查询选中记录的状态
+      flag: ""
     };
   },
   methods: {
-     // 自定义方法
+    // 自定义方法
     /**
      * 添加按钮点击事件
      * pageUrl：页面的路由路径
@@ -184,18 +231,18 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id,row) {
-      if (row.flag==2) {
+    modifyButtonClick(id, row) {
+      if (row.flag == 2) {
         this.$message({
-          message: '计划已经执行，不可修改',
-          type: 'warning'
+          message: "计划已经执行，不可修改",
+          type: "warning"
         });
-      }else if(row.flag==3){
-         this.$message({
-          message: '计划已经完成，不可修改',
-          type: 'warning'
+      } else if (row.flag == 3) {
+        this.$message({
+          message: "计划已经完成，不可修改",
+          type: "warning"
         });
-      }else{
+      } else {
         this.$store.commit("setData", {
           id,
           useType: "modify",
@@ -220,7 +267,7 @@ export default {
     },
     // 删除按钮点击事件
     deleteButtonClick(id, flag) {
-      if (flag == 0||flag==1) {
+      if (flag == 0 || flag == 1) {
         this.$confirm("确定删除？")
           .then(res => {
             deleted(id).then(res => {
@@ -234,12 +281,12 @@ export default {
             });
           })
           .catch(err => {});
-      } else if(flag==2){
-         this.$message({
+      } else if (flag == 2) {
+        this.$message({
           message: "计划已经执行，不能删除计划",
           type: "warning"
         });
-      } else if(flag==3){
+      } else if (flag == 3) {
         this.$message({
           message: "计划已经完成，不能删除计划",
           type: "warning"
@@ -256,6 +303,7 @@ export default {
      */
     rowSelected(currentRow, oldCurrentRow) {
       this.selectedPkid = currentRow[key];
+      this.flag = currentRow.flag;
     },
     /**
      * 行选中事件:多选时触发

@@ -198,6 +198,7 @@ export default {
     },
     // 分发
     handout() {
+      //保存开始计划
       saveStartPlan(this.id).then(res => {
         if (res.status == 200) {
           this.$message({

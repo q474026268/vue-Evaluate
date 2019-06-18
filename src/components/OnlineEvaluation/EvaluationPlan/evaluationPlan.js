@@ -50,6 +50,16 @@ export function deleted(pkid) {
         method: 'POST'
     })
 }
+//查询该计划是否还有测评表正在进行中
+export function getRunningET(pkid) {
+    return request({
+        url: '/evaluatePlan/getRunningET',
+        data: {
+            pkid
+        },
+        method: 'POST'
+    })
+}
 // 完成计划
 export function complete(pkid) {
     return request({

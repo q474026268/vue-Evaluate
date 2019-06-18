@@ -288,13 +288,14 @@ export default {
           type: "warning"
         });
       } else {
-        if (id == undefined || this.targetPkid==undefined) {
+        if (id == undefined || this.targetPkid == undefined) {
           this.$message({
             message: "未选择评分标准",
             type: "warning"
           });
         } else {
-          this.$confirm("确定删除？").then(res => {
+          this.$confirm("确定删除？")
+            .then(res => {
               deletedRight(id).then(res => {
                 if (res.status == 200) {
                   this.$message({
@@ -307,6 +308,7 @@ export default {
                       break;
                     }
                   }
+                  this.targetPkid = undefined;
                 }
               });
             })
@@ -322,7 +324,7 @@ export default {
           type: "warning"
         });
       } else {
-        if (id == undefined || this.targetPkid==undefined) {
+        if (id == undefined || this.targetPkid == undefined) {
           this.$message({
             message: "未选择评分标准",
             type: "warning"
@@ -340,6 +342,7 @@ export default {
           this.$store.commit("setData", {
             callback: this.rightListLoad
           });
+          this.targetPkid = undefined;
         }
       }
     },
@@ -394,7 +397,7 @@ export default {
       this.formPkid = currentRow.pkid;
       //获取指标明细表
       findTargetDetail(currentRow.pkid).then(res => {
-        this.targetPkid=undefined;
+        this.targetPkid = undefined;
         let arr = [];
         for (let i = 0; i < res.data.length; i++) {
           arr.push({
