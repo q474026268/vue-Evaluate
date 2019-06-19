@@ -1,10 +1,15 @@
 <template>
   <div id="firstPage">
-    <el-dialog title="在线评价-年终员工达优测评" :visible="true" @close="close" :width="dialogWidth" :close-on-click-modal="false">
-      <el-form ref="form" :model="formData" :rules="formRules" label-width="100px" >
+    <el-dialog
+      title="在线评价-年终员工达优测评"
+      :visible="true"
+      @close="close"
+      :width="dialogWidth"
+      :close-on-click-modal="false"
+    >
+      <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
         <el-row>
-          <el-col :span="8">
-          </el-col>
+          <el-col :span="8"></el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
@@ -167,7 +172,7 @@
         </el-table-column>
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
-        <el-button @click="handout(0)" type="primary">分发</el-button>
+        <el-button @click="handout(0)" type="primary" v-loading="loading">分发</el-button>
         <el-button @click="handout(1)" type="primary">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
@@ -182,7 +187,10 @@ import DefaultButtons from "../../zTable/zTable.js";
 import { guid } from "@/utils/common.js";
 // 验证配置文件
 import { addDictionary } from "../HandoutHistorySearch/validate.js";
-import {get,getDetailList} from "../HandoutHistorySearch/handoutHistorySearch.js";
+import {
+  get,
+  getDetailList
+} from "../HandoutHistorySearch/handoutHistorySearch.js";
 import { time } from "@/utils/common.js";
 import { getCurrentEvaluate } from "./evaluateClient.js";
 import { save } from "./evaluateClient.js";
@@ -240,7 +248,13 @@ export default {
     },
     //调整
     update(row, number) {
-      this.formData.evaluateTname=this.evaluateTname
+      this.formData.evaluateTname = this.evaluateTname;
+      const loading = this.$loading({
+              lock: true,
+              text: "数据加载中,请稍等",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
@@ -252,6 +266,7 @@ export default {
         userNo: row.userNo,
         number: number
       });
+      loading.close();
       this.$router.push({
         name: "evaluateClientView",
         query: {
@@ -276,7 +291,9 @@ export default {
       // 评价人与被评价人数据
       let evaluate = this.$store.state.data.evaluate;
       for (let i = 0; i < evaluate.length; i++) {
-        this.dataTable[i].doneFullArr = this.$store.state.clientView[i].doneFullArr;
+        this.dataTable[i].doneFullArr = this.$store.state.clientView[
+          i
+        ].doneFullArr;
       }
       let listChildrens = [];
       for (let i = 0; i < this.dataTable.length; i++) {
@@ -297,26 +314,32 @@ export default {
       }
       // 主表数据
       this.formData.evaluateTname = this.evaluateTname;
-      if(mark==0){
-        this.formData.state="开始"
-      }else{
-        this.formData.state="暂存"
+      if (mark == 0) {
+        this.formData.state = "开始";
+      } else {
+        this.formData.state = "暂存";
       }
       let data = this.formData;
       data["headChildrens"] = Array.from(headChildrens);
       data["listChildrens"] = Array.from(listChildrens);
+      const loading = this.$loading({
+        lock: true,
+        text: "保存数据中,请稍等",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
       save(data).then(res => {
         if (res.status == 200) {
+          loading.close();
           this.$message({
             message: "保存成功",
             type: "success"
           });
-          this.$store.state.handout.callback()
+          this.$store.state.handout.callback();
           this.close();
         }
       });
-     
-    },
+    }
   },
   /**
    * 计算属性（自定义方法）
@@ -334,7 +357,7 @@ export default {
       //将数据从VueX(前面存入)中取出
       let datas = this.$store.state.history;
       this.formData = datas.formData;
-      this.evaluateTname=this.formData.evaluateTname
+      this.evaluateTname = this.formData.evaluateTname;
       // //格式化显示日期
       this.formData.inputDate = time(this.formData.inputDate);
       this.dataTable = datas.dataTable;
@@ -354,9 +377,9 @@ export default {
         //计划pKid
         this.formData.planPkid = this.planPkid;
         //模板pKid
-        this.formData.modelPkid=this.$route.query.modelPkid;
+        this.formData.modelPkid = this.$route.query.modelPkid;
         //模板名称
-        this.formData.planName=this.evaluateTname;
+        this.formData.planName = this.evaluateTname;
         //预警提前期
         this.formData.emailDay = this.emailDay;
         //计划名称
@@ -395,7 +418,7 @@ export default {
       //主表部门名称
       this.formData.groupName = this.$store.state.userInfo.departmentName;
       //主表填写人名称
-      this.formData.inputerFullName=this.$store.state.userInfo.name;
+      this.formData.inputerFullName = this.$store.state.userInfo.name;
       //主表是否在过程跟踪中调整
       this.formData.eidtFlag = "是";
       //主表完整的填表人数

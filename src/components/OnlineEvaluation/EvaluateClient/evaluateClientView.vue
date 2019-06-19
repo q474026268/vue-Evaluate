@@ -174,7 +174,6 @@ export default {
           for(let i=1;i<this.tableColumn.length;i++){
             this.tableColumn[i].doUserNo=arr[0].doneFullArr[i-1].doUserNo;
           }
-          console.log(this.tableColumn);
           let datas = {
             tableColumn: this.tableColumn,
             userNo: this.userNo
@@ -183,7 +182,14 @@ export default {
             datas.tableColumn[i].id="";
           }
           datas.tableColumn.shift();
+          const loading = this.$loading({
+              lock: true,
+              text: "保存数据中,请稍等",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
           this.$store.commit("setOne", datas);
+          loading.close();
           this.$message({
             message: "保存成功",
             type: "success"

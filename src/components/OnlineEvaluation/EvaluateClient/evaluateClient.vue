@@ -115,7 +115,7 @@
                 <label>{{ scope.row.groupName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作" min-width="40">
+            <el-table-column align="center" label="操作" min-width="30">
               <template slot-scope="scope">
                 <el-button
                   :disabled="Object.is(type,'view')"
@@ -289,8 +289,8 @@ export default {
             doUserName: data[i].userName
           });
         }
-        this.$store.commit("setEvaluates",arr)
-        this.formDataDetail_evaluate=this.$store.state.evaluates
+        this.$store.commit("setEvaluates", arr);
+        this.formDataDetail_evaluate = this.$store.state.evaluates;
       } else {
         for (let i = 0; i < data.length; i++) {
           this.formDataDetail_group.push({
@@ -405,12 +405,19 @@ export default {
               this.formData.targetName = targetName.join(",");
               this.formData.targetPkid = targetPkid.join(",");
             }
+            const loading = this.$loading({
+              lock: true,
+              text: "数据加载中,请稍等",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
             this.$store.commit("setData", {
               formData: this.formData,
               group,
               index,
               evaluate
             });
+            loading.close();
             this.$router.push({
               path: "/evaluateHistory",
               query: {
