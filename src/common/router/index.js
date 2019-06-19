@@ -44,6 +44,7 @@ export const constantRouterMap = [
       {path: '/statisticsInquire/statisticalPreprocessingList', component: () => import('../../components/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingList',children: [
         { path: '/statisticsInquire/statisticalPreprocessingView', component: () => import('../../components/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingView' },
         { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../components/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
+        { path: '/statisticsInquire/statisticalClientView', component: () => import('../../components/statisticsInquire/sendStatisticsTask/statisticalClientView.vue'), name: 'statisticalClientView' },
       ]
     },
       {path: '/employeeEvaluation', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluation' },

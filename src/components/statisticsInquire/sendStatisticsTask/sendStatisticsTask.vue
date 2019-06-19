@@ -1,7 +1,7 @@
 <template>
     <div id="customerSatisfactionView">
         <el-dialog :title="title"
-        width="50%" 
+        width="70%" 
         :visible.sync="dialogFormVisible"
         :before-close="handleClose" :close-on-click-modal="false">
             <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
@@ -55,7 +55,6 @@ export default {
                     break;
                 }
             }
-            console.log(saveData);
             if(saveData.evaluateId==''){
                 this.$message({
                     message: '请选择评价表！',

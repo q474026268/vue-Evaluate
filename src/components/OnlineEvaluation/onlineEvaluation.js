@@ -107,8 +107,8 @@ export function getLevelType() {
 // 打分方式
 const markTypeOptions = [
     {
-        value: '等级互评',
-        label: '等级互评'
+        value: '等级评价',
+        label: '等级评价'
     }
 ]
 

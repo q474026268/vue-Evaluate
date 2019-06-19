@@ -7,7 +7,7 @@
       :width="dialogWidth"
       :close-on-click-modal="false"
     >
-      <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
+      <el-form ref="formData" :model="formData" label-width="100px" :rules="formRules">
         <el-row>
           <el-col :span="8"></el-col>
         </el-row>
@@ -172,8 +172,8 @@
         </el-table-column>
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
-        <el-button @click="handout(0)" type="primary" v-loading="loading">分发</el-button>
-        <el-button @click="handout(1)" type="primary">暂存</el-button>
+        <el-button @click="handout('formData',0)" type="primary" v-loading="loading">分发</el-button>
+        <el-button @click="handout('formData',1)" type="primary">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
@@ -213,7 +213,11 @@ export default {
       dataTable: [],
       //表格列表
       tableList: [],
-      formRules: {},
+      formRules: {
+        evaluateTname: [
+          { required: true, message: "请输入评价表名", trigger: "blur" }
+        ]
+      },
       // 表单类型 add modify view
       type: "",
       // 主表主键值
@@ -248,6 +252,7 @@ export default {
     },
     //调整
     update(row, number) {
+      this.formData.planName = this.evaluateTname;
       this.formData.evaluateTname = this.evaluateTname;
       const loading = this.$loading({
         lock: true,
@@ -274,69 +279,74 @@ export default {
         }
       });
     },
-    //暂存
-    saveData() {},
-    // 分发执行
-    handout(mark) {
-      // 指标数据
-      let targetName = this.formData.targetName.split(",");
-      let targetPkid = this.formData.targetPkid.split(",");
-      let headChildrens = [];
-      for (let i = 0; i < this.formData.targetCount; i++) {
-        headChildrens.push({
-          targetName: targetName[i],
-          targetPKID: targetPkid[i]
-        });
-      }
-      // 评价人与被评价人数据
-      let evaluate = this.$store.state.data.evaluate;
-      for (let i = 0; i < evaluate.length; i++) {
-        this.dataTable[i].doneFullArr = this.$store.state.clientView[
-          i
-        ].doneFullArr;
-      }
-      let listChildrens = [];
-      for (let i = 0; i < this.dataTable.length; i++) {
-        listChildrens.push({
-          doFullName: this.dataTable[i].doFullName,
-          doneFullArr: [],
-          doneFullName: this.dataTable[i].doneFullName,
-          deptName: this.dataTable[i].groupName,
-          targetName: this.dataTable[i].targetName,
-          doUserNo: this.dataTable[i].userNo,
-          doUserName: this.$store.state.data.evaluate[i].doUserName
-        });
-      }
-      for (let i = 0; i < this.dataTable.length; i++) {
-        listChildrens[i].doneFullArr = JSON.stringify(
-          this.dataTable[i].doneFullArr
-        );
-      }
-      // 主表数据
+
+    // 分发 暂存
+    handout(formName, mark) {
+      this.formData.planName = this.evaluateTname;
       this.formData.evaluateTname = this.evaluateTname;
-      if (mark == 0) {
-        this.formData.state = "开始";
-      } else {
-        this.formData.state = "暂存";
-      }
-      let data = this.formData;
-      data["headChildrens"] = Array.from(headChildrens);
-      data["listChildrens"] = Array.from(listChildrens);
-      const loading = this.$loading({
-        lock: true,
-        text: "保存数据中,请稍等",
-        spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
-      });
-      save(data).then(res => {
-        if (res.status == 200) {
-          loading.close();
-          this.$message({
-            message: "保存成功",
-            type: "success"
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // 指标数据
+          let targetName = this.formData.targetName.split(",");
+          let targetPkid = this.formData.targetPkid.split(",");
+          let headChildrens = [];
+          for (let i = 0; i < this.formData.targetCount; i++) {
+            headChildrens.push({
+              targetName: targetName[i],
+              targetPKID: targetPkid[i]
+            });
+          }
+          // 评价人与被评价人数据
+          let evaluate = this.$store.state.data.evaluate;
+          for (let i = 0; i < evaluate.length; i++) {
+            this.dataTable[i].doneFullArr = this.$store.state.clientView[
+              i
+            ].doneFullArr;
+          }
+          let listChildrens = [];
+          for (let i = 0; i < this.dataTable.length; i++) {
+            listChildrens.push({
+              doFullName: this.dataTable[i].doFullName,
+              doneFullArr: [],
+              doneFullName: this.dataTable[i].doneFullName,
+              deptName: this.dataTable[i].groupName,
+              targetName: this.dataTable[i].targetName,
+              doUserNo: this.dataTable[i].userNo,
+              doUserName: this.$store.state.data.evaluate[i].doUserName
+            });
+          }
+          for (let i = 0; i < this.dataTable.length; i++) {
+            listChildrens[i].doneFullArr = JSON.stringify(
+              this.dataTable[i].doneFullArr
+            );
+          }
+          // 主表数据
+          this.formData.evaluateTname = this.evaluateTname;
+          if (mark == 0) {
+            this.formData.state = "开始";
+          } else {
+            this.formData.state = "暂存";
+          }
+          let data = this.formData;
+          data["headChildrens"] = Array.from(headChildrens);
+          data["listChildrens"] = Array.from(listChildrens);
+          const loading = this.$loading({
+            lock: true,
+            text: "保存数据中,请稍等",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
           });
-          this.$store.state.handout.callback();
-          this.close();
+          save(data).then(res => {
+            if (res.status == 200) {
+              loading.close();
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
+              this.$store.state.handout.callback();
+              this.close();
+            }
+          });
         }
       });
     }
@@ -371,7 +381,7 @@ export default {
         if (res.status == 200) {
           this.planPkid = res.data.pkid;
           this.emailDay = res.data.emailDay;
-          this.evaluateTname = res.data.evaluPlan;
+          // this.evaluateTname = res.data.evaluPlan;
         }
         //将计划信息中的数据赋值给主表数据
         //计划pKid

@@ -1,7 +1,7 @@
 <template>
     <div id="employeeEvaluation">
         <div class="exportedDataFormat">
-            <span>导出的数据格式：</span>
+            <span>数据格式：</span>
             <el-radio-group v-model="exportedDataFormat">
                 <el-radio label="1">基本数据</el-radio>
                 <el-radio label="2">总分统计</el-radio>

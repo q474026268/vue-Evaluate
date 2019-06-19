@@ -141,7 +141,7 @@ export default {
                                 if(row.state=='finish'){
                                     this.$router.push(
                                         {
-                                            name:'evaluateClientView',
+                                            name:'statisticalClientView',
                                             query:{
                                                 useType:'view',
                                                 id:row.EvaluateId,
