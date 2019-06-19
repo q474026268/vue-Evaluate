@@ -40,9 +40,14 @@ export const constantRouterMap = [
     ]
   },
   {//统计查询
-    path: '/statisticsInquire', component: () => import('../../components/statisticsInquire'), name: 'statisticsInquire',redirect:{name:'employeeEvaluation'},
-    children: [
-      { path: '/employeeEvaluation', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluation' },
+    path: '/statisticsInquire', component: () => import('../../components/statisticsInquire'), name: 'statisticsInquire', redirect: { name: 'statisticalPreprocessingList' }, children: [
+      {path: '/statisticsInquire/statisticalPreprocessingList', component: () => import('../../components/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingList',children: [
+        { path: '/statisticsInquire/statisticalPreprocessingView', component: () => import('../../components/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingView' },
+        { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../components/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
+      ]
+    },
+      {path: '/employeeEvaluation', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluation' },
+      
     ]
   },
   {

@@ -1,6 +1,7 @@
 <template>
     <div id="processTracking">
         <div id="tjcxDiv">
+            <router-link class="tjcxDivSon" tag="div" :to="{name:'statisticsInquire'}">统计预处理</router-link>
             <router-link class="tjcxDivSon" tag="div" :to="{name:'employeeEvaluation'}">员工达优测评</router-link>
         </div>
         <router-view></router-view>
@@ -39,7 +40,6 @@ export default {
     watch:{
         $route(to,from){
             let domArr=document.querySelector('#tjcxDiv').querySelectorAll('.tjcxDivSon');
-            
             for(let i=0;i<domArr.length;i++){
                 domArr[i].style.borderBottom='';
                 domArr[i].style.color='';
@@ -60,11 +60,9 @@ export default {
         }
     },
     created:function(){// 组件创建后
-        // TODO
         
     },
     mounted:function(){// 组件加载完成
-        // TODO
         let domArr=document.querySelector('#tjcxDiv').querySelectorAll('.tjcxDivSon')
         domArr[0].style.color='#66b1ff';
         domArr[0].style.borderBottom='2px solid #66b1ff';

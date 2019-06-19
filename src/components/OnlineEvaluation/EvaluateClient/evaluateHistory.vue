@@ -250,11 +250,11 @@ export default {
     update(row, number) {
       this.formData.evaluateTname = this.evaluateTname;
       const loading = this.$loading({
-              lock: true,
-              text: "数据加载中,请稍等",
-              spinner: "el-icon-loading",
-              background: "rgba(0, 0, 0, 0.7)"
-            });
+        lock: true,
+        text: "数据加载中,请稍等",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
       this.$store.commit("setHistory", {
         //主表数据
         formData: this.formData,
