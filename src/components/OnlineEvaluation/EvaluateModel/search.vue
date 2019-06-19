@@ -6,7 +6,7 @@
           <el-form-item label="模板类别">
             <el-select
               v-model="searchData.evaluKind"
-              placeholder="请选择评价类别"
+              placeholder="模板类别"
               style="width:230px;"
               clearable
             >
@@ -21,7 +21,7 @@
           <el-form-item label="模板名称">
             <el-input
               v-model="searchData.modelName"
-              placeholder="输入模板名称"
+              placeholder="模板名称"
               style="width:230px;"
               clearable
             ></el-input>
@@ -29,7 +29,7 @@
           <el-form-item label="部门">
             <el-input
               v-model="searchData.groupName"
-              placeholder="输入部门"
+              placeholder="部门"
               style="width:180px;"
               clearable
             ></el-input>
@@ -41,7 +41,7 @@
           <el-form-item label="创建人">
             <el-input
               v-model="searchData.inputFullName"
-              placeholder="输入创建人"
+              placeholder="创建人"
               style="width:230px;margin-left:10px;"
               clearable
             ></el-input>

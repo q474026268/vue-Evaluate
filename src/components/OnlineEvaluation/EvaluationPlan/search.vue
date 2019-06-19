@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="21">
           <el-form-item label="评价类别">
-            <el-select v-model="searchData.evaluKind" placeholder="请选择评价类别" size="small">
+            <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small">
               <el-option
                 v-for="item in evaluKindOptions"
                 :key="item.value"
@@ -13,11 +13,8 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="计划名称">
-            <el-input v-model="searchData.evaluPlan" placeholder="请输入计划名称" size="small" clearable></el-input>
-          </el-form-item>
           <el-form-item label="状态" id="state">
-            <el-select v-model="searchData.flag" placeholder="请选择状态" size="small">
+            <el-select v-model="searchData.flag" placeholder="状态" size="small">
               <el-option
                 v-for="item in flagOptions"
                 :key="item.value"
@@ -25,6 +22,9 @@
                 :value="item.value"
               ></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="评价名称">
+            <el-input v-model="searchData.evaluPlan" placeholder="请输入评价名称进行查询" size="small" clearable></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>

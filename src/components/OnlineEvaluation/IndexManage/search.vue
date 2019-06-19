@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="16" style="width: 350px;">
             <el-form-item label="评价类别" size="small" label-width="100">
-              <el-select v-model="searchData.evaluKind" placeholder="请选择" style="width:255px;">
+              <el-select v-model="searchData.evaluKind" placeholder="评价类别" style="width:255px;">
                 <el-option
                   v-for="item in evaluKindOptions"
                   :key="item.value"
@@ -21,12 +21,12 @@
       <el-row>
           <el-col :span="8" style="width: 200px;">
               <el-form-item label="指标名称" size="small" label-width="100">
-                <el-input v-model="searchData.targetName" placeholder="输入指标名称" style="width:110px;"></el-input>
+                <el-input v-model="searchData.targetName" placeholder="输入指标名称进行查询" style="width:110px;"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="4"  style="width: 150px;">
                 <el-form-item label="状态" size="small" label-width="100">
-                  <el-select v-model="searchData.flag" placeholder="请选择" style="width:80px;">
+                  <el-select v-model="searchData.flag" placeholder="状态" style="width:80px;">
                     <el-option
                       v-for="item in flagOptions"
                       :key="item.value"
@@ -40,13 +40,6 @@
               <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
           </el-col>
       </el-row>
-      
-      
-      
-      <!-- <el-form-item>
-        <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
-        <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
-      </el-form-item> -->
     </el-form>
   </div>
 </template>

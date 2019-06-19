@@ -6,7 +6,7 @@
           <el-form-item>
             <el-select
               v-model="searchData.evaluKind"
-              placeholder="请选择评价类别"
+              placeholder="评价类别"
               size="small"
               style="width:250px;"
             >
@@ -23,7 +23,7 @@
           <el-form-item>
             <el-input
               v-model="searchData.planName"
-              placeholder="输入评价名称"
+              placeholder="评价名称"
               size="small"
               style="width:250px;"
               clearable
@@ -34,23 +34,20 @@
           <el-form-item>
             <el-input
               v-model="searchData.evaluateTname"
-              placeholder="输入评价表名"
+              placeholder="评价表名"
               size="small"
               style="width:250px;"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="4">
-                    <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
-        </el-col>-->
       </el-row>
       <el-row>
         <el-col :span="6" style="width:200px;">
           <el-form-item>
             <el-input
               v-model="searchData.groupName"
-              placeholder="输入制表部门"
+              placeholder="部门"
               size="small"
               style="width:150px;"
               clearable
@@ -61,7 +58,7 @@
           <el-form-item>
             <el-input
               v-model="searchData.inputerFullName"
-              placeholder="输入制表人"
+              placeholder="制表人"
               size="small"
               style="width:150px;"
               clearable
@@ -72,7 +69,7 @@
           <el-form-item>
             <el-select
               v-model="searchData.state"
-              placeholder="请选择状态"
+              placeholder="状态"
               size="small"
               style="width:150px;"
             >
@@ -99,7 +96,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <!-- <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button> -->
           <el-button
             style="margin-top: 4px;"
             type="primary"

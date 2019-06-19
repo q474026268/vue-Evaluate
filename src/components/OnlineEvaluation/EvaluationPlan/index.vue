@@ -57,7 +57,7 @@ export default {
         },
         {
           id: "evaluPlan",
-          text: "计划名称",
+          text: "评价名称",
           align: "center",
           sortable: true
         },
