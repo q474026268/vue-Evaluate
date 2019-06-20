@@ -58,7 +58,7 @@ import { formatDate } from '@/utils/common.js'
 // 主表主键字段
 const mainKey = "id";
 export default {
-    name:'evaluateClientView',
+    name:'evaluateClientViewStaff',
     components:{
         ZTable
     },
@@ -123,7 +123,7 @@ export default {
         //关闭窗口返回的页面
         close(){
             if(Object.is(this.type,"add") && !this.$route.query.nowPage){
-                this.$router.push({name:"evaluateModelList"});
+                this.$router.push({name:"evaluateModelListStaff"});
             }else if(this.$route.query.nowPage=='statisticalPreprocessingList'){
                 this.$router.push({name:"statisticalPreprocessingList"});
             }else{

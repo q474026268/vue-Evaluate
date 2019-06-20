@@ -98,7 +98,7 @@ import {getLoginInfo} from '../../OnlineEvaluation/onlineEvaluation.js'
 
 const reportBaseUrl = 'http://10.214.92.37:8075/WebReport/ReportServer?'
 export default {
-    name:'employeeEvaluation',
+    name:'employeeEvaluationStaff',
     props:{// 其他组件传入的值
        
     },

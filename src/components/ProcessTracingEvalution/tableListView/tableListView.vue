@@ -53,7 +53,7 @@
 <script>
 import {getList,getTargetItem} from './tableListView.js'
 export default {
-    name:'tableListView',
+    name:'tableListViewStaff',
     props:{// 其他组件传入的值
        
     },

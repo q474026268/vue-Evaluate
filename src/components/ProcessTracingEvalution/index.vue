@@ -1,14 +1,14 @@
 <template>
   <div id="processTracing" class="content-height" style="width:100%">
     <div id="nbgkmydDiv">
-      <router-link class="nbgkmydDivSon" tag="div" :to="{name:'staffEvalutionList'}">员工达优测评</router-link>  
+      <router-link class="nbgkmydDivSon" tag="div" :to="{name:'staffEvalutionListStaff'}">员工达优测评</router-link>  
        </div>
     <router-view></router-view>
   </div>
 </template>
 <script>
 export default {
-  name: "processTracing",
+  name: "processTracingStaff",
   components: {},
   props: {
     // 其他组件传入的值
@@ -35,7 +35,7 @@ export default {
       switch (
         to.name //加个点击效果的蓝条条
       ) {
-        case "staffEvalutionList":
+        case "staffEvalutionListStaff":
           domArr[0].style.borderBottom = "2px solid #66b1ff";
           domArr[0].style.color='#66b1ff';
           break;

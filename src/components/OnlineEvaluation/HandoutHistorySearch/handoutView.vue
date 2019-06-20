@@ -98,7 +98,7 @@ import { getSaveTableList } from "./handoutHistorySearch.js";
 // 主表主键字段
 const mainKey = "id";
 export default {
-  name: "handoutView",
+  name: "handoutViewStaff",
   components: {},
   props: {
     // 其他组件传入的值
@@ -145,7 +145,7 @@ export default {
     close() {
       if (this.type == "view") {
         this.$router.push({
-          name: "handoutHistorySearch",
+          name: "handoutHistorySearchStaff",
           query: {
             useType: "view",
             back: "1",
@@ -154,7 +154,7 @@ export default {
         });
       } else if (this.type == "modify") {
         this.$router.push({
-          name: "handoutHistorySearch",
+          name: "handoutHistorySearchStaff",
           query: {
             useType: "modify",
             back: "1",

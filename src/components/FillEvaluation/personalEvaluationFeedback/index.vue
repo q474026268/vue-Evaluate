@@ -17,12 +17,12 @@ import SearchPage from "./search";
 import { getList, deleted } from "./personalEvaluationFeedback.js";
 import { formatDate } from "@/utils/common.js";
 //------------------------------------------------
-const pageUrl = "/evaluateReceived"; // 表单的路由路径
-const routerName = "evaluateReceived"; // 路由的名称
+const pageUrl = "/evaluateReceivedStaff"; // 表单的路由路径
+const routerName = "evaluateReceivedStaff"; // 路由的名称
 const key = "id"; // 主键字段
 //------------------------------------------------
 export default {
-  name: "personalEvaluationFeedback",
+  name: "personalEvaluationFeedbackStaff",
   components: {
     ZTable
   },
@@ -111,7 +111,7 @@ export default {
               icon: "el-icon-view",
               click: row => {
                 this.$router.push({
-                  name:'EvaluateClientSecLook',
+                  name:'EvaluateClientSecLookStaff',
                   query:{
                     evaluKind:row.evaluKind,
                     evaluateTname:row.evaluateTname,

@@ -9,8 +9,8 @@
             </el-tab-pane>
         </el-tabs> -->
         <div id="tjcxDiv">
-            <router-link class="tjcxDivSon" tag='div' :to="{name:'evaluateReceived'}">收到的评价表</router-link>
-            <router-link class="tjcxDivSon" tag='div' :to="{name:'personalEvaluationFeedback'}">个人评价反馈</router-link>
+            <router-link class="tjcxDivSon" tag='div' :to="{name:'evaluateReceivedStaff'}">收到的评价表</router-link>
+            <router-link class="tjcxDivSon" tag='div' :to="{name:'personalEvaluationFeedbackStaff'}">个人评价反馈</router-link>
         </div>
         <router-view></router-view>
     </div>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-    name:'fillEvaluation',
+    name:'fillEvaluationStaff',
     
     props:{// 其他组件传入的值
        
@@ -52,11 +52,11 @@ export default {
             }
             
             switch(to.name){
-                case "evaluateReceived":
+                case "evaluateReceivedStaff":
                     domArr[0].style.borderBottom='2px solid #66b1ff';
                     domArr[0].style.color='#66b1ff';
                     break;
-                case "personalEvaluationFeedback":
+                case "personalEvaluationFeedbackStaff":
                     domArr[1].style.borderBottom='2px solid #66b1ff';
                     domArr[1].style.color='#66b1ff';
                     break;

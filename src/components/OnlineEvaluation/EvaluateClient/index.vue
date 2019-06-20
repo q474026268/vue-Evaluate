@@ -12,9 +12,9 @@ import {getList,deleted} from './evaluateClient.js'
 import { formatDate } from '@/utils/common.js'
 
 // 表单的路由路径
-const pageUrl = '/evaluateClient'
+const pageUrl = '/evaluateClientStaff'
 // 路由的名称
-const routerName = 'evaluateClient'
+const routerName = 'evaluateClientStaff'
 // 主键字段
 const key = 'id'
 export default {
@@ -153,8 +153,8 @@ export default {
                 case '暂存':
                     this.$router.push(
                         {
-                            path:'/evaluateClient',
-                            name:'evaluateClient',
+                            path:'/evaluateClientStaff',
+                            name:'evaluateClientStaff',
                             params:{
                                 useType:'modify',
                                 id
@@ -171,8 +171,8 @@ export default {
                 case '完成':
                     this.$router.push(
                         {
-                            path:'/evaluateClientView',
-                            name:'evaluateClientView',
+                            path:'/evaluateClientViewStaff',
+                            name:'evaluateClientViewStaff',
                             params:{
                                 useType:'view',
                                 id

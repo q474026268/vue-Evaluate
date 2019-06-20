@@ -123,7 +123,7 @@ export default {
               click: row => {
                 // this.$store.commit("setData",{callback:this.dialogCallback})
                 this.$router.push({
-                  name:'StaffEvalutionInfo',
+                  name:'StaffEvalutionInfoStaff',
                   query:{
                     evaluateId:row.Id,
                     evaluKind:row.evaluKind,

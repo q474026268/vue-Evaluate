@@ -116,7 +116,7 @@ import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
 
 export default {
-  name: "evaluationPlan",
+  name: "evaluationPlanStaff",
   props: {
     // 其他组件传入的值
   },

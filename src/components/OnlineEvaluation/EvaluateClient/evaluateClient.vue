@@ -226,7 +226,7 @@ import { getLevelType, getMarkType } from "../onlineEvaluation.js";
 // 主表主键字段
 const mainKey = "id";
 export default {
-  name: "evaluateClient",
+  name: "evaluateClientStaff",
   props: {
     // 其他组件传入的值
   },
@@ -419,7 +419,7 @@ export default {
             });
             loading.close();
             this.$router.push({
-              path: "/evaluateHistory",
+              path: "/evaluateHistoryStaff",
               query: {
                 useType: "add",
                 modelPkid: this.id

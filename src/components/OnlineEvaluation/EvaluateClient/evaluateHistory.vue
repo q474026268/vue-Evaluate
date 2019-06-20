@@ -197,7 +197,7 @@ import { save } from "./evaluateClient.js";
 // 主表主键字段
 const mainKey = "guid";
 // 路由的名称
-const routerName = "evaluateClientView";
+const routerName = "evaluateClientViewStaff";
 export default {
   name: "handoutHisotrySearch",
   components: {},
@@ -241,7 +241,7 @@ export default {
     //关闭窗口返回到模板表管理首页
     close() {
       this.$router.push({
-        name: "evaluateModelList"
+        name: "evaluateModelListStaff"
       });
     },
     // 表单提交前
@@ -270,7 +270,7 @@ export default {
       });
       loading.close();
       this.$router.push({
-        name: "evaluateClientView",
+        name: "evaluateClientViewStaff",
         query: {
           useType: "modify"
         }

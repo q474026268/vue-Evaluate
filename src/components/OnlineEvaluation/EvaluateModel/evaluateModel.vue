@@ -86,7 +86,7 @@ import { formatDate } from "@/utils/common.js";
 import Rules, { addDictionary } from "./validate.js";
 import SelectTarget from "../EvaluateTarget/selectTarget.vue";
 export default {
-  name: "evaluateModel",
+  name: "evaluateModelStaff",
   props: {
     // 其他组件传入的值
   },
@@ -181,7 +181,7 @@ export default {
                     data: res.data
                   });
                   this.$router.push({
-                    name: "evaluateClient",
+                    name: "evaluateClientStaff",
                     query: {
                       useType: "add"
                     }

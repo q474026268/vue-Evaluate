@@ -127,7 +127,7 @@ export default {
     view(doFullName) {
       if (this.type == "modify") {
         this.$router.push({
-          name: "handoutView",
+          name: "handoutViewStaff",
           query: {
             useType: "modify",
             id: this.formData.id,
@@ -136,7 +136,7 @@ export default {
         });
       } else if (this.type == "view") {
         this.$router.push({
-          name: "handoutView",
+          name: "handoutViewStaff",
           query: {
             useType: "view",
             id: this.formData.id,
@@ -148,7 +148,7 @@ export default {
     //关闭窗口返回的页面
     close() {
       this.$router.push({
-        name: "handoutHistorySearchList"
+        name: "handoutHistorySearchListStaff"
       });
     },
     // 表单提交前

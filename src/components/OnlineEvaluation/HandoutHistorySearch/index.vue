@@ -15,11 +15,11 @@ import SearchPage from "./search";
 import { getList, deleted } from "./handoutHistorySearch.js";
 import { formatDate } from "@/utils/common.js";
 // 路由的名称
-const routerName = "handoutHistorySearch";
+const routerName = "handoutHistorySearchStaff";
 // 主键字段
 const key = "id";
 export default {
-  name: "handoutHistorySearchList",
+  name: "handoutHistorySearchListStaff",
   components: {
     ZTable
   },
@@ -167,7 +167,7 @@ export default {
           break;
         case "暂存":
           this.$router.push({
-            name: "handoutHistorySearch",
+            name: "handoutHistorySearchStaff",
             query: {
               useType: "modify",
               id
@@ -182,7 +182,7 @@ export default {
           break;
         case "完成":
           this.$router.push({
-            name: "handoutHistorySearch",
+            name: "handoutHistorySearchStaff",
             query: {
               useType: "view",
               id

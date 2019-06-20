@@ -17,13 +17,13 @@ import { getList, deleted, get, getRunningPlan } from "./evaluateModel.js";
 import { formatDate } from "@/utils/common.js";
 import { time } from "@/utils/common.js";
 // 表单的路由路径
-const pageUrl = "/evaluateModel";
+const pageUrl = "/evaluateModelStaff";
 // 路由的名称
-const routerName = "evaluateModel";
+const routerName = "evaluateModelStaff";
 // 主键字段
 const key = "pkid";
 export default {
-  name: "evaluateModelList",
+  name: "evaluateModelListStaff",
   components: {
     ZTable
   },
@@ -136,7 +136,7 @@ export default {
                       if (res.status == 200) {
                         this.$store.commit("setData", { data: res.data });
                         this.$router.push({
-                          name: "evaluateClient",
+                          name: "evaluateClientStaff",
                           query: {
                             useType: "add",
                             isUse: "true"

@@ -63,12 +63,21 @@ export default {
             }else{
                 send(saveData).then((result) => {
                     if(result.status == 200){
-                        this.$message({
+                       if(result.data==false){
+                           this.$message({
+                            type: 'warning',
+                            message: '保存失败！指标不同无法合并'
+                        });
+                       }else{
+                            this.$message({
                             type: 'success',
                             message: '保存成功!'
                         });
                         this.$router.back();
                         this.$store.state.data.callback();
+                       }
+                       
+                       
                     }else{
                         this.$message.error('保存失败!');
                     }

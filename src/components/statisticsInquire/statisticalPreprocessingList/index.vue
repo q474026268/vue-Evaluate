@@ -50,21 +50,21 @@ export default {
                     id:"EvaluateTname",
                     text:"评价表名称",
                     align:"center",
-                    width:170,
+                    width:125,
                     sortable:true
                 },
                 {
                     id:"EvaluKind",
                     text:"评价类别",
                     align:"center",
-                    width:150,
+                    width:80,
                     sortable:true
                 },
                 {
                     id:"LevelType",
                     text:"评价方式",
                     align:"center",
-                    width:130,
+                    width:80,
                     sortable:true,
                 },
                 {
@@ -124,7 +124,7 @@ export default {
                         style:'background: #70d5e9;border-color: #70d5e9;color: #fff;',
                         click:(row) => {
                             this.$store.commit("setData",{callback:this.dialogCallback});
-                            this.$router.push({name:'sendStatisticsTask'});
+                            this.$router.push({name:'sendStatisticsTaskStaff'});
                         }
                     }
                 ],
@@ -141,7 +141,7 @@ export default {
                                 if(row.state=='finish'){
                                     this.$router.push(
                                         {
-                                            name:'statisticalClientView',
+                                            name:'statisticalClientViewStaff',
                                             query:{
                                                 useType:'view',
                                                 id:row.EvaluateId,

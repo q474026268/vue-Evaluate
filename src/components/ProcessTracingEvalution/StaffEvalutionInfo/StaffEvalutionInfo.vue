@@ -200,7 +200,7 @@ export default {
                 });
             }else{
                 this.$router.push({
-                    name:'tableListView',
+                    name:'tableListViewStaff',
                     query:{
                         evaluKind:this.evaluKind,
                         evaluateTname:this.evaluateTname,

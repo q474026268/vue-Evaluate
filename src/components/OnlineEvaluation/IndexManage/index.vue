@@ -71,11 +71,11 @@ import { States } from "../onlineEvaluation.js";
 import DefaultButtons from "../../zTable/zTable.js";
 import { getListRight, deletedRight } from "./indexManageRightList.js";
 // 路由的名称
-const routerName = "indexManage";
+const routerName = "indexManageStaff";
 // 主键字段
 const key = "pkid";
 export default {
-  name: "indexManageList",
+  name: "indexManageListStaff",
   components: {
     ZTable
   },
@@ -331,7 +331,7 @@ export default {
           });
         } else {
           this.$router.push({
-            path: "/indexManageRight",
+            path: "/indexManageRightStaff",
             query: {
               useType: "modify",
               firstPkid: this.formPkid,
@@ -355,7 +355,7 @@ export default {
         });
       } else {
         this.$router.push({
-          path: "/indexManageRight",
+          path: "/indexManageRightStaff",
           query: {
             useType: "add",
             firstPkid: this.formPkid

@@ -48,7 +48,7 @@ import { guid } from "@/utils/common.js";
 import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
 export default {
-  name: "indexManageRight",
+  name: "indexManageRightStaff",
   props: {
     // 其他组件传入的值
   },

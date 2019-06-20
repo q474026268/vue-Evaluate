@@ -17,8 +17,8 @@ import SearchPage from "./search";
 import { getList, deleted } from "./evaluateReceived.js";
 import { formatDate } from "@/utils/common.js";
 //------------------------------------------------
-const pageUrl = "/evaluateReceived"; // 表单的路由路径
-const routerName = "evaluateReceived"; // 路由的名称
+const pageUrl = "/evaluateReceivedStaff"; // 表单的路由路径
+const routerName = "evaluateReceivedStaff"; // 路由的名称
 const key = "id"; // 主键字段
 //------------------------------------------------
 export default {
@@ -119,7 +119,7 @@ export default {
                 // }else{
                   this.$store.commit("setData",{callback:this.dialogCallback})
                   this.$router.push({
-                    name:'EvaluateClientSecEdit',
+                    name:'EvaluateClientSecEditStaff',
                     query:{
                       evaluKind:row.evaluKind,
                       evaluateTname:row.evaluateTname,

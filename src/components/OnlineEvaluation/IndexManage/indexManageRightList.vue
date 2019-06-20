@@ -14,13 +14,13 @@ import DefaultButtons from "../../zTable/zTable.js";
 import { formatDate } from "@/utils/common.js";
 import { getListRight, deleted } from "./indexManageRightList.js";
 // 表单的路由路径
-const pageUrl = "/indexManageRight";
+const pageUrl = "/indexManageRightStaff";
 // 路由的名称
-const routerName = "indexManageRight";
+const routerName = "indexManageRightStaff";
 // 主键字段
 const key = "pkid";
 export default {
-  name: "indexManageRightList",
+  name: "indexManageRightListStaff",
   components: {
     ZTable
   },

@@ -17,11 +17,11 @@ import { formatDate } from "@/utils/common.js";
 import { planStates } from "../onlineEvaluation.js";
 
 // 路由的名称
-const routerName = "evaluationPlan";
+const routerName = "evaluationPlanStaff";
 // 主键字段
 const key = "pkid";
 export default {
-  name: "evaluationPlanList",
+  name: "evaluationPlanListStaff",
   components: {
     ZTable
   },

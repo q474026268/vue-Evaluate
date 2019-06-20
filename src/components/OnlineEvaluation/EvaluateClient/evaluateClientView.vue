@@ -102,7 +102,7 @@ import { getSelect } from "../onlineEvaluation.js";
 // 主表主键字段
 const mainKey = "id";
 export default {
-  name: "evaluateClientView",
+  name: "evaluateClientViewStaff",
   components: {},
   props: {
     // 其他组件传入的值
@@ -145,7 +145,7 @@ export default {
     //关闭窗口返回的页面
     close() {
       this.$router.push({
-        name: "handoutHistorySearch",
+        name: "handoutHistorySearchStaff",
         query: {
           useType: "view",
           back: "1"
@@ -155,7 +155,7 @@ export default {
     //取消
     cancel() {
       this.$router.push({
-        name: "evaluateHistory",
+        name: "evaluateHistoryStaff",
         query: {
           useType: "modify",
           back: "2"
