@@ -325,23 +325,23 @@ export default {
           let data = this.formData;
           data["headChildrens"] = Array.from(headChildrens);
           data["listChildrens"] = Array.from(listChildrens);
-          // const loading = this.$loading({
-          //   lock: true,
-          //   text: "保存数据中,请稍等",
-          //   spinner: "el-icon-loading",
-          //   background: "rgba(0, 0, 0, 0.7)"
-          // });
-          // save(data).then(res => {
-          //   if (res.status == 200) {
-          //     loading.close();
-          //     this.$message({
-          //       message: "保存成功",
-          //       type: "success"
-          //     });
-          //     this.$store.state.handout.callback();
-          //     this.close();
-          //   }
-          // });
+          const loading = this.$loading({
+            lock: true,
+            text: "保存数据中,请稍等",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
+          });
+          save(data).then(res => {
+            if (res.status == 200) {
+              loading.close();
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
+              this.$store.state.handout.callback();
+              this.close();
+            }
+          });
         }
       });
     }
