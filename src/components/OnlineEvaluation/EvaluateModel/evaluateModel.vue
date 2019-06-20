@@ -158,24 +158,11 @@ export default {
               if (callback) {
                 callback({ type: this.type, data: res.data });
               }
-              if (mark == 0) {
-                this.$message({
-                  message: "保存成功",
-                  type: "success"
-                });
-                this.close();
-              } else {
-                // 保存并使用
-                this.$store.commit("setData", {
-                  data: res.data
-                });
-                this.$router.push({
-                  name: "evaluateClient",
-                  query: {
-                    useType: "add"
-                  }
-                });
-              }
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
+              this.close();
             }
           });
         } else {
@@ -189,24 +176,16 @@ export default {
                   if (callback) {
                     callback({ type: this.type, data: res.data });
                   }
-                  if (mark == 0) {
-                    this.$message({
-                      message: "保存成功",
-                      type: "success"
-                    });
-                    this.close();
-                  } else {
-                    // 保存并使用
-                    this.$store.commit("setData", {
-                      data: res.data
-                    });
-                    this.$router.push({
-                      name: "evaluateClient",
-                      query: {
-                        useType: "add"
-                      }
-                    });
-                  }
+                  // 保存并使用
+                  this.$store.commit("setData", {
+                    data: res.data
+                  });
+                  this.$router.push({
+                    name: "evaluateClient",
+                    query: {
+                      useType: "add"
+                    }
+                  });
                 }
               });
             }
@@ -232,7 +211,6 @@ export default {
     // 删除行
     handleDelete(index, row) {
       this.formDataDetail.splice(index, 1);
-      console.log(this.formDataDetail);
       let target = this.formDataDetail;
       this.$store.commit("setTarget", target);
       if (Object.is(row.doType, "add")) {

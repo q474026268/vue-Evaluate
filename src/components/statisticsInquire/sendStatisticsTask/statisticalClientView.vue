@@ -87,7 +87,7 @@ export default {
             formDataDetail_target:[],
             formDataDetail_evaluate:[],
             // 弹出窗口宽度
-            dialogWidth:"60%",
+            dialogWidth:"64%",
             toolBarConfig:{
                 top:{},
                 eachRow:{

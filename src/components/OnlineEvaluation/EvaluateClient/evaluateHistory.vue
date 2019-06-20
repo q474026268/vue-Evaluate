@@ -14,7 +14,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item prop="evaluateTname" label="测评表名 :" class="item">
-              <el-input v-model="evaluateTname" size="mini"></el-input>
+              <el-input v-model="formData.evaluateTname" size="mini"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -224,8 +224,6 @@ export default {
       id: "",
       // 主表数据
       formData: {},
-      //测评表名
-      evaluateTname: "",
       //计划评价表PKID
       planPkid: "",
       //催办提前期
@@ -252,8 +250,7 @@ export default {
     },
     //调整
     update(row, number) {
-      this.formData.planName = this.evaluateTname;
-      this.formData.evaluateTname = this.evaluateTname;
+      this.formData.planName = this.formData.evaluateTname;
       const loading = this.$loading({
         lock: true,
         text: "数据加载中,请稍等",
@@ -282,8 +279,7 @@ export default {
 
     // 分发 暂存
     handout(formName, mark) {
-      this.formData.planName = this.evaluateTname;
-      this.formData.evaluateTname = this.evaluateTname;
+      this.formData.planName = this.formData.evaluateTname;
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 指标数据
@@ -321,7 +317,6 @@ export default {
             );
           }
           // 主表数据
-          this.formData.evaluateTname = this.evaluateTname;
           if (mark == 0) {
             this.formData.state = "开始";
           } else {
@@ -330,23 +325,23 @@ export default {
           let data = this.formData;
           data["headChildrens"] = Array.from(headChildrens);
           data["listChildrens"] = Array.from(listChildrens);
-          const loading = this.$loading({
-            lock: true,
-            text: "保存数据中,请稍等",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
-          save(data).then(res => {
-            if (res.status == 200) {
-              loading.close();
-              this.$message({
-                message: "保存成功",
-                type: "success"
-              });
-              this.$store.state.handout.callback();
-              this.close();
-            }
-          });
+          // const loading = this.$loading({
+          //   lock: true,
+          //   text: "保存数据中,请稍等",
+          //   spinner: "el-icon-loading",
+          //   background: "rgba(0, 0, 0, 0.7)"
+          // });
+          // save(data).then(res => {
+          //   if (res.status == 200) {
+          //     loading.close();
+          //     this.$message({
+          //       message: "保存成功",
+          //       type: "success"
+          //     });
+          //     this.$store.state.handout.callback();
+          //     this.close();
+          //   }
+          // });
         }
       });
     }
@@ -367,7 +362,6 @@ export default {
       //将数据从VueX(前面存入)中取出
       let datas = this.$store.state.history;
       this.formData = datas.formData;
-      this.evaluateTname = this.formData.evaluateTname;
       // //格式化显示日期
       this.formData.inputDate = time(this.formData.inputDate);
       this.dataTable = datas.dataTable;
@@ -381,19 +375,14 @@ export default {
         if (res.status == 200) {
           this.planPkid = res.data.pkid;
           this.emailDay = res.data.emailDay;
-          // this.evaluateTname = res.data.evaluPlan;
         }
         //将计划信息中的数据赋值给主表数据
         //计划pKid
         this.formData.planPkid = this.planPkid;
         //模板pKid
         this.formData.modelPkid = this.$route.query.modelPkid;
-        //模板名称
-        this.formData.planName = this.evaluateTname;
         //预警提前期
         this.formData.emailDay = this.emailDay;
-        //计划名称
-        this.formData.evaluateTname = this.evaluateTname;
       });
       //评价指标列表数据
       let index = data.index;

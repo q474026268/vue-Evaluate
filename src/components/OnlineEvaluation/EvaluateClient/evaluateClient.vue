@@ -400,7 +400,7 @@ export default {
               let targetPkid = [];
               for (let i = 0; i < index.length; i++) {
                 targetName.push(index[i].targetName);
-                targetPkid.push(index[i].targetPkid);
+                targetPkid.push(index[i].pkid);
               }
               this.formData.targetName = targetName.join(",");
               this.formData.targetPkid = targetPkid.join(",");
