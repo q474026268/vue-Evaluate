@@ -40,31 +40,32 @@ export const constantRouterMap = [
   },
   {//统计查询
     path: '/statisticsInquireStaff', component: () => import('../../components/statisticsInquire'), name: 'statisticsInquireStaff', redirect: { name: 'statisticalPreprocessingListStaff' }, children: [
-      {path: '/statisticsInquireStaff/statisticalPreprocessingListStaff', component: () => import('../../components/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingListStaff',children: [
-        { path: '/statisticsInquireStaff/statisticalPreprocessingViewStaff', component: () => import('../../components/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingViewStaff' },
-        { path: '/statisticsInquireStaff/sendStatisticsTaskStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTaskStaff' },
-        { path: '/statisticsInquireStaff/statisticalClientViewStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/statisticalClientView.vue'), name: 'statisticalClientViewStaff' },
-      ]
-    },
-      {path: '/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
+      {
+        path: '/statisticsInquireStaff/statisticalPreprocessingListStaff', component: () => import('../../components/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingListStaff', children: [
+          { path: '/statisticsInquireStaff/statisticalPreprocessingViewStaff', component: () => import('../../components/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingViewStaff' },
+          { path: '/statisticsInquireStaff/sendStatisticsTaskStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTaskStaff' },
+          { path: '/statisticsInquireStaff/statisticalClientViewStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/statisticalClientView.vue'), name: 'statisticalClientViewStaff' },
+        ]
+      },
+      { path: '/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
     ]
   },
   {
-    path: '/fillEvaluationStaff', component: () => import('../../components/FillEvaluation'), name: 'fillEvaluationStaff',redirect:{name:'evaluateReceivedStaff'},
-    children:[
+    path: '/fillEvaluationStaff', component: () => import('../../components/FillEvaluation'), name: 'fillEvaluationStaff', redirect: { name: 'evaluateReceivedStaff' },
+    children: [
       {//评价表填写
         path: '/evaluateReceivedStaff', component: () => import('../../components/FillEvaluation/EvaluateReceived'), name: 'evaluateReceivedStaff',
-        children:[
+        children: [
           {
-            path:'/evaluateReceivedStaff/EvaluateClientSec',component:()=> import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'),name:'EvaluateClientSecEditStaff'
+            path: '/evaluateReceivedStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecEditStaff'
           }
         ]
       },
       {//个人评价反馈
         path: '/personalEvaluationFeedbackStaff', component: () => import('../../components/FillEvaluation/personalEvaluationFeedback'), name: 'personalEvaluationFeedbackStaff',
-        children:[
+        children: [
           {
-            path:'/personalEvaluationFeedbackStaff/EvaluateClientSec',component:()=> import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'),name:'EvaluateClientSecLookStaff'
+            path: '/personalEvaluationFeedbackStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecLookStaff'
           }
         ]
       },
@@ -73,11 +74,12 @@ export const constantRouterMap = [
   {//过程跟踪
     path: '/processTracingStaff', component: () => import('../../components/ProcessTracingEvalution'), name: 'processTracingStaff', redirect: { name: 'staffEvalutionListStaff' },
     children: [
-      { 
+      {
         path: '/staffEvalutionListStaff', component: () => import('../../components/ProcessTracingEvalution/StaffEvalution'), name: 'staffEvalutionListStaff',
         children: [
-          { path: '/StaffEvalutionInfoStaff', component: () => import('../../components/ProcessTracingEvalution/StaffEvalutionInfo/StaffEvalutionInfo.vue'), name: 'StaffEvalutionInfoStaff',
-            children:[
+          {
+            path: '/StaffEvalutionInfoStaff', component: () => import('../../components/ProcessTracingEvalution/StaffEvalutionInfo/StaffEvalutionInfo.vue'), name: 'StaffEvalutionInfoStaff',
+            children: [
               {
                 path: '/StaffEvalutionInfoStaff/tableListView', component: () => import('../../components/ProcessTracingEvalution/tableListView/tableListView.vue'), name: 'tableListViewStaff',
               }
@@ -86,7 +88,64 @@ export const constantRouterMap = [
         ]
       }
     ]
-  }
+  },
+  //内部顾客满意度
+  {//评价计划
+    path: '/onlineEvaluationr', component: () => import('../../component/OnlineEvaluation'), name: 'onlineEvaluation', redirect: { name: 'evaluatePlanList' },
+    children: [
+      {
+        path: '/evaluatePlanList', component: () => import('../../component/OnlineEvaluation/EvaluatePlan'), name: 'evaluatePlanList', children: [
+          { path: '/evaluatePlan', component: () => import('../../component/OnlineEvaluation/EvaluatePlan/EvaluatePlan.vue'), name: 'evaluatePlan' },
+        ]
+      },
+      {
+        path: '/evaluateTargetList', component: () => import('../../component/OnlineEvaluation/EvaluateTarget'), name: 'evaluateTargetList', children: [
+          { path: '/evaluateTarget', component: () => import('../../components/OnlineEvaluation/EvaluateTarget/evaluateTarget.vue'), name: 'evaluateTarget' },
+        ]
+      },
+      {
+        path: '/evaluateModelList', component: () => import('../../component/OnlineEvaluation/EvaluateModel'), name: 'evaluateModelList', children: [
+          { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
+        ]
+      },
+      {
+        path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
+          { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
+          { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
+        ]
+      }
+    ]
+  },
+  {//评价表填写
+    path: '/fillEvaluation', component: () => import('../../component/FillEvaluation'), name: 'fillEvaluation', redirect: { name: 'fillEvaluationList' }, children: [
+      {
+        path: '/fillEvaluation/fillEvaluationList', component: () => import('../../component/FillEvaluation/EvaluateClientList'), name: 'fillEvaluationList', children: [
+          { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
+          { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
+        ]
+      },
+    ]
+  },
+  {//过程跟踪
+    path: '/processTracking', component: () => import('../../component/processTracking'), name: 'processTracking', redirect: { name: 'customerSatisfactionList' }, children: [
+      {
+        path: '/processTracking/customerSatisfactionList', component: () => import('../../component/processTracking/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
+          { path: '/processTracking/customerSatisfactionView', component: () => import('../../component/processTracking/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
+        ]
+      },
+    ]
+  },
+  {//统计查询
+    path: '/statisticsInquire', component: () => import('../../component/statisticsInquire'), name: 'statisticsInquire', redirect: { name: 'statisticalPreprocessingList' }, children: [
+      {
+        path: '/statisticsInquire/statisticalPreprocessingList', component: () => import('../../component/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingList', children: [
+          { path: '/statisticsInquire/statisticalPreprocessingView', component: () => import('../../component/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingView' },
+          { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../component/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
+        ]
+      },
+      { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../component/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
+    ]
+  },
 ]
 
 export default new Router({

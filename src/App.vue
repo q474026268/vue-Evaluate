@@ -41,16 +41,16 @@
               <span slot="title">内部顾客满意度</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1"><router-link class="divHand" tag="div" :to="{name:'customeronlineEvaluation'}">评价计划</router-link></el-menu-item>
+              <el-menu-item index="2-1"><router-link  tag="div" :to="{name:'onlineEvaluation'}">评价计划</router-link></el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="2-2">评价表填写</el-menu-item>
+              <el-menu-item index="2-2"><router-link  tag="div" :to="{name:'fillEvaluation'}">评价表填写</router-link></el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="2-3">过程跟踪</el-menu-item>
+              <el-menu-item index="2-3"><router-link  tag="div" :to="{name:'processTracking'}">过程跟踪</router-link></el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="2-4"><router-link class="divHand" tag="div" :to="{name:'statisticsInquire'}">统计查询</router-link></el-menu-item>
+              <el-menu-item index="2-4"><router-link  tag="div" :to="{name:'statisticsInquire'}">统计查询</router-link></el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
