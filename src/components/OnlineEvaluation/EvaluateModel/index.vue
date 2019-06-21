@@ -62,21 +62,14 @@ export default {
           id: "modelName",
           text: "模板名称",
           align: "center",
-          width: 200,
+          width: 160,
           sortable: true
         },
-        // {
-        //   id: "modelName",
-        //   text: "评价方式",
-        //   align: "center",
-        //   width: 200,
-        //   sortable: true
-        // },
         {
           id: "groupName",
           text: "所属部门",
           align: "center",
-          width: 120,
+          width: 140,
           sortable: true
         },
         {
@@ -100,7 +93,7 @@ export default {
           id: "useFreq",
           text: "使用次数",
           align: "center",
-          width: 60,
+          width: 80,
           sortable: true
         }
       ],

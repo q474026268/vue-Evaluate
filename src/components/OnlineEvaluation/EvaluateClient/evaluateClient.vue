@@ -100,22 +100,22 @@
                 <label>{{ scope.$index+1 }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="员工号" width="66">
+            <el-table-column align="center" label="员工号">
               <template slot-scope="scope">
                 <label>{{ scope.row.doneUserNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名" width="55">
+            <el-table-column align="center" label="姓名">
               <template slot-scope="scope">
                 <label>{{ scope.row.doneFullName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="部门" width="68">
+            <el-table-column align="center" label="部门">
               <template slot-scope="scope">
                 <label>{{ scope.row.groupName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作" min-width="30">
+            <el-table-column align="center" label="操作">
               <template slot-scope="scope">
                 <el-button
                   :disabled="Object.is(type,'view')"
@@ -174,7 +174,7 @@
                 <label>{{ scope.row.doFullName }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="用户名" width="55" v-if="false">
+            <el-table-column align="center" label="用户名" v-if="false">
               <template slot-scope="scope">
                 <label>{{ scope.row.doUserName }}</label>
               </template>
@@ -253,7 +253,7 @@ export default {
       deleteDetailData_index: [],
       deleteDetailData_evaluate: [],
       // 弹出窗口宽度
-      dialogWidth: "80%",
+      dialogWidth: "90%",
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表

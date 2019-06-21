@@ -37,7 +37,7 @@
           ref="rightList"
           :data="rightList"
           :row-style="{cursor:'pointer'}"
-          border
+          :border="true"
           fit
           highlight-current-row
           @row-click="openDetails"
@@ -94,7 +94,8 @@ export default {
       tableBaseConfig: {
         tableHeight: 'calc(100%)',
         // 默认排序
-        currentSort: [{ prop: "pkid", order: "descending" }]
+        currentSort: [{ prop: "pkid", order: "descending" }],
+        opertionColumnWidth:170,
       },
       // 列表配置
       tableColumnConfig: [
@@ -102,28 +103,28 @@ export default {
           id: "evaluKind",
           text: "评价类别",
           align: "center",
-          width: 80,
+          width: 87,
           sortable: true
         },
         {
           id: "targetName",
           text: "指标名称",
           align: "center",
-          width: 100,
+          width: 85,
           sortable: true
         },
         {
           id: "groupName",
           text: "所属部门",
           align: "center",
-          width: 100,
+          width: 150,
           sortable: true
         },
         {
           id: "flag",
           text: "状态",
           align: "center",
-          width: 100,
+          width: 61,
           sortable: true,
           formatter: function(row, column) {
             return States[row.flag].label;
