@@ -4,6 +4,17 @@
         width="70%" 
         :visible.sync="dialogFormVisible"
         :before-close="handleClose" :close-on-click-modal="false">
+        <el-row>
+            <el-col :span="8">
+                 <el-input size="mini" placeholder="测评表名称" v-model="tableName" class="tastName"></el-input>
+            </el-col>
+            <!-- <el-col :span="8">
+                 <label>{{}}</label>
+            </el-col>
+            <el-col :span="8">
+                <label>{{}}</label>
+            </el-col> -->
+        </el-row>
             <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
             <div id="btnGroupDiv">
                 <el-button @click="save" type="primary">保存</el-button><el-button @click="handleClose" type="info">取消</el-button>
@@ -37,6 +48,7 @@ export default {
             title:'统计任务发送',
             data:[],
             value: [],
+            tableName:"",
         }
     },
     methods:{// 自定义方法
@@ -159,5 +171,8 @@ export default {
     }
     .el-transfer-panel{
         width: 44%;
+    }
+    .tastName{
+        margin-bottom: 2%;
     }
 </style>

@@ -95,7 +95,7 @@
             </div>
           </div>
           <el-table :data="formDataDetail_group" style="width: 100%;" border height="360">
-            <el-table-column align="center" label="序号" width="30">
+            <el-table-column align="center" label="序号" width="45">
               <template slot-scope="scope">
                 <label>{{ scope.$index+1 }}</label>
               </template>
@@ -158,7 +158,7 @@
             </div>
           </div>
           <el-table :data="formDataDetail_evaluate" style="width: 100%;" border height="360">
-            <el-table-column align="center" label="序号" width="30">
+            <el-table-column align="center" label="序号" width="45">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.pkid" v-show="false"></el-input>
                 <label>{{ scope.$index+1 }}</label>

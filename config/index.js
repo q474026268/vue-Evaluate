@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {    //将www.exaple.com印射为/apis
-        target: 'http://172.17.195.91:8090',  // 接口域名
+        target: 'http://10.214.93.103:8090',  // 接口域名
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true,  //是否跨域
         pathRewrite: {
@@ -25,11 +25,19 @@ module.exports = {
         pathRewrite: {
           '^/api2': ''   //需要rewrite的,
         },
-      }
+      },
+      '/api3': {    //将www.exaple.com印射为/apis
+        target: 'http://10.214.93.103:7570',  // 接口域名
+        // secure: false,  // 如果是https接口，需要配置这个参数
+        changeOrigin: true,  //是否跨域
+        pathRewrite: {
+          '^/api3': ''   //需要rewrite的,
+        },
+      },
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '127.0.0.1', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

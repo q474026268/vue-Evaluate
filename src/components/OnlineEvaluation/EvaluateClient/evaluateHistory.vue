@@ -18,8 +18,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="evaluKind" label="评价类别 :" class="item">
-              <label>{{formData.evaluKind}}</label>
+            <el-form-item prop="groupName" label="制表部门 :" class="item">
+              <label>{{formData.groupName}}</label>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -40,8 +40,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item prop="groupName" label="制表部门 :" class="item">
-              <label>{{formData.groupName}}</label>
+            <el-form-item prop="evaluKind" label="评价类别 :" class="item">
+              <label>{{formData.evaluKind}}</label>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -162,7 +162,7 @@
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
         <el-table-column prop="doFullName" label="评价人" width="100" align="center"></el-table-column>
         <el-table-column prop="doneFullName" label="被评价人" align="center"></el-table-column>
-        <el-table-column prop="targetName" label="指标" width="300" align="center"></el-table-column>
+        <el-table-column prop="targetName" label="指标" width="320" align="center"></el-table-column>
         <el-table-column prop="groupName" label="部门" v-if="false"></el-table-column>
         <el-table-column prop="userNo" label="员工号" v-if="false"></el-table-column>
         <el-table-column label="调整" align="center">

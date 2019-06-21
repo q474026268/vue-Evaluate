@@ -193,6 +193,366 @@ export default {
           userName: "cao_jun",
           departmentName: "客服部"
         },
+        {
+          id: "001",
+          name: "荣红光",
+          userName: "rong_hg",
+          departmentName: "研发部"
+        },
+        {
+          id: "002",
+          name: "陈敏",
+          userName: "chen_m2",
+          departmentName: "人事部"
+        },
+        {
+          id: "003",
+          name: "陈立",
+          userName: "chen_li",
+          departmentName: "市场部"
+        },
+        {
+          id: "004",
+          name: "杨晨",
+          userName: "yang_ch",
+          departmentName: "客服部"
+        },
+        {
+          id: "005",
+          name: "胡振浩",
+          userName: "hu_zh",
+          departmentName: "研发部"
+        },
+        {
+          id: "006",
+          name: "郜诚",
+          userName: "gao_chen",
+          departmentName: "客服部"
+        },
+        {
+          id: "007",
+          name: "徐超",
+          userName: "xu_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "008",
+          name: "解歆耀",
+          userName: "xie_xy",
+          departmentName: "客服部"
+        },
+        {
+          id: "009",
+          name: "叶特",
+          userName: "ye_te",
+          departmentName: "客服部"
+        },
+        {
+          id: "010",
+          name: "张天齐",
+          userName: "zhang_tq",
+          departmentName: "客服部"
+        },
+        {
+          id: "011",
+          name: "孙超",
+          userName: "sun_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "012",
+          name: "姜程鹏",
+          userName: "jiang_cp",
+          departmentName: "客服部"
+        },
+        {
+          id: "013",
+          name: "吕明",
+          userName: "lv_ming",
+          departmentName: "客服部"
+        },
+        {
+          id: "014",
+          name: "张嘉豪",
+          userName: "zhang_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "015",
+          name: "宗凯星",
+          userName: "zong_kx",
+          departmentName: "客服部"
+        },
+        {
+          id: "016",
+          name: "徐东飞",
+          userName: "xu_df",
+          departmentName: "客服部"
+        },
+        {
+          id: "017",
+          name: "吴建华",
+          userName: "wu_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "018",
+          name: "商林楠",
+          userName: "shang_ln",
+          departmentName: "客服部"
+        },
+        {
+          id: "019",
+          name: "王涛",
+          userName: "wang_tao",
+          departmentName: "客服部"
+        },
+        {
+          id: "020",
+          name: "曹俊",
+          userName: "cao_jun",
+          departmentName: "客服部"
+        },
+        {
+          id: "001",
+          name: "荣红光",
+          userName: "rong_hg",
+          departmentName: "研发部"
+        },
+        {
+          id: "002",
+          name: "陈敏",
+          userName: "chen_m2",
+          departmentName: "人事部"
+        },
+        {
+          id: "003",
+          name: "陈立",
+          userName: "chen_li",
+          departmentName: "市场部"
+        },
+        {
+          id: "004",
+          name: "杨晨",
+          userName: "yang_ch",
+          departmentName: "客服部"
+        },
+        {
+          id: "005",
+          name: "胡振浩",
+          userName: "hu_zh",
+          departmentName: "研发部"
+        },
+        {
+          id: "006",
+          name: "郜诚",
+          userName: "gao_chen",
+          departmentName: "客服部"
+        },
+        {
+          id: "007",
+          name: "徐超",
+          userName: "xu_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "008",
+          name: "解歆耀",
+          userName: "xie_xy",
+          departmentName: "客服部"
+        },
+        {
+          id: "009",
+          name: "叶特",
+          userName: "ye_te",
+          departmentName: "客服部"
+        },
+        {
+          id: "010",
+          name: "张天齐",
+          userName: "zhang_tq",
+          departmentName: "客服部"
+        },
+        {
+          id: "011",
+          name: "孙超",
+          userName: "sun_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "012",
+          name: "姜程鹏",
+          userName: "jiang_cp",
+          departmentName: "客服部"
+        },
+        {
+          id: "013",
+          name: "吕明",
+          userName: "lv_ming",
+          departmentName: "客服部"
+        },
+        {
+          id: "014",
+          name: "张嘉豪",
+          userName: "zhang_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "015",
+          name: "宗凯星",
+          userName: "zong_kx",
+          departmentName: "客服部"
+        },
+        {
+          id: "016",
+          name: "徐东飞",
+          userName: "xu_df",
+          departmentName: "客服部"
+        },
+        {
+          id: "017",
+          name: "吴建华",
+          userName: "wu_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "018",
+          name: "商林楠",
+          userName: "shang_ln",
+          departmentName: "客服部"
+        },
+        {
+          id: "019",
+          name: "王涛",
+          userName: "wang_tao",
+          departmentName: "客服部"
+        },
+        {
+          id: "020",
+          name: "曹俊",
+          userName: "cao_jun",
+          departmentName: "客服部"
+        },
+        {
+          id: "001",
+          name: "荣红光",
+          userName: "rong_hg",
+          departmentName: "研发部"
+        },
+        {
+          id: "002",
+          name: "陈敏",
+          userName: "chen_m2",
+          departmentName: "人事部"
+        },
+        {
+          id: "003",
+          name: "陈立",
+          userName: "chen_li",
+          departmentName: "市场部"
+        },
+        {
+          id: "004",
+          name: "杨晨",
+          userName: "yang_ch",
+          departmentName: "客服部"
+        },
+        {
+          id: "005",
+          name: "胡振浩",
+          userName: "hu_zh",
+          departmentName: "研发部"
+        },
+        {
+          id: "006",
+          name: "郜诚",
+          userName: "gao_chen",
+          departmentName: "客服部"
+        },
+        {
+          id: "007",
+          name: "徐超",
+          userName: "xu_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "008",
+          name: "解歆耀",
+          userName: "xie_xy",
+          departmentName: "客服部"
+        },
+        {
+          id: "009",
+          name: "叶特",
+          userName: "ye_te",
+          departmentName: "客服部"
+        },
+        {
+          id: "010",
+          name: "张天齐",
+          userName: "zhang_tq",
+          departmentName: "客服部"
+        },
+        {
+          id: "011",
+          name: "孙超",
+          userName: "sun_chao",
+          departmentName: "客服部"
+        },
+        {
+          id: "012",
+          name: "姜程鹏",
+          userName: "jiang_cp",
+          departmentName: "客服部"
+        },
+        {
+          id: "013",
+          name: "吕明",
+          userName: "lv_ming",
+          departmentName: "客服部"
+        },
+        {
+          id: "014",
+          name: "张嘉豪",
+          userName: "zhang_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "015",
+          name: "宗凯星",
+          userName: "zong_kx",
+          departmentName: "客服部"
+        },
+        {
+          id: "016",
+          name: "徐东飞",
+          userName: "xu_df",
+          departmentName: "客服部"
+        },
+        {
+          id: "017",
+          name: "吴建华",
+          userName: "wu_jh",
+          departmentName: "客服部"
+        },
+        {
+          id: "018",
+          name: "商林楠",
+          userName: "shang_ln",
+          departmentName: "客服部"
+        },
+        {
+          id: "019",
+          name: "王涛",
+          userName: "wang_tao",
+          departmentName: "客服部"
+        },
+        {
+          id: "020",
+          name: "曹俊",
+          userName: "cao_jun",
+          departmentName: "客服部"
+        },
       ],
       tableColumnConfig: [
         {
@@ -297,8 +657,8 @@ export default {
         },
         method: "GET",
         headers: {
-          JSESSIONID: "32BE7F7C37887A04966D4F292BFB8149",
-          io: "UxqALTJEkf59WLCsAAA0"
+          JSESSIONID: "4B8B6510291F818443AF30B5512D9ABD",
+          io: "rvezSg0hWt-G_xraAAXr"
         }
       };
       request(requestParams).then(res => {

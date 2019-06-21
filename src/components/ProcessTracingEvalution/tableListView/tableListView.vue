@@ -20,12 +20,6 @@
                 label="姓名"
                 align="center">
                 </el-table-column>
-                <el-table-column
-                prop="DeptName"
-                label="部门"
-                align="center">
-                </el-table-column>
-
                 <el-table-column v-for="(item,index) in targetArr" align='center' :key="index" :label="item.TargetName">
                     <template class="iiiii" slot-scope="scope">
                         <el-select :disabled="disabled" v-model="item.targetInfoArr[scope.$index]">
@@ -94,7 +88,6 @@ export default {
             filters.evaluateListId=this.$route.query.PKID;
             let DeptName=this.$route.query.DeptName;
             getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                console.log(result.data.content);
                 this.peopleTargetArr=result.data.content;
                 this.total=result.data.totalElements
                 for (let i = 0; i < this.targetArr.length; i++) {

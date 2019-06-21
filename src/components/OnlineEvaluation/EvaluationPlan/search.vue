@@ -2,8 +2,8 @@
   <div id="search" class="search">
     <el-form :inline="true" :model="searchData" class="demo-form-inline">
       <el-row>
-        <el-col :span="21">
-          <el-form-item label="评价类别">
+        <el-col :span="6">
+          <el-form-item>
             <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small">
               <el-option
                 v-for="item in evaluKindOptions"
@@ -13,7 +13,9 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="状态" id="state">
+        </el-col>
+        <el-col :span="4">
+          <el-form-item id="state">
             <el-select v-model="searchData.flag" placeholder="状态" size="small">
               <el-option
                 v-for="item in flagOptions"
@@ -23,9 +25,13 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="评价名称">
+        </el-col>
+        <el-col :span="6">
+          <el-form-item>
             <el-input v-model="searchData.evaluPlan" placeholder="请输入评价名称进行查询" size="small" clearable></el-input>
           </el-form-item>
+        </el-col>
+        <el-col :span="4">
           <el-form-item>
             <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
             <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>

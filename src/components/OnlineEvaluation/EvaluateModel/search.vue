@@ -9,6 +9,7 @@
               placeholder="模板类别"
               style="width:230px;"
               clearable
+              size="small"
             >
               <el-option
                 v-for="item in evaluKindOptions"
@@ -24,6 +25,7 @@
               placeholder="模板名称"
               style="width:230px;"
               clearable
+              size="small"
             ></el-input>
           </el-form-item>
           <el-form-item label="部门">
@@ -32,6 +34,7 @@
               placeholder="部门"
               style="width:180px;"
               clearable
+              size="small"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -42,8 +45,9 @@
             <el-input
               v-model="searchData.inputFullName"
               placeholder="创建人"
-              style="width:230px;margin-left:10px;"
+              style="width:230px;margin-left:14px;"
               clearable
+              size="small"
             ></el-input>
           </el-form-item>
           <el-form-item label="创建时间">
@@ -54,7 +58,8 @@
               range-separator="至"
               start-placeholder="创建开始日期"
               end-placeholder="创建结束日期"
-              style="width:230px;"
+              style="width:271px;"
+              size="small"
             ></el-date-picker>
           </el-form-item>
           <el-form-item >

@@ -31,12 +31,6 @@
           size="small"
           @click.prevent="deleteButtonClickRight(targetPkid)"
         >删除</el-button>
-        <!-- <el-button
-              type="primary"
-              icon="el-icon-view"
-              size="mini"
-              @click.prevent="viewButtonClickRight(scope.row.pkid)"
-        >浏览</el-button>-->
       </div>
       <div class="rightList">
         <el-table
@@ -46,8 +40,8 @@
           border
           fit
           highlight-current-row
-          height="400"
           @row-click="openDetails"
+          id="rightTableHeight"
         >
           <el-table-column prop="pkid" label="pkid" align="center" v-if="false"></el-table-column>
           <el-table-column prop="evaluStand" label="评分标准" align="center"></el-table-column>
@@ -98,7 +92,7 @@ export default {
       rightList: [],
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "410px",
+        tableHeight: 'calc(100%)',
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }]
       },
@@ -202,7 +196,7 @@ export default {
           //指标列表的pkid
           targetPkid: "",
           //主表的pkid
-          formPkid: ""
+          formPkid: "",
         }
       }
     };
@@ -372,7 +366,6 @@ export default {
     },
     // 弹出框回调函数
     dialogCallback(data) {
-      console.log(data);
       this.$refs.table.refresh();
     },
     //右边指标列表数据回调
@@ -439,7 +432,11 @@ export default {
   },
   mounted: function() {
     // 组件加载完成
-    // DOTO
+    let leftDivDom=document.getElementById("indexManageList")
+    let divHeight=window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    leftDivDom.style.height=divHeight*0.61+"px";
+    let rightDivDom=document.getElementById("rightTableHeight");
+    rightDivDom.style.height=divHeight*0.61+53+"px";
   },
   beforeUpdate: function() {
     // 组件数据更新之前
@@ -457,10 +454,11 @@ export default {
   float: left;
 }
 .rightList {
-  margin-top: 12%;
+
 }
 .right_button {
   margin-top: 1%;
   margin-left: 50%;
+  height: 97px;
 }
 </style>

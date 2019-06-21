@@ -202,9 +202,7 @@ export default {
           } else {
             this.tableData = res.data;
           }
-
           this.listLoading = false;
-          
         })
         .catch(() => {
           this.listLoading = false;

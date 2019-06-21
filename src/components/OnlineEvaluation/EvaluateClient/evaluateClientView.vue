@@ -20,7 +20,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item prop="inputDate" label="制表时间:" class="item">
               <label>{{formData.inputDate}}</label>
             </el-form-item>
@@ -30,12 +30,7 @@
               <label>{{formData.groupName}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item prop="emailDay" label="任务提示设置:" class="item">
-              <label>{{formData.emailDay}}天</label>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item prop="markType" label="打分方式:" class="item">
               <label>{{formData.markType}}</label>
             </el-form-item>
