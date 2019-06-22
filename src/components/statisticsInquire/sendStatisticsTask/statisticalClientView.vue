@@ -37,6 +37,11 @@
                             <label>{{formData.groupName}}</label>
                         </el-form-item>
                     </el-col>
+                    <!-- <el-col :span="8"  >
+                        <el-form-item prop="taskName" label="任务名称：" class="item">
+                            <label>{{formData.taskName}}</label>
+                        </el-form-item>
+                    </el-col> -->
                 </el-row>
            </el-form>
            <z-table ref="table" :tableColumnConfig=tableColumnConfig :tableBaseConfig=tableBaseConfig :toolBarConfig=toolBarConfig></z-table>
@@ -103,17 +108,38 @@ export default {
             // 列表配置
             tableColumnConfig:[
                 {
-                    id:"doFullName",
-                    text:"评价人",
+                    id:"evaluateTname",
+                    text:"测评表名",
                     align:"center",
                     width:80,
                     sortable:false
                 },
                 {
-                    id:"targetName",
-                    text:"评价指标",
+                    id:"groupName",
+                    text:"制表部门",
                     align:"center",
-                    width:200,
+                    width:80,
+                    sortable:false
+                },
+                {
+                    id:"inputerFullName",
+                    text:"制表人",
+                    align:"center",
+                    width:80,
+                    sortable:false
+                },
+                {
+                    id:"doneUserCount",
+                    text:"评价人数",
+                    align:"center",
+                    width:80,
+                    sortable:false
+                },
+                {
+                    id:"doUserCount",
+                    text:"被评价人数",
+                    align:"center",
+                    width:80,
                     sortable:false
                 }
             ],
@@ -125,9 +151,9 @@ export default {
             if(Object.is(this.type,"add") && !this.$route.query.nowPage){
                 this.$router.push({name:"evaluateModelListStaff"});
             }else if(this.$route.query.nowPage=='statisticalPreprocessingList'){
-                this.$router.push({name:"statisticalPreprocessingList"});
+                this.$router.push({name:"statisticalPreprocessingListStaff"});
             }else{
-                this.$router.push({name:"evaluateClientList"});
+                this.$router.push({name:"evaluateClientListStaff"});
             }
         },
         // 表单提交前
@@ -136,71 +162,71 @@ export default {
             return true;
         },
         saveData(mark){
-            this.$validator.validateAll().then((valid) => {
-                if(valid && this.beforeSubmit()){
-                    this.formData.state = mark == 0?'暂存':'分发';
-                    let data = Object.assign({},this.formData,getLoginInfo());
-                    // 添加明细数据
-                    data["headChildrens"] = Array.from(this.formDataDetail_target);
-                    data["listChildrens"] = Array.from(this.formDataDetail_evaluate);
-                    save(data).then((res)=>{
-                        if(res.status == 200){
-                            let callback = this.$store.state.data.callback;
-                            if(callback){
-                                callback({type:this.type,data:res.data});
-                            }
-                            this.$message({
-                                message: '保存成功',
-                                type: 'success'
-                            });
-                            this.close();
-                        }
-                    });
-                }
-            });
+            // this.$validator.validateAll().then((valid) => {
+            //     if(valid && this.beforeSubmit()){
+            //         this.formData.state = mark == 0?'暂存':'分发';
+            //         let data = Object.assign({},this.formData,getLoginInfo());
+            //         // 添加明细数据
+            //         data["headChildrens"] = Array.from(this.formDataDetail_target);
+            //         data["listChildrens"] = Array.from(this.formDataDetail_evaluate);
+            //         save(data).then((res)=>{
+            //             if(res.status == 200){
+            //                 let callback = this.$store.state.data.callback;
+            //                 if(callback){
+            //                     callback({type:this.type,data:res.data});
+            //                 }
+            //                 this.$message({
+            //                     message: '保存成功',
+            //                     type: 'success'
+            //                 });
+            //                 this.close();
+            //             }
+            //         });
+            //     }
+            // });
         },
         // 分发
         handout(){
 
         },
         async dataToview(){
-            if(!Object.is(this.type,"add") && !Object.is(this.type,'amodify')){
-                this.id = this.$route.query.id;
-                await get(this.id).then((res) => {
-                    this.formData = res.data.main;
-                    this.formDataDetail_target = res.data.headDetail;
-                    this.formDataDetail_evaluate = res.data.listDetail; 
-                });
-            }else{
-                let data = this.$store.state.data.data;
+            // if(!Object.is(this.type,"add") && !Object.is(this.type,'amodify')){
+            //     this.id = this.$route.query.id;
+            //     await get(this.id).then((res) => {
+            //         this.formData = res.data.main;
+            //         this.formDataDetail_target = res.data.headDetail;
+            //         this.formDataDetail_evaluate = res.data.listDetail; 
+            //     });
+            // }else{
+            //     let data = this.$store.state.data.data;
                 
-                this.formData = data.main;
-                this.formDataDetail_target = data.headDetail;
-                this.formDataDetail_evaluate = data.listDetail;
-                this.formData.groupName = getLoginInfo('groupName');
-            }
+            //     this.formData = data.main;
+            //     this.formDataDetail_target = data.headDetail;
+            //     this.formDataDetail_evaluate = data.listDetail;
+            //     this.formData.groupName = getLoginInfo('groupName');
+            // }
 
-            let tableData = [];
-            this.formData.inputDate = formatDate(this.formData.inputDate);
-            let doFullNames = this.formData.doFullName;
-            let doneFullNames = this.formData.doneFullName;
-            let targetNames = '';
-            this.formDataDetail_target.forEach(({targetName},index) => {
-                if(index != 0){
-                    targetNames += `,`
-                }
-                targetNames += `${targetName}`
-            });
-            doFullNames.split(',').forEach(val => {
-                tableData.push(
-                    {
-                        doFullName:val,
-                        groupName:doneFullNames,
-                        targetName:targetNames
-                    }
-                );
-            });
-            return Promise.resolve({status:200,data:tableData});
+            // let tableData = [];
+            // this.formData.inputDate = formatDate(this.formData.inputDate);
+            // let doFullNames = this.formData.doFullName;
+            // let doneFullNames = this.formData.doneFullName;
+            // let targetNames = '';
+            // this.formDataDetail_target.forEach(({targetName},index) => {
+            //     if(index != 0){
+            //         targetNames += `,`
+            //     }
+            //     targetNames += `${targetName}`
+            // });
+            // doFullNames.split(',').forEach(val => {
+            //     tableData.push(
+            //         {
+            //             doFullName:val,
+            //             groupName:doneFullNames,
+            //             targetName:targetNames
+            //         }
+            //     );
+            // });
+            // return Promise.resolve({status:200,data:tableData});
         },
         rowSelected(){
 
@@ -230,10 +256,20 @@ export default {
         
     },
     created:function(){// 组件创建后
-        // DOTO
         this.type = this.$route.query.useType;
+        this.id=this.$route.query.id;
+        const data=this.$route.query.formDate; 
         if(Object.is(this.type,'modify')){
             this.type = 'amodify'
+        }
+        if(Object.is(this.type,'view')){
+            this.formData.evaluKind=data.EvaluKind;
+            // this.formData.taskName=data.TaskName;
+            this.formData.inputDate=formatDate(data.InputDate);
+            get(this.id).then(res=>{
+                console.log(res);
+            })
+
         }
     },
     mounted:function(){// 组件加载完成

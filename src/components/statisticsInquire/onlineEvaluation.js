@@ -50,6 +50,20 @@ export function getEvaluteState(){
     return Promise.resolve({status:200,data:evaluteTStateOptions});
 }
 
+// 统计查询状态
+const statisticalStateOptions = [
+    {
+        value: '已统计',
+        label: '已统计'
+    },{
+        value: '未统计',
+        label: '未统计'
+    }
+]
+export function getStatisticalState(){
+    return Promise.resolve({status:200,data:statisticalStateOptions});
+}
+
 const loginInfo = {
     inputerUserNo:store.state.userInfo.id,
     inputerFullName:store.state.userInfo.name,

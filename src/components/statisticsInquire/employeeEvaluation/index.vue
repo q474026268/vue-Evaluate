@@ -136,7 +136,7 @@ export default {
         }
     },
     methods:{// 自定义方法
-        // 年度选择变化
+        // 年度选择变化  cv vfdrtbn hgnm mnbjhmb nbvghnb hgtbhghtghbvt
         yearChange(){
             if(this.year==1){
                 this.endYear='';

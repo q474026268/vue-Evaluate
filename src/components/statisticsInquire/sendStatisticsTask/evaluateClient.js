@@ -29,7 +29,7 @@ export function save(data){
 
 export function get(id){
     return request({
-        url: '/evaluateTable/get/'+id,
+        url: '/evaluateTable/getDetailTask/'+id,
         method: 'GET'
     })
 }

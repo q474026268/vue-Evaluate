@@ -140,6 +140,19 @@ export function getSelect() {
     return Promise.resolve({ status: 200, data: selectOptions });
 }
 
+// 统计查询状态
+const statisticalStateOptions = [
+    {
+        value: '已统计',
+        label: '已统计'
+    },{
+        value: '未统计',
+        label: '未统计'
+    }
+]
+export function getStatisticalState() {
+    return Promise.resolve({ status: 200, data: statisticalStateOptions });
+}
 //登录信息
 // const loginInfo = {
 //     inputerUserNo:store.state.userInfo.id,

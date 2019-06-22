@@ -13,13 +13,16 @@
             size="mini"
             placeholder="测评表名称"
             v-model="tableName"
-            class="tastName"
+            class="tableName"
             style="width:200px"
             clearable
           ></el-input>
         </el-col>
         <el-col :span="6">
           <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
+        </el-col>
+        <el-col :span="12">
+          <el-input placeholder="请输入任务名称" v-model="tastName" size="mini" style="width:300px;margin-left:9%"></el-input>
         </el-col>
       </el-row>
       <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
@@ -57,7 +60,10 @@ export default {
       title: "统计任务发送",
       data: [],
       value: [],
-      tableName: ""
+      //评测表名
+      tableName: "",
+      //任务表名
+      tastName:"",
     };
   },
   methods: {
@@ -118,7 +124,6 @@ export default {
     // 组件创建后
     gets()
       .then(result => {
-        console.log(result.data);
         for (let i = 0; i < result.data.length; i++) {
           this.data.push(result.data[i]);
           this.data[i].key = result.data[i].EvaluateId;
@@ -179,7 +184,7 @@ h4 {
 .el-transfer-panel {
   width: 44%;
 }
-.tastName {
+.tableName {
   margin-bottom: 2%;
 }
 </style>
