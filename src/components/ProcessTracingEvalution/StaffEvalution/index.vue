@@ -60,7 +60,6 @@ export default {
           width: 150,
           sortable: true
         },
-        
         {
           id: "levelType",
           text: "评价方式",

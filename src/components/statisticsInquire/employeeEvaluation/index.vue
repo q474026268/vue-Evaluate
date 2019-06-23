@@ -376,19 +376,16 @@ export default {
       // console.log(evaluateIdsStr);
       // console.log(taskId);
 
-      switch (this.exportedDataFormat) {
+     switch (this.exportedDataFormat) {
         case "1":
-          this.srcUrl = `${reportBaseUrl}reportlet=基本数据.cpt&op=write`;
+          this.srcUrl = `${reportBaseUrl}reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
           break;
         case "2":
           this.srcUrl =
-            `${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=` +
-            evaluateIdsStr;
+            `${reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
           break;
         case "3":
-          this.srcUrl = `${reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${
-            this.specificTarget
-          }`;
+          this.srcUrl = `${reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${this.specificTarget}`;
           break;
         case "4":
           this.echatFlag = true;

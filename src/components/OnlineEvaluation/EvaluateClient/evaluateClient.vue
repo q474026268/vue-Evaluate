@@ -400,11 +400,12 @@ export default {
               let targetPkid = [];
               for (let i = 0; i < index.length; i++) {
                 targetName.push(index[i].targetName);
-                targetPkid.push(index[i].pkid);
+                targetPkid.push(index[i].targetPkid);
               }
               this.formData.targetName = targetName.join(",");
               this.formData.targetPkid = targetPkid.join(",");
             }
+            console.log(this.formData);
             const loading = this.$loading({
               lock: true,
               text: "数据加载中,请稍等",
@@ -456,6 +457,7 @@ export default {
     // 组件创建后
     const data = this.$store.state.data.data;
     this.type = this.$route.query.useType;
+    console.log(this.type);
     if (this.type == "addtow") {
       const datas = this.$store.state.data.datas;
       this.formData.evaluKind=datas.evaluKind;
@@ -463,10 +465,17 @@ export default {
       this.formData.inputDate=datas.inputDate;
       this.formData.groupName=datas.groupName;
       this.formDataDetail_index=datas.childrens;
+      for(let i=0;i<datas.childrens.length;i++){
+        this.formDataDetail_index.push({
+          targetPkid:datas.childrens[i].pkid
+        })
+      }
+      console.log(this.formDataDetail_index);
     } else {
       this.id = data.main.pkid;
       this.formData = data.main;
       this.formDataDetail_index = data.detail;
+      console.log(this.formDataDetail_index);
     }
     this.isuse = this.$route.query.isUse;
     // 获取模板数据

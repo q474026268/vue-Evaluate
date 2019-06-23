@@ -152,6 +152,7 @@ export default {
         let data = Object.assign({}, this.formData);
         data["childrens"] = Array.from(newFormDataDetail);
         if (mark == 0) {
+          console.log(data);
           save(data).then(res => {
             if (res.status == 200) {
               let callback = this.$store.state.data.callback;

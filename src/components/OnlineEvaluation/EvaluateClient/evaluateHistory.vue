@@ -325,6 +325,7 @@ export default {
           let data = this.formData;
           data["headChildrens"] = Array.from(headChildrens);
           data["listChildrens"] = Array.from(listChildrens);
+          console.log(data);
           const loading = this.$loading({
             lock: true,
             text: "保存数据中,请稍等",
