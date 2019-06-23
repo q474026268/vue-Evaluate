@@ -128,7 +128,7 @@ import {
 import { getLoginInfo } from "../../OnlineEvaluation/onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
 
-const reportBaseUrl = "http://localhost:8075/WebReport/ReportServer?";
+const reportBaseUrl = "http://172.17.211.208:8075/WebReport/ReportServer?";
 export default {
   name: "employeeEvaluationStaff",
   props: {
@@ -358,7 +358,7 @@ export default {
 
       switch (this.exportedDataFormat){
           case '1':
-              this.srcUrl=`${reportBaseUrl}reportlet=WorkBook1.cpt`
+              this.srcUrl=`${reportBaseUrl}reportlet=基本数据.cpt&op=write`
               break;
           case '2':
               this.srcUrl=`${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=`+evaluateIdsStr
