@@ -22,11 +22,12 @@
           <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
         </el-col>
         <el-col :span="12">
+          <span style="margin-left:9%;">请输入生成的任务名称:</span>
           <el-input
-            placeholder="请输入任务名称"
             v-model="tastName"
             size="mini"
-            style="width:300px;margin-left:9%"
+            style="width:200px;"
+            class="tastName"
           ></el-input>
         </el-col>
       </el-row>
@@ -97,7 +98,6 @@ export default {
         saveData.taskName = this.tastName;
         saveData.inputerUserNo=this.$store.state.userInfo.id;
         saveData.inputerFullName=this.$store.state.userInfo.name;
-        console.log(saveData);
         if (saveData.evaluateId == "") {
           this.$message({
             message: "请选择评价表！",
@@ -216,4 +216,5 @@ h4 {
 .tableName {
   margin-bottom: 2%;
 }
+
 </style>

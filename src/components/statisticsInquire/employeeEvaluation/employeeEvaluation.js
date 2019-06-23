@@ -18,16 +18,16 @@ export function deletePeople(pkid){
     })
 }
 
-// 获取年度下拉框
-export function gets(){
-    return request({
-        url: '/evaluatePlan/gets',
-        data:{
-            filters:JSON.stringify({flag:3})
-        },
-        method: 'POST',
-    })
-}
+// // 获取年度下拉框
+// export function gets(){
+//     return request({
+//         url: '/evaluatePlan/gets',
+//         data:{
+//             filters:JSON.stringify({flag:3})
+//         },
+//         method: 'POST',
+//     })
+// }
 
 // 获取年度任务
 export function getByYear(data){

@@ -20,7 +20,8 @@
                 v-for="item in yearShowData"
                 :key="item.pkid"
                 :label="item.evaluPlan"
-                :value="item.pkid">
+                :value="item.pkid"
+                >
                 </el-option>
             </el-select>
             <span style="margin-right:10px;margin-left:10px;width:10px;">至</span>
@@ -155,7 +156,6 @@ export default {
                 let data={};
                 data.planPKID=this.startYear;
                 console.log(data);
-                
                 getByYear(data).then((result) => {
                     console.log(result.data)
                     this.evaluationFormSel=result.data;
