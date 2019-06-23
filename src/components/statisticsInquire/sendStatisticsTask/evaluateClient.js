@@ -27,10 +27,13 @@ export function save(data){
     })
 }
 
-export function get(id){
+export function getA(evaluateId){
     return request({
-        url: '/evaluateTable/getDetailTask/'+id,
-        method: 'GET'
+        url: '/evaluateClientStatis/getDetailTask',
+        data:{
+            evaluateId
+        },
+        method: 'POST'
     })
 }
 

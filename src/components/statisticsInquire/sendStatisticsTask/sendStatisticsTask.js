@@ -7,6 +7,17 @@ export function gets(){
     })
 }
 
+//根据查询获取在线评价列表
+export function getSelectEvaluateTname(evaluateTname){
+    return request({
+        url: '/evaluateClientStatis/getToBeSelected',
+        data:{
+            evaluateTname
+        },
+        method: 'POST'
+    })
+}
+
 // 保存已选评价表
 export function send(data){
     

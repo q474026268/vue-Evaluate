@@ -22,7 +22,12 @@
           <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入任务名称" v-model="tastName" size="mini" style="width:300px;margin-left:9%"></el-input>
+          <el-input
+            placeholder="请输入任务名称"
+            v-model="tastName"
+            size="mini"
+            style="width:300px;margin-left:9%"
+          ></el-input>
         </el-col>
       </el-row>
       <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
@@ -35,7 +40,7 @@
 </template>
 
 <script>
-import { gets, send } from "./sendStatisticsTask.js";
+import { gets, send, getSelectEvaluateTname } from "./sendStatisticsTask.js";
 import { getLoginInfo } from "../../OnlineEvaluation/onlineEvaluation.js";
 export default {
   name: "customerSatisfactionView",
@@ -63,7 +68,7 @@ export default {
       //评测表名
       tableName: "",
       //任务表名
-      tastName:"",
+      tastName: ""
     };
   },
   methods: {
@@ -73,42 +78,66 @@ export default {
     },
     // 保存
     save() {
-      let saveData = {};
-      saveData.evaluateId = this.value.join(",");
-      for (let i = 0; i < this.value.length; i++) {
-        if (this.data[i].key == this.value[i]) {
-          saveData.planPKID = this.data[i].planPKID;
-          saveData.evaluKind = this.data[i].EvaluKind;
-          saveData.evaluateTname = this.data[i].EvaluateTname;
-          break;
-        }
-      }
-      if (saveData.evaluateId == "") {
+      if (this.tastName == "") {
         this.$message({
-          message: "请选择评价表！",
+          message: "任务名称不能为空请输入",
           type: "warning"
         });
       } else {
-        send(saveData).then(result => {
-          if (result.status == 200) {
-            if (result.data == false) {
-              this.$message({
-                type: "warning",
-                message: "保存失败！指标不同无法合并"
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "保存成功!"
-              });
-              this.$router.back();
-              this.$store.state.data.callback();
-            }
-          } else {
-            this.$message.error("保存失败!");
+        let saveData = {};
+        saveData.evaluateId = this.value.join(",");
+        for (let i = 0; i < this.value.length; i++) {
+          if (this.data[i].key == this.value[i]) {
+            saveData.planPKID = this.data[i].planPKID;
+            saveData.evaluKind = this.data[i].EvaluKind;
+            saveData.evaluateTname = this.data[i].EvaluateTname;
+            break;
           }
-        });
+        }
+        saveData.taskName = this.tastName;
+        saveData.inputerUserNo=this.$store.state.userInfo.id;
+        saveData.inputerFullName=this.$store.state.userInfo.name;
+        console.log(saveData);
+        if (saveData.evaluateId == "") {
+          this.$message({
+            message: "请选择评价表！",
+            type: "warning"
+          });
+        } else {
+          send(saveData).then(result => {
+            if (result.status == 200) {
+              if (result.data == false) {
+                this.$message({
+                  type: "warning",
+                  message: "保存失败！指标不同无法合并"
+                });
+              } else {
+                this.$message({
+                  type: "success",
+                  message: "保存成功!"
+                });
+                this.$router.back();
+                this.$store.state.data.callback();
+              }
+            } else {
+              this.$message.error("保存失败!");
+            }
+          });
+        }
       }
+    },
+    //根据评价名字查询
+    search() {
+      //调用查询评价名字数据的接口
+      getSelectEvaluateTname(this.tableName).then(result => {
+        this.data = [];
+        for (let i = 0; i < result.data.length; i++) {
+          this.data.push(result.data[i]);
+          this.data[i].key = result.data[i].EvaluateId;
+          let stateName = result.data[i].EvaluPlan;
+          this.data[i].label = result.data[i].EvaluateTname + "——" + stateName;
+        }
+      });
     }
   },
   /**
@@ -127,16 +156,16 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           this.data.push(result.data[i]);
           this.data[i].key = result.data[i].EvaluateId;
-          let stateName = "";
-          let state = result.data[i].state;
-          if (state == "finish") {
-            // this.data[i].disabled=true;
-            stateName = "已统计";
-          } else if (state == "start") {
-            stateName = "统计中";
-          } else {
-            stateName = "未统计";
-          }
+          let stateName = result.data[i].EvaluPlan;
+          // let state = result.data[i].state;
+          // if (state == "finish") {
+          //   // this.data[i].disabled=true;
+          //   stateName = "已统计";
+          // } else if (state == "start") {
+          //   stateName = "统计中";
+          // } else {
+          //   stateName = "未统计";
+          // }
           this.data[i].label = result.data[i].EvaluateTname + "——" + stateName;
         }
       })

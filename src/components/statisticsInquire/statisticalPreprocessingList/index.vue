@@ -64,20 +64,6 @@ export default {
           sortable: true
         },
         {
-          id: "LevelType",
-          text: "评价方式",
-          align: "center",
-          width: 80,
-          sortable: true
-        },
-        {
-          id: "groupName",
-          text: "制表部门",
-          align: "center",
-          width: 120,
-          sortable: true
-        },
-        {
           id: "InputDate",
           text: "制表时间",
           align: "center",
@@ -88,27 +74,13 @@ export default {
           }
         },
         {
-          id: "doUserCount",
-          text: "评价人数",
-          align: "center",
-          width: 60,
-          sortable: true
-        },
-        {
-          id: "DoneUserCount",
-          text: "被评价人数",
-          align: "center",
-          width: 80,
-          sortable: true
-        },
-        {
           id: "state",
           text: "状态",
           align: "center",
           width: 60,
           sortable: true,
           formatter: function(row, column) {
-            if (row.state == "finish") {
+            if (row.State == "finish") {
               return "已统计";
             } else {
               return "统计中";
@@ -140,12 +112,12 @@ export default {
               text: "查看",
               icon: "el-icon-view",
               click: row => {
-                if (row.state == "finish") {
+                if (row.State == "finish") {
                   this.$router.push({
                     name: "statisticalClientViewStaff",
                     query: {
                       useType: "view",
-                      id: row.TaskId,
+                      id: row.EvaluateId,
                       nowPage: "statisticalPreprocessingList",
                       formDate:row
                     }
