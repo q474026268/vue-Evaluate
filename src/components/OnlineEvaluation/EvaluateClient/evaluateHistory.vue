@@ -228,6 +228,8 @@ export default {
       planPkid: "",
       //催办提前期
       emailDay: "",
+      //计划名称
+      evaluPlan:"",
       // 明细数据
       formDataDetail: [],
       // 弹出窗口宽度
@@ -250,7 +252,6 @@ export default {
     },
     //调整
     update(row, number) {
-      this.formData.planName = this.formData.evaluateTname;
       const loading = this.$loading({
         lock: true,
         text: "数据加载中,请稍等",
@@ -279,7 +280,6 @@ export default {
 
     // 分发 暂存
     handout(formName, mark) {
-      this.formData.planName = this.formData.evaluateTname;
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 指标数据
@@ -375,6 +375,7 @@ export default {
         if (res.status == 200) {
           this.planPkid = res.data.pkid;
           this.emailDay = res.data.emailDay;
+          this.evaluPlan=res.data.evaluPlan;
         }
         //将计划信息中的数据赋值给主表数据
         //计划pKid
@@ -383,6 +384,7 @@ export default {
         this.formData.modelPkid = this.$route.query.modelPkid;
         //预警提前期
         this.formData.emailDay = this.emailDay;
+        this.formData.planName=this.evaluPlan;
       });
       //评价指标列表数据
       let index = data.index;
