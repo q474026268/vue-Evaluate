@@ -128,7 +128,7 @@ import {
 import { getLoginInfo } from "../../OnlineEvaluation/onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
 
-const reportBaseUrl = "http://172.17.211.208:8075/webroot/decision/view/report?";
+const reportBaseUrl = "http://localhost:8075/WebReport/ReportServer?";
 export default {
   name: "employeeEvaluationStaff",
   props: {
@@ -272,6 +272,7 @@ export default {
     // 指标类型变化
     getTarget() {
       getByEvaluKind(this.evaluKind).then(result => {
+        console.log("获取指标");
         console.log(result);
         this.specificIndicatorsSel = result.data;
       });
@@ -357,7 +358,7 @@ export default {
 
       switch (this.exportedDataFormat){
           case '1':
-              this.srcUrl=`${reportBaseUrl}viewlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateId=${evaluateId}`
+              this.srcUrl=`${reportBaseUrl}reportlet=WorkBook1.cpt`
               break;
           case '2':
               this.srcUrl=`${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=`+evaluateIdsStr

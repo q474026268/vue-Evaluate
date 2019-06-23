@@ -45,11 +45,13 @@ export function getByYear(data){
 }
 
 // 获取具体指标下拉框数据
-export function getByEvaluKind(data){
+export function getByEvaluKind(evaluKind){
     return request({
-        url: '/evaluateTarget/getByEvaluKind',
-        params:{evaluKind:data},
-        method: 'GET',
+        url: '/evaluateTarget/selectEvaluateTarget',
+        data:{
+            evaluKind
+        },
+        method: 'POST',
     })
 }
 
