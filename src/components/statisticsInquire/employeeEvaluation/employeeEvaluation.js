@@ -54,6 +54,17 @@ export function getByEvaluKind(evaluKind){
         method: 'POST',
     })
 }
+export function getTu(taskId){
+    return request({
+        url: '/evaluateClientStatis/getTu',
+        data:{
+            taskId
+        },
+        method: 'POST',
+    })
+}
+
+
 
 // 导出
 export function exportExcel(data){

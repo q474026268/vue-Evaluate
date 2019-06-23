@@ -178,12 +178,13 @@ export default {
                   }
                   // 保存并使用
                   this.$store.commit("setData", {
-                    data: res.data
+                    data: res.data,
+                    datas: data
                   });
                   this.$router.push({
                     name: "evaluateClientStaff",
                     query: {
-                      useType: "add"
+                      useType: "addtow"
                     }
                   });
                 }

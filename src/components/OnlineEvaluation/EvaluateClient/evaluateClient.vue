@@ -8,13 +8,13 @@
       :close-on-click-modal="false"
     >
       <el-form ref="form" :model="formData" :rules="formRules" label-width="100px">
-        <el-row>
+        <!-- <el-row>
           <el-col :span="8">
             <el-form-item prop="pkid" label="编号" v-show="false">
               <el-input v-model="formData.pkid" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="8">
             <el-form-item prop="evaluKind" label="模板类别" class="item">
@@ -456,11 +456,21 @@ export default {
     // 组件创建后
     const data = this.$store.state.data.data;
     this.type = this.$route.query.useType;
-    this.id = data.main.pkid;
+    if (this.type == "addtow") {
+      const datas = this.$store.state.data.datas;
+      this.formData.evaluKind=datas.evaluKind;
+      this.formData.modelName=datas.modelName;
+      this.formData.inputDate=datas.inputDate;
+      this.formData.groupName=datas.groupName;
+      this.formDataDetail_index=datas.childrens;
+    } else {
+      this.id = data.main.pkid;
+      this.formData = data.main;
+      this.formDataDetail_index = data.detail;
+    }
     this.isuse = this.$route.query.isUse;
     // 获取模板数据
-    this.formData = data.main;
-    this.formDataDetail_index = data.detail;
+
     //在存储数据前 先清空vueX中的被评价人与评价人数据
     this.$store.state.group = [];
     this.$store.state.evaluate = [];

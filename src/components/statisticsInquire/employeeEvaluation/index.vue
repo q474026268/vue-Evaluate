@@ -2,7 +2,7 @@
   <div id="employeeEvaluation">
     <div class="exportedDataFormat">
       <span class="formate">数据格式：</span>
-      <el-radio-group v-model="exportedDataFormat">
+      <el-radio-group v-model="exportedDataFormat" @change="exportedDataFormatChange">
         <el-radio label="1">基本数据</el-radio>
         <el-radio label="2">总分统计</el-radio>
         <el-radio label="3">单项指标统计表</el-radio>
@@ -50,14 +50,19 @@
     </div>
     <div class="lastDiv">
       <div>
-          <el-select v-model="evaluationForm" placeholder="评价表" size="mini" @change="evaluationFormSelChange">
-            <el-option
-              v-for="item in evaluationFormSel"
-              :key="item.taskId"
-              :label="item.taskName"
-              :value="item.taskId"
-            ></el-option>
-          </el-select>
+        <el-select
+          v-model="evaluationForm"
+          placeholder="评价表"
+          size="mini"
+          @change="evaluationFormSelChange"
+        >
+          <el-option
+            v-for="item in evaluationFormSel"
+            :key="item.taskId"
+            :label="item.taskName"
+            :value="item.taskId"
+          ></el-option>
+        </el-select>
       </div>
       <div>
         <el-select
@@ -86,7 +91,7 @@
             v-for="(item,index) in specificIndicatorsSel"
             :key="index"
             :label="item.targetName"
-            :value="index+1"
+            :value="item.pkid"
           ></el-option>
         </el-select>
       </div>
@@ -110,6 +115,7 @@
                 </el-option>
       </el-select>-->
     </div>
+    <div id="myChart" :style="{width: '1000px', height: '500px'}" v-show="this.echatFlag"></div>
     <footer>
       <el-button @click="confirm" type="primary">确定</el-button>
       <el-button @click="clear">清空</el-button>
@@ -120,10 +126,11 @@
 
 <script>
 import {
-//   gets,
+  //   gets,
   getByYear,
   getByEvaluKind,
-  exportExcel
+  exportExcel,
+  getTu
 } from "./employeeEvaluation.js";
 import { getLoginInfo } from "../../OnlineEvaluation/onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
@@ -165,14 +172,16 @@ export default {
       // 链接
       evaluateIds: "1",
       //评价表数据对应的taskId
-      taskID:"",
-      srcUrl: ""
+      taskID: "",
+      //iframe引入页面地址
+      srcUrl: "",
+      //是否显示echat页面
+      echatFlag: false
       // srcUrl:`http://10.214.93.90:8075/WebReport/ReportServer?reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIds}`,
     };
   },
   methods: {
     // 自定义方法
-    // 年度选择变化  cv vfdrtbn hgnm mnbjhmb nbvghnb hgtbhghtghbvt
     yearChange() {
       if (this.year == 1) {
         this.endYear = "";
@@ -208,6 +217,7 @@ export default {
       if (this.year == 1) {
         let data = {};
         data.yearO = formatDate(this.startYear).substring(0, 7);
+        // data.yearT=formatDate(this.endYear).substring(0, 7);
         getByYear(data).then(result => {
           this.evaluationFormSel = result.data;
         });
@@ -242,31 +252,41 @@ export default {
     },
     // 结束年度变化
     endYearChange() {
-      if (this.startYear == "") {
-        this.$message({
-          message: "请选择初始年度选项!",
-          type: "warning"
-        });
-      } else {
+      if (this.year != 1) {
         let data = {};
-        let yearArr = [];
-        for (let i = 0; i < this.yearShowData.length; i++) {
-          if (this.yearShowData[i].pkid == this.startYear) {
-            yearArr.push(this.yearShowData[i].inputDate);
-            break;
-          }
-        }
-        for (let i = 0; i < this.yearShowData.length; i++) {
-          if (this.yearShowData[i].pkid == this.endYear) {
-            yearArr.push(this.yearShowData[i].inputDate);
-          }
-        }
-        data.yearRange = yearArr.join(",");
+        data.yearO = this.startYear;
+        data.yearT = this.endYear;
         console.log(data);
         getByYear(data).then(result => {
-          console.log(result.data);
           this.evaluationFormSel = result.data;
         });
+      } else {
+        if (this.endYear == "") {
+          this.$message({
+            message: "请选择结束年度选项!",
+            type: "warning"
+          });
+        } else {
+          let data = {};
+          let yearArr = [];
+          for (let i = 0; i < this.yearShowData.length; i++) {
+            if (this.yearShowData[i].pkid == this.startYear) {
+              yearArr.push(this.yearShowData[i].inputDate);
+              break;
+            }
+          }
+          for (let i = 0; i < this.yearShowData.length; i++) {
+            if (this.yearShowData[i].pkid == this.endYear) {
+              yearArr.push(this.yearShowData[i].inputDate);
+            }
+          }
+          data.yearRange = yearArr.join(",");
+          console.log(data);
+          getByYear(data).then(result => {
+            console.log(result.data);
+            this.evaluationFormSel = result.data;
+          });
+        }
       }
     },
     // 指标类型变化
@@ -279,61 +299,61 @@ export default {
     },
     // 确定
     confirm() {
-      // if(this.startYear==''){
-      //     this.$message({
-      //         message: '请选择初始年度选项!',
-      //         type: 'warning'
-      //     });
-      //     return false;
-      // }
-      // if(this.year==2 && this.endYear==''){
-      //     this.$message({
-      //         message: '请选择结束年度选项!',
-      //         type: 'warning'
-      //     });
-      //     return false;
-      // }
-      // if(this.evaluationForm==''){
-      //     this.$message({
-      //         message: '请选择评价表!',
-      //         type: 'warning'
-      //     });
-      //     return false;
-      // }
-
-      // if(this.evaluKind=='' && this.exportedDataFormat==3){
-      //     this.$message({
-      //         message: '请选择指标类型!',
-      //         type: 'warning'
-      //     });
-      //     return false;
-      // }
-      // if(this.specificTarget=='' && this.exportedDataFormat==3){
-      //     this.$message({
-      //         message: '请选择具体指标!',
-      //         type: 'warning'
-      //     });
-      //     return false;
-      // } 
-      let evaluateId="";
-      let taskId="";
-      let planPkid="";
-      let taskArr=[];
-      console.log(this.evaluationFormSel);  
-      for (let i = 0; i < this.evaluationFormSel.length; i++) {
-          if(this.taskID==this.evaluationFormSel[i].taskId){
-              taskArr.push({
-                  evaluateId:this.evaluationFormSel[i].evaluateId,
-                  planPkid:this.evaluationFormSel[i].planPKID,
-                  taskId:this.evaluationFormSel[i].taskId
-              })
-          }
+      this.echatFlag = false;
+      if (this.startYear == "") {
+        this.$message({
+          message: "请选择初始年度选项!",
+          type: "warning"
+        });
+        return false;
       }
-      console.log(taskArr);    
-      taskId=taskArr[0].taskId;
-      planPkid=taskArr[0].planPkid;
-      evaluateId=taskArr[0].evaluateId;
-      console.log(taskId,planPkid,evaluateId);
+      if (this.year == 2 && this.endYear == "") {
+        this.$message({
+          message: "请选择结束年度选项!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (this.evaluationForm == "") {
+        this.$message({
+          message: "请选择评价表!",
+          type: "warning"
+        });
+        return false;
+      }
+
+      if (this.evaluKind == "" && this.exportedDataFormat == 3) {
+        this.$message({
+          message: "请选择指标类型!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (this.specificTarget == "" && this.exportedDataFormat == 3) {
+        this.$message({
+          message: "请选择具体指标!",
+          type: "warning"
+        });
+        return false;
+      }
+      let evaluateId = "";
+      let taskId = "";
+      let planPkid = "";
+      let taskArr = [];
+      for (let i = 0; i < this.evaluationFormSel.length; i++) {
+        if (this.taskID == this.evaluationFormSel[i].taskId) {
+          taskArr.push({
+            evaluateId: this.evaluationFormSel[i].evaluateId,
+            planPkid: this.evaluationFormSel[i].planPKID,
+            taskId: this.evaluationFormSel[i].taskId
+          });
+        }
+      }
+      console.log(taskArr);
+      taskId = taskArr[0].taskId;
+      planPkid = taskArr[0].planPkid;
+      evaluateId = taskArr[0].evaluateId;
+      console.log(taskId, planPkid, evaluateId);
       // let evaluateIdsArr=[];
       // let evaluateIdsStr='';
       // let taskId='';
@@ -356,19 +376,26 @@ export default {
       // console.log(evaluateIdsStr);
       // console.log(taskId);
 
-      switch (this.exportedDataFormat){
-          case '1':
-              this.srcUrl=`${reportBaseUrl}reportlet=基本数据.cpt&op=write`
-              break;
-          case '2':
-              this.srcUrl=`${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=`+evaluateIdsStr
-              break;
-          case '3':
-              this.srcUrl=`${reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${this.specificTarget}`
-              break;
-          case '4':
-              this.srcUrl=`${reportBaseUrl}reportlet=vue%2FChart.cpt&taskIds=${taskId}`
-              break;
+      switch (this.exportedDataFormat) {
+        case "1":
+          this.srcUrl = `${reportBaseUrl}reportlet=基本数据.cpt&op=write`;
+          break;
+        case "2":
+          this.srcUrl =
+            `${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=` +
+            evaluateIdsStr;
+          break;
+        case "3":
+          this.srcUrl = `${reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${
+            this.specificTarget
+          }`;
+          break;
+        case "4":
+          this.echatFlag = true;
+          getTu(taskId).then(res => {
+            this.drawLine(res.data);
+          });
+          break;
       }
 
       console.log(this.srcUrl);
@@ -383,7 +410,110 @@ export default {
     },
     //评价表改变事件
     evaluationFormSelChange(val) {
-      this.taskID=val;
+      this.taskID = val;
+    },
+    //echat视图
+    drawLine(data) {
+      let myChart = this.$echarts.init(document.getElementById("myChart"));
+      //获取用户名
+      let userfullname = [];
+      for (let i = 0; i < data.length; i++) {
+        userfullname.push(data[i].UserFullName);
+      }
+      let tagetA=[];
+      for (let i = 0; i < data.length; i++) {
+        tagetA.push(data[i].A);
+      }
+      let tagetB=[];
+      for (let i = 0; i < data.length; i++) {
+        tagetB.push(data[i].B);
+      }
+      let tagetC=[];
+      for (let i = 0; i < data.length; i++) {
+        tagetC.push(data[i].C);
+      }
+      let tagetN=[];
+      for (let i = 0; i < data.length; i++) {
+        tagetN.push(data[i].N);
+      }
+      let option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ["A", "B", "C", "N"]
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ["line", "bar", "stack", "tiled"] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
+        },
+        calculable: true,
+        xAxis: [
+          {
+            type: "value"
+          }
+        ],
+        yAxis: [
+          {
+            type: "category",
+            data: userfullname
+          }
+        ],
+        series: [
+          {
+            name: "A",
+            type: "bar",
+            stack: "总量",
+            itemStyle: {
+              normal: { label: { show: true, position: "insideRight" } }
+            },
+            data: tagetA
+          },
+          {
+            name: "B",
+            type: "bar",
+            stack: "总量",
+            itemStyle: {
+              normal: { label: { show: true, position: "insideRight" } }
+            },
+            data: tagetB
+          },
+          {
+            name: "C",
+            type: "bar",
+            stack: "总量",
+            itemStyle: {
+              normal: { label: { show: true, position: "insideRight" } }
+            },
+            data: tagetC
+          },
+          {
+            name: "N",
+            type: "bar",
+            stack: "总量",
+            itemStyle: {
+              normal: { label: { show: true, position: "insideRight" } }
+            },
+            data: tagetN
+          },
+        ]
+      };
+      // 绘制图表
+      myChart.setOption(option);
+    },
+    //根据选中项改变事件隐藏echat视图
+    exportedDataFormatChange() {
+      this.echatFlag = false;
     }
   },
   /**
@@ -406,7 +536,6 @@ export default {
   },
   mounted: function() {
     // 组件加载完成
-    // DOTO
   },
   beforeUpdate: function() {
     // 组件数据更新之前

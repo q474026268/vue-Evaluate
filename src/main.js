@@ -9,6 +9,8 @@ import './utils/veeValidate.js'
 import {store} from './store/store.js'
 // 自定义样式
 import '@/style/index.css' // global css
+import echarts from 'echarts' //引入echarts
+Vue.prototype.$echarts = echarts //引入组件
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
