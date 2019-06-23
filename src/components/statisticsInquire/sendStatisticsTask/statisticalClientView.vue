@@ -9,31 +9,29 @@
     >
       <el-form ref="form" :model="formData" label-width="100px">
         <el-row>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item prop="id" label="编号" v-show="false">
               <el-input v-model="formData.id" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item prop="evaluKind" label="评价类别：" class="item">
               <label>{{formData.evaluKind}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item prop="taskName" label="任务名称：" class="item">
               <label>{{formData.taskName}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item prop="inputDate" label="制表时间：" class="item">
               <label>{{formData.inputDate}}</label>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item prop="inputerFullName" label="制表人：" class="item">
               <label>{{formData.inputerFullName}}</label>
             </el-form-item>

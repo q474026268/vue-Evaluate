@@ -37,7 +37,7 @@
               placeholder="评价表名"
               size="small"
               clearable
-              style="width:305px;"
+              style="width:435px;"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -52,18 +52,31 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="5">
+        <el-col :span="7">
           <el-form-item>
             <el-input
               v-model="searchData.groupName"
               placeholder="部门"
               size="small"
-              style="width:200px;"
+              style="width:305px;"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="7">
+          <el-form-item label-width="100px">
+            <el-date-picker
+              size="small"
+              v-model="searchData.dateFrame"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="制表开始日期"
+              end-placeholder="制表结束日期"
+              style="width:305px;"
+            ></el-date-picker>
+          </el-form-item>
+        </el-col >
+        <el-col :span="3">
           <el-form-item>
             <el-input
               v-model="searchData.inputerFullName"
@@ -74,12 +87,13 @@
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <el-form-item>
             <el-select
               v-model="searchData.state"
               placeholder="状态"
               size="small"
+               style="width:213px;"
             >
               <el-option
                 v-for="item in stateOptions"
@@ -90,19 +104,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label-width="100px">
-            <el-date-picker
-              size="small"
-              v-model="searchData.dateFrame"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="制表开始日期"
-              end-placeholder="制表结束日期"
-              style="width:253px;"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col >
         <el-col :span="3">
           <el-button  style="margin-top: 4px;" type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
         </el-col>

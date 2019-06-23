@@ -170,20 +170,19 @@ export default {
                             message: '废弃成功',
                             type: 'success'
                         });
+                        this.$refs.table.refresh();
                     }else{
                         this.$message.error('废弃失败');
                     }
                 })
-    
                 let filters={};
                 filters.evaluateId=this.evaluateId;
                 getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                    console.log(result);
                     this.tableData=result.data.content
-                    console.log(this.tableData);
                     this.total=result.data.numberOfElements;
                 })
             }
+            
         },
         // 催办
         handleCb(index,row){

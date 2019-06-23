@@ -95,7 +95,7 @@ export default {
         tableHeight: 'calc(100%)',
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
-        opertionColumnWidth:170,
+        opertionColumnWidth:180,
       },
       // 列表配置
       tableColumnConfig: [
@@ -435,9 +435,9 @@ export default {
     // 组件加载完成
     let leftDivDom=document.getElementById("indexManageList")
     let divHeight=window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    leftDivDom.style.height=divHeight*0.61+"px";
+    leftDivDom.style.height=divHeight-228+"px";
     let rightDivDom=document.getElementById("rightTableHeight");
-    rightDivDom.style.height=divHeight*0.61+53+"px";
+    rightDivDom.style.height=divHeight-175+"px";
   },
   beforeUpdate: function() {
     // 组件数据更新之前
@@ -454,11 +454,9 @@ export default {
 #indexManageList {
   float: left;
 }
-.rightList {
 
-}
 .right_button {
-  margin-top: 1%;
+  margin-top: 0.7%;
   margin-left: 50%;
   height: 97px;
 }
