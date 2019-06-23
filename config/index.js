@@ -26,12 +26,12 @@ module.exports = {
           '^/api2': ''   //需要rewrite的,
         },
       },
-      '/api3': {    //将www.exaple.com印射为/apis
-        target: 'http://10.214.93.103:7570',  // 接口域名
+      '/open': {    //将www.exaple.com印射为/apis
+        target: 'http://172.17.211.208:7570',  // 接口域名
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true,  //是否跨域
         pathRewrite: {
-          '^/api3': ''   //需要rewrite的,
+          '^/open': ''   //需要rewrite的,
         },
       },
     },

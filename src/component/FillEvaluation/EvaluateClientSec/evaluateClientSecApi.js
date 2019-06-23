@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/requestXm'
 /* 获取填写评价表 */
 export function evaluateContent(id){
     return request({

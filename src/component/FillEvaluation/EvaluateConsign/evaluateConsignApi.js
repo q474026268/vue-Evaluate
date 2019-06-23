@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/requestXm'
 
 // 保存委托信息
 export function saveConsignInfo(data){
