@@ -179,12 +179,13 @@ export default {
                         }else{
                             this.$message.error('废弃失败');
                         }
-                    })
-                    let filters={};
-                    filters.evaluateId=this.evaluateId;
-                    getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                        this.tableData=result.data.content
-                        this.total=result.data.numberOfElements;
+                        
+                        let filters={};
+                        filters.evaluateId=this.evaluateId;
+                        getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                            this.tableData=result.data.content
+                            this.total=result.data.numberOfElements;
+                        })
                     })
                 }).catch(() => {
                     this.$message({
