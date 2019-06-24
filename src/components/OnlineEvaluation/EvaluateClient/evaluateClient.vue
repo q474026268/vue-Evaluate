@@ -14,7 +14,7 @@
               <el-input v-model="formData.pkid" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
-        </el-row> -->
+        </el-row>-->
         <el-row>
           <el-col :span="8">
             <el-form-item prop="evaluKind" label="模板类别" class="item">
@@ -460,16 +460,26 @@ export default {
     console.log(this.type);
     if (this.type == "addtow") {
       const datas = this.$store.state.data.datas;
-      this.formData.evaluKind=datas.evaluKind;
-      this.formData.modelName=datas.modelName;
-      this.formData.inputDate=datas.inputDate;
-      this.formData.groupName=datas.groupName;
-      this.formDataDetail_index=datas.childrens;
+      this.formData.evaluKind = datas.evaluKind;
+      this.formData.modelName = datas.modelName;
+      this.formData.inputDate = datas.inputDate;
+      this.formData.groupName = datas.groupName;
+      this.formDataDetail_index = datas.childrens;
+      let childrens = datas.childrens;
+      let arr = [];
+      for (let i = 0; i < childrens.length; i++) {
+        arr.push({
+          targetPkid: childrens[i].pkid
+        });
+      }
+      for (let i = 0; i < arr.length; i++) {
+        this.formDataDetail_index[i].targetPkid=arr[i].targetPkid
+      }
+      console.log(this.formDataDetail_index);
     } else {
       this.id = data.main.pkid;
       this.formData = data.main;
       this.formDataDetail_index = data.detail;
-      console.log(this.formDataDetail_index);
     }
     this.isuse = this.$route.query.isUse;
     // 获取模板数据
