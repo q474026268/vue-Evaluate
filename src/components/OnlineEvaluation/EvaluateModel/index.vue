@@ -206,6 +206,9 @@ export default {
         useType: "add",
         callback: this.dialogCallback
       });
+      this.$store.commit("setHandout", {
+        callback: this.dialogCallback
+      });
       this.$router.push({ name: routerName });
     },
     /**

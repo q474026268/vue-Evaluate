@@ -307,20 +307,27 @@ export default {
 
       switch (this.exportedDataFormat) {
         case "1":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIdsStr}`;
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIdsStr}`;
           break;
         case "2":
           this.srcUrl =
-            `${this.reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=` +
-            evaluateIdsStr;
+            `${
+              this.reportBaseUrl
+            }reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=` + evaluateIdsStr;
           break;
         case "3":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${
             this.specificTarget
           }`;
           break;
         case "4":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=vue%2FChart.cpt&taskIds=${taskId}`;
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=vue%2FChart.cpt&taskIds=${taskId}`;
           break;
       }
       console.log(this.srcUrl);
