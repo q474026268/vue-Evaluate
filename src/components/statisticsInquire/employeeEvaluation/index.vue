@@ -252,12 +252,12 @@ export default {
     },
     // 结束年度变化
     endYearChange() {
-      if(this.startYear>this.endYear){
+      if (this.startYear > this.endYear) {
         this.$message({
-          message:'开始不能大于结束时间，请重新输入',
-          type:'warning'
+          message: "开始不能大于结束时间，请重新输入",
+          type: "warning"
         });
-        this.endYear="";
+        this.endYear = "";
         return;
       }
       if (this.year != 1) {
@@ -384,16 +384,17 @@ export default {
       // console.log(evaluateIdsStr);
       // console.log(taskId);
 
-     switch (this.exportedDataFormat) {
+      switch (this.exportedDataFormat) {
         case "1":
           this.srcUrl = `${reportBaseUrl}reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
           break;
         case "2":
-          this.srcUrl =
-            `${reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
+          this.srcUrl = `${reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
           break;
         case "3":
-          this.srcUrl = `${reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${this.specificTarget}`;
+          this.srcUrl = `${reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
+            this.specificTarget
+          }`;
           break;
         case "4":
           this.echatFlag = true;
@@ -419,25 +420,28 @@ export default {
     },
     //echat视图
     drawLine(data) {
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
+      let myChart = this.$echarts.init(
+        document.getElementById("myChart"),
+        "macarons"
+      );
       //获取用户名
       let userfullname = [];
       for (let i = 0; i < data.length; i++) {
         userfullname.push(data[i].UserFullName);
       }
-      let tagetA=[];
+      let tagetA = [];
       for (let i = 0; i < data.length; i++) {
         tagetA.push(data[i].A);
       }
-      let tagetB=[];
+      let tagetB = [];
       for (let i = 0; i < data.length; i++) {
         tagetB.push(data[i].B);
       }
-      let tagetC=[];
+      let tagetC = [];
       for (let i = 0; i < data.length; i++) {
         tagetC.push(data[i].C);
       }
-      let tagetN=[];
+      let tagetN = [];
       for (let i = 0; i < data.length; i++) {
         tagetN.push(data[i].N);
       }
@@ -480,37 +484,109 @@ export default {
             type: "bar",
             stack: "总量",
             itemStyle: {
-              normal: { label: { show: true, position: "insideRight" } }
+              normal: {
+                label: { show: true, position: "insideRight" },
+                barBorderRadius: 7
+              },
+              emphasis: {
+                barBorderRadius: 7
+              }
             },
-            data: tagetA
+            data: tagetA,
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  if (params.value > 0) {
+                    return params.value;
+                  } else {
+                    return "";
+                  }
+                }
+              }
+            }
           },
           {
             name: "B",
             type: "bar",
             stack: "总量",
             itemStyle: {
-              normal: { label: { show: true, position: "insideRight" } }
+              normal: {
+                label: { show: true, position: "insideRight" },
+                barBorderRadius: 7
+              },
+              emphasis: {
+                barBorderRadius: 7
+              }
             },
-            data: tagetB
+            data: tagetB,
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  if (params.value > 0) {
+                    return params.value;
+                  } else {
+                    return "";
+                  }
+                }
+              }
+            }
           },
           {
             name: "C",
             type: "bar",
             stack: "总量",
-            itemStyle: {
-              normal: { label: { show: true, position: "insideRight" } }
+            iitemStyle: {
+              normal: {
+                label: { show: true, position: "insideRight" },
+                barBorderRadius: 7
+              },
+              emphasis: {
+                barBorderRadius: 7
+              }
             },
-            data: tagetC
+            data: tagetC,
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  if (params.value > 0) {
+                    return params.value;
+                  } else {
+                    return "";
+                  }
+                }
+              }
+            }
           },
           {
             name: "N",
             type: "bar",
             stack: "总量",
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params) {
+                  if (params.value > 0) {
+                    return params.value;
+                  } else {
+                    return "";
+                  }
+                }
+              }
+            },
             itemStyle: {
-              normal: { label: { show: true, position: "insideRight" } }
+              normal: {
+                label: { show: true, position: "insideRight" },
+                barBorderRadius: 7
+              },
+              emphasis: {
+                barBorderRadius: 7
+              }
             },
             data: tagetN
-          },
+          }
         ]
       };
       // 绘制图表
