@@ -21,6 +21,7 @@
         size="mini"
         format="yyyy-MM"
         @change="startYearChange"
+        type="month"
       ></el-date-picker>
       <!-- <el-select @change="startYearChange" v-model="startYear" placeholder="请选择初始年度" size="mini">
                 <el-option
@@ -38,6 +39,7 @@
         format="yyyy-MM"
         :disabled="year==1"
         @change="endYearChange"
+        type="month"
       ></el-date-picker>
       <!-- <el-select @change="endYearChange" v-model="endYear" :disabled="year==1" placeholder="请选择结束年度" size="mini">
                 <el-option
@@ -183,6 +185,11 @@ export default {
   methods: {
     // 自定义方法
     yearChange() {
+      this.evaluationForm="";
+      this.startYear="";
+      this.endYear="";
+      this.evaluKind="";
+      this.specificTarget="";
       if (this.year == 1) {
         this.endYear = "";
         if (this.startYear != "") {
@@ -217,7 +224,6 @@ export default {
       if (this.year == 1) {
         let data = {};
         data.yearO = formatDate(this.startYear).substring(0, 7);
-        // data.yearT=formatDate(this.endYear).substring(0, 7);
         getByYear(data).then(result => {
           this.evaluationFormSel = result.data;
         });
@@ -698,6 +704,6 @@ footer button {
   margin-right: 40px !important;
 }
 .formate {
-  margin-left: 45px;
+  margin-left: 29px;
 }
 </style>
