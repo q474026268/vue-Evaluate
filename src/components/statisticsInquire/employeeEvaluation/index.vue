@@ -97,32 +97,17 @@
           ></el-option>
         </el-select>
       </div>
-    </div>
-    <div class="footDiv">
-      <!-- <el-input style="width:217px;margin-right:73px;" v-model="input" placeholder="请选择部门"></el-input>
-            <el-select v-model="value" style="margin-right:27px;" placeholder="请选择岗级">
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
-            </el-select>
-            <el-select v-model="value" placeholder="请选择评价方式">
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
-      </el-select>-->
+       <el-button @click="confirm" type="primary" size="mini" style="margin-left:2%">确定</el-button>
+        <el-button @click="clear" size="mini">清空</el-button>
     </div>
     <div id="myChart" :style="{width: '1000px', height: '500px'}" v-show="this.echatFlag"></div>
-    <footer>
-      <el-button @click="confirm" type="primary">确定</el-button>
-      <el-button @click="clear">清空</el-button>
-    </footer>
-    <iframe :src="srcUrl" frameborder="0" style="width:100%;height:500px;" allowfullscreen></iframe>
+    <iframe
+      :src="srcUrl"
+      frameborder="0"
+      style="width:100%;height:500px;"
+      allowfullscreen
+      v-show="iframeFlag"
+    ></iframe>
   </div>
 </template>
 
@@ -179,13 +164,16 @@ export default {
       //是否显示echat页面
       echatFlag: false,
       //帆软报表地址前缀
-      reportBaseUrl: ""
+      reportBaseUrl: "",
+      //iframe页面是否隐藏
+      iframeFlag: false
       // srcUrl:`http://10.214.93.90:8075/WebReport/ReportServer?reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIds}`,
     };
   },
   methods: {
     // 自定义方法
     yearChange() {
+      this.iframeFlag = false;
       this.evaluationForm = "";
       this.startYear = "";
       this.endYear = "";
@@ -315,6 +303,7 @@ export default {
     },
     // 确定
     confirm() {
+      this.iframeFlag = false;
       this.echatFlag = false;
       if (this.startYear == "") {
         this.$message({
@@ -393,13 +382,22 @@ export default {
       // console.log(taskId);
       switch (this.exportedDataFormat) {
         case "1":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
+          this.iframeFlag = true;
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
           break;
         case "2":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
+          this.iframeFlag = true;
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
           break;
         case "3":
-          this.srcUrl = `${this.reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
+          this.iframeFlag = true;
+          this.srcUrl = `${
+            this.reportBaseUrl
+          }reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
             this.specificTarget
           }`;
           break;
@@ -420,6 +418,8 @@ export default {
       this.evaluationForm = "";
       this.evaluKind = "";
       this.specificTarget = "";
+      this.iframeFlag=false;
+      this.echatFlag=false;
     },
     //评价表改变事件
     evaluationFormSelChange(val) {
@@ -602,6 +602,7 @@ export default {
     //根据选中项改变事件隐藏echat视图
     exportedDataFormatChange() {
       this.echatFlag = false;
+      this.iframeFlag = false;
     }
   },
   /**
