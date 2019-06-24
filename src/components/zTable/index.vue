@@ -31,6 +31,7 @@
         v-loading.body="listLoading"
         element-loading-text="Loading"
         cell-style.padding="5"
+        
       >
         <el-table-column align="center" type="selection" v-if="selectModel == 'Multi'"></el-table-column>
         <el-table-column align="center" type="index" width="50" label="序号"></el-table-column>
@@ -43,6 +44,7 @@
           :align="item.align"
           :min-width="item.width"
           :formatter="item.formatter"
+          :show-overflow-tooltip="true"
         ></el-table-column>
         <el-table-column
           align="center"
