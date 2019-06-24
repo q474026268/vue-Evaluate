@@ -164,25 +164,35 @@ export default {
                     type: 'warning'
                 });
             }else{
-                deleteTableLists(row.PKID).then((result) => {
-                    if (result.status==200) {
-                        this.$message({
-                            message: '废弃成功',
-                            type: 'success'
-                        });
-                        this.$refs.table.refresh();
-                    }else{
-                        this.$message.error('废弃失败');
-                    }
-                })
-                let filters={};
-                filters.evaluateId=this.evaluateId;
-                getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                    this.tableData=result.data.content
-                    this.total=result.data.numberOfElements;
-                })
+                this.$confirm('是否废弃此表?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    deleteTableLists(row.PKID).then((result) => {
+                        if (result.status==200) {
+                            this.$message({
+                                message: '废弃成功',
+                                type: 'success'
+                            });
+                            this.$refs.table.refresh();
+                        }else{
+                            this.$message.error('废弃失败');
+                        }
+                    })
+                    let filters={};
+                    filters.evaluateId=this.evaluateId;
+                    getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                        this.tableData=result.data.content
+                        this.total=result.data.numberOfElements;
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消废弃'
+                    });          
+                });
             }
-            
         },
         // 催办
         handleCb(index,row){
