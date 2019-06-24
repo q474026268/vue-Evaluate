@@ -66,6 +66,7 @@
 </template>
 <script>
 import request from "@/utils/request";
+import { getInterFace } from "@/utils/interface";
 export default {
   name: "selectUser",
   props: ["callback"],
@@ -220,7 +221,9 @@ export default {
       currentPage: 1,
       pageSize: 15,
       total: 0,
-      searchData: {}
+      searchData: {},
+      JSESSIONID:"",
+      io:"",
     };
   },
   methods: {
@@ -296,8 +299,8 @@ export default {
         },
         method: "GET",
          headers: {
-          JSESSIONID: "4B8B6510291F818443AF30B5512D9ABD",
-          io: "rvezSg0hWt-G_xraAAXr"
+          JSESSIONID: this.JSESSIONID,
+          io: this.io
         }
       };
       request(requestParams).then(res => {
@@ -329,6 +332,11 @@ export default {
     // 获取数据
     this.getData();
     this.selectedDatas = this.selected;
+    //获取接口信息
+    getInterFace().then(res => {
+      this.JSESSIONID=res.data[0].value
+      this.io=res.data[1].value
+    });
   }
 };
 </script>

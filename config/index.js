@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+const ip="10.214.93.244";
 module.exports = {
   dev: {
     // Paths
@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {    //将www.exaple.com印射为/apis
-        target: 'http://10.214.93.244:8090',  // 接口域名
+        target: 'http://'+ip+':8090',  // 接口域名
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true,  //是否跨域
         pathRewrite: {
@@ -27,7 +27,7 @@ module.exports = {
         },
       },
       '/open': {    //将www.exaple.com印射为/apis
-        target: 'http://10.214.93.244:7570',  // 接口域名
+        target: 'http://'+ip+':7570',  // 接口域名
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true,  //是否跨域
         pathRewrite: {
