@@ -465,12 +465,6 @@ export default {
       this.formData.inputDate=datas.inputDate;
       this.formData.groupName=datas.groupName;
       this.formDataDetail_index=datas.childrens;
-      for(let i=0;i<datas.childrens.length;i++){
-        this.formDataDetail_index.push({
-          targetPkid:datas.childrens[i].pkid
-        })
-      }
-      console.log(this.formDataDetail_index);
     } else {
       this.id = data.main.pkid;
       this.formData = data.main;

@@ -133,7 +133,7 @@ export default {
                                                 type: 'success',
                                                 message: '废止成功!'
                                             });
-                                            this.$refs.table.refresh();
+                                            this.dialogCallback();
                                         }else{
                                             this.$message.error('废止失败!');
                                         }
@@ -171,7 +171,7 @@ export default {
                                                     type: 'success',
                                                     message: '删除成功!'
                                                 });
-                                                this.$refs.table.refresh();
+                                                this.dialogCallback();
                                             }else{
                                                 this.$message.error('删除失败!');
                                             }

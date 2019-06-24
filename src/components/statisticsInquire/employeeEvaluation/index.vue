@@ -252,6 +252,14 @@ export default {
     },
     // 结束年度变化
     endYearChange() {
+      if(this.startYear>this.endYear){
+        this.$message({
+          message:'开始不能大于结束时间，请重新输入',
+          type:'warning'
+        });
+        this.endYear="";
+        return;
+      }
       if (this.year != 1) {
         let data = {};
         data.yearO = this.startYear;
