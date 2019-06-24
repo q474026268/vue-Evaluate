@@ -136,8 +136,7 @@ import {
 } from "./employeeEvaluation.js";
 import { getLoginInfo } from "../../OnlineEvaluation/onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
-
-const reportBaseUrl = "http://172.17.211.208:8075/WebReport/ReportServer?";
+import { getReportBaseUrl } from "@/utils/interface";
 export default {
   name: "employeeEvaluationStaff",
   props: {
@@ -178,18 +177,21 @@ export default {
       //iframe引入页面地址
       srcUrl: "",
       //是否显示echat页面
-      echatFlag: false
+      echatFlag: false,
+      //帆软报表地址前缀
+      reportBaseUrl: ""
       // srcUrl:`http://10.214.93.90:8075/WebReport/ReportServer?reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIds}`,
     };
   },
   methods: {
     // 自定义方法
     yearChange() {
-      this.evaluationForm="";
-      this.startYear="";
-      this.endYear="";
-      this.evaluKind="";
-      this.specificTarget="";
+      this.evaluationForm = "";
+      this.startYear = "";
+      this.endYear = "";
+      this.evaluKind = "";
+      this.specificTarget = "";
+      this.echatFlag = false;
       if (this.year == 1) {
         this.endYear = "";
         if (this.startYear != "") {
@@ -389,16 +391,15 @@ export default {
 
       // console.log(evaluateIdsStr);
       // console.log(taskId);
-
       switch (this.exportedDataFormat) {
         case "1":
-          this.srcUrl = `${reportBaseUrl}reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
+          this.srcUrl = `${this.reportBaseUrl}reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
           break;
         case "2":
-          this.srcUrl = `${reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
+          this.srcUrl = `${this.reportBaseUrl}reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
           break;
         case "3":
-          this.srcUrl = `${reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
+          this.srcUrl = `${this.reportBaseUrl}reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
             this.specificTarget
           }`;
           break;
@@ -613,6 +614,10 @@ export default {
   computed: {},
   watch: {},
   created: function() {
+    //获取帆软报表的地址前缀
+    getReportBaseUrl().then(res => {
+      this.reportBaseUrl = res.data[0].value;
+    });
     // 组件创建后
     // gets()
     //   .then(result => {

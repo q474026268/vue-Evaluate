@@ -76,8 +76,7 @@
 <script>
 import {gets,getByYear,getByEvaluKind,exportExcel} from './customerSatisfactionAssessment.js'
 import {getLoginInfo} from '../../OnlineEvaluation/onlineEvaluation.js'
-
-const reportBaseUrl = 'http://10.214.92.37:8075/WebReport/ReportServer?'
+import {getReportBaseUrl} from "@/utils/interface";
 export default {
     name:'customerSatisfactionAssessment',
     props:{// 其他组件传入的值
@@ -112,7 +111,10 @@ export default {
             specificTarget:'',
             // 链接
             evaluateIds:'1',
+            //iframe引入页面的地址
             srcUrl:'',
+            //帆软报表地址前缀
+            reportBaseUrl:""
             // srcUrl:`http://10.214.93.90:8075/WebReport/ReportServer?reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIds}`,
         }
     },
@@ -292,16 +294,16 @@ export default {
 
             switch (this.exportedDataFormat){
                 case '1':
-                    this.srcUrl=`${reportBaseUrl}reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIdsStr}`
+                    this.srcUrl=`${this.reportBaseUrl}reportlet=vue%2FBasicData.cpt&__bypagesize__=false&evaluateIds=${evaluateIdsStr}`
                     break;
                 case '2':
-                    this.srcUrl=`${reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=`+evaluateIdsStr
+                    this.srcUrl=`${this.reportBaseUrl}reportlet=vue%2FTotalScoreTable.cpt&evaluateIds=`+evaluateIdsStr
                     break;
                 case '3':
-                    this.srcUrl=`${reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${this.specificTarget}`
+                    this.srcUrl=`${this.reportBaseUrl}reportlet=vue%2FSingleTargetTable.cpt&evaluateIds=${evaluateIdsStr}&targetIndex${this.specificTarget}`
                     break;
                 case '4':
-                    this.srcUrl=`${reportBaseUrl}reportlet=vue%2FChart.cpt&taskIds=${taskId}`
+                    this.srcUrl=`${this.reportBaseUrl}reportlet=vue%2FChart.cpt&taskIds=${taskId}`
                     break;
             }
             console.log(this.srcUrl);
@@ -337,6 +339,10 @@ export default {
         }).catch((err) => {
             
         });
+        //获取帆软报表的地址前缀
+        getReportBaseUrl().then(res=>{;
+            this.reportBaseUrl=res.data[0].value;
+        })
     },
     mounted:function(){// 组件加载完成
         // DOTO
