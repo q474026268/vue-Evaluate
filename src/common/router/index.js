@@ -100,7 +100,7 @@ export const constantRouterMap = [
       },
       {
         path: '/evaluateTargetList', component: () => import('../../component/OnlineEvaluation/EvaluateTarget'), name: 'evaluateTargetList', children: [
-          { path: '/evaluateTarget', component: () => import('../../components/OnlineEvaluation/EvaluateTarget/evaluateTarget.vue'), name: 'evaluateTarget' },
+          { path: '/evaluateTarget', component: () => import('../../component/OnlineEvaluation/EvaluateTarget/evaluateTarget.vue'), name: 'evaluateTarget' },
         ]
       },
       {
