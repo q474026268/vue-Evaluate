@@ -17,7 +17,7 @@ export function getInterFace() {
 const reportBaseUrlOptions = [
     {
         label:'reportBaseUrl',
-        value:'http://10.214.93.244:8075/WebReport/ReportServer?',
+        value:'http://127.0.0.1:8075/WebReport/ReportServer?',
     }
 ]
 export function getReportBaseUrl() {
