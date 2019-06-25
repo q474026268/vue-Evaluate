@@ -1,7 +1,7 @@
 <template>
   <div id="evaluateTarget">
     <el-dialog
-      title="添加评价指标"
+      title="添加评价指标1"
       :visible="true"
       @close="close"
       :width="dialogWidth"

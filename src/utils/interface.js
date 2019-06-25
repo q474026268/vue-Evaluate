@@ -2,11 +2,11 @@
 const interFaceOptions = [
     {
         label: 'JSESSIONID',
-        value: '8D9AA2FE56883B0E15DA1376E4BCF04C'
+        value: '80C8F79DDCF3E9D3D3EB913992A89F5011'
     }, 
     {   
         label: 'io',
-        value: 'sn7RUjkG3r7LFsn-AAYO'
+        value: 'WgILRYGqwt8rVokLAAYm11'
     }
 ]
 export function getInterFace() {
@@ -17,7 +17,7 @@ export function getInterFace() {
 const reportBaseUrlOptions = [
     {
         label:'reportBaseUrl',
-        value:'http://10.214.93.244:8075/WebReport/ReportServer?',
+        value:'http://10.214.92.52:8075/WebReport/ReportServer?',
     }
 ]
 export function getReportBaseUrl() {
