@@ -151,8 +151,8 @@ export default {
       if (valid1 && valid2 && this.beforeSubmit()) {
         let data = Object.assign({}, this.formData);
         data["childrens"] = Array.from(newFormDataDetail);
+        console.log(data);
         if (mark == 0) {
-          console.log(data);
           save(data).then(res => {
             if (res.status == 200) {
               let callback = this.$store.state.data.callback;
@@ -198,10 +198,12 @@ export default {
     //根据id获取数据
     getData() {
       get(this.id).then(res => {
+        console.log(this.id);
         if (res.status == 200) {
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
           let target = this.formDataDetail;
+          console.log(res.data);
           this.$store.commit("setTarget", target);
         }
       });
@@ -231,6 +233,7 @@ export default {
         });
       });
       let target = this.formDataDetail;
+      console.log(this.formDataDetail);
       this.$store.commit("setTarget", target);
     }
   },

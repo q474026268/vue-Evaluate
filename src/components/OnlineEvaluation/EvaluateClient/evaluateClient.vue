@@ -405,7 +405,6 @@ export default {
               this.formData.targetName = targetName.join(",");
               this.formData.targetPkid = targetPkid.join(",");
             }
-            console.log(this.formData);
             const loading = this.$loading({
               lock: true,
               text: "数据加载中,请稍等",
@@ -480,10 +479,10 @@ export default {
       this.id = data.main.pkid;
       this.formData = data.main;
       this.formDataDetail_index = data.detail;
+      console.log(this.formDataDetail_index);
     }
     this.isuse = this.$route.query.isUse;
     // 获取模板数据
-
     //在存储数据前 先清空vueX中的被评价人与评价人数据
     this.$store.state.group = [];
     this.$store.state.evaluate = [];
