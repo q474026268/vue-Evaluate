@@ -175,17 +175,15 @@ export default {
                                 message: '废弃成功',
                                 type: 'success'
                             });
-                            this.$refs.table.refresh();
+                            let filters={};
+                            filters.evaluateId=this.evaluateId;
+                            getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
+                                this.tableData=result.data.content
+                                this.total=result.data.numberOfElements;
+                            })
                         }else{
                             this.$message.error('废弃失败');
                         }
-                        
-                        let filters={};
-                        filters.evaluateId=this.evaluateId;
-                        getList(this.currentPage4,this.pageSize,this.orders,filters).then((result) => {
-                            this.tableData=result.data.content
-                            this.total=result.data.numberOfElements;
-                        })
                     })
                 }).catch(() => {
                     this.$message({
@@ -223,7 +221,11 @@ export default {
                     }
                 })
             }
-        }
+        },
+        // 弹出框回调函数
+        dialogCallback(data){
+            this.$refs.table.refresh();
+        },
     },
     /**
      * 计算属性（自定义方法）
