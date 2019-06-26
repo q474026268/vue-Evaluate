@@ -138,7 +138,19 @@ export default {
         this.tableArr[i].flag = 2;
         this.tableArr[i].doneUserNo = "";
       }
-
+      console.log(this.tableArr);
+      for (let i = 0; i < this.tableArr.length; i++) {
+        for (let j = 0; j < this.tableTarget.length; j++) {
+          if (this.tableArr[i]['target'+(j+1)]=='') {
+            return false
+            this.$message({
+              message: `${this.tableArr[i].doneFullName}的${this.tableTarget[j].TargetName没有填写}！`,
+              type: 'warning'
+            });
+          }
+        }
+      }
+      
       saveFillContent(this.tableArr).then(result => {
         if (result.status == 200) {
           this.$router.back();
