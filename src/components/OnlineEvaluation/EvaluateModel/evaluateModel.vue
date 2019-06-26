@@ -141,6 +141,21 @@ export default {
       this.formData.groupId = this.$store.state.userInfo.departmentId;
       this.formData.groupName = this.$store.state.userInfo.departmentName;
       this.formData.inputDate = formatDate(new Date());
+      if (Object.is(this.type, "add")) {
+        let targetPkid = [];
+        for (let i = 0; i < this.formDataDetail.length; i++) {
+          targetPkid.push(this.formDataDetail[i].pkid);
+        }
+
+        for (let i = 0; i < this.formDataDetail.length; i++) {
+          this.formDataDetail[i].targetPkid = targetPkid[i];
+          this.formDataDetail[i].pkid = "";
+        }
+      }else if(Object.is(this.type, "view")){
+        console.log(this.formDataDetail);
+      }
+
+      console.log(this.formDataDetail);
       // 合并明细数据
       let newFormDataDetail = [
         ...this.formDataDetail,
@@ -198,12 +213,19 @@ export default {
     //根据id获取数据
     getData() {
       get(this.id).then(res => {
-        console.log(this.id);
         if (res.status == 200) {
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
+          // let targetPkid=[];
+          // for(let i=0;i<this.formDataDetail.length;i++){
+          //  targetPkid.push(this.formDataDetail[i].targetPkid)
+          // }
+          // for(let i=0;i<this.formDataDetail.length;i++){
+          //   this.formDataDetail[i].pkid=targetPkid[i]
+          //   this.formDataDetail[i].targetPkid=""
+          // }
+          // console.log(this.formDataDetail);
           let target = this.formDataDetail;
-          console.log(res.data);
           this.$store.commit("setTarget", target);
         }
       });
@@ -233,7 +255,6 @@ export default {
         });
       });
       let target = this.formDataDetail;
-      console.log(this.formDataDetail);
       this.$store.commit("setTarget", target);
     }
   },
