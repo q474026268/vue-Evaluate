@@ -192,7 +192,7 @@ export default {
         deleteButtonClick(id,state){
             if(!Object.is('暂存',state)){
                 this.$message({
-                    message: '评价表已经分发或完成，不能删除',
+                    message: '该条目不能删除',
                     type: 'warning'
                 });
                 return;

@@ -148,9 +148,9 @@ import { get,getCurrentEvaluate } from './evaluateClient.js'
 import { guid } from '@/utils/common.js'
 // 验证配置文件
 import Rules from './validate.js'
-import SelectDepart from '@/components/components/selectDepart/selectDepart'
-import SelectUser from '@/components/components/selectUser/selectUser'
-// 主表主键字段
+import SelectDepart from '@/component/components/selectDepart/selectDepart'
+import SelectUser from '@/component/components/selectUser/selectUser'
+// 主表主键字
 const mainKey = "id";
 export default {
     name:'evaluateClient',
@@ -331,6 +331,7 @@ export default {
     },
     created:function(){// 组件创建后
         // DOTO
+        
         this.type = this.$route.query.useType;
         if(!Object.is(this.type,"add")){
             this.id = this.$route.query.id;
