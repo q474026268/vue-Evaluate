@@ -23,6 +23,7 @@
                 v-model="formData.evaluKind"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
+                @change="evaluKindChange"
               >
                 <el-option
                   v-for="item in evaluKindOptions"
@@ -69,29 +70,29 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div v-show="false">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item prop="alertDay" label="预警提前期" class="item">
-              <el-input
-                style="width:120px"
-                v-model.number="formData.alertDay"
-                placeholder
-                :disabled="Object.is(type,'view')"
-              ></el-input>天
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="emailDay" label="催办提前期" class="item">
-              <el-input
-                style="width:120px"
-                v-model.number="formData.emailDay"
-                placeholder
-                :disabled="Object.is(type,'view')"
-              ></el-input>天
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <div v-show="isShow">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item prop="alertDay" label="预警提前期" class="item">
+                <el-input
+                  style="width:120px"
+                  v-model.number="formData.alertDay"
+                  placeholder
+                  :disabled="Object.is(type,'view')"
+                ></el-input>天
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="emailDay" label="催办提前期" class="item">
+                <el-input
+                  style="width:120px"
+                  v-model.number="formData.emailDay"
+                  placeholder
+                  :disabled="Object.is(type,'view')"
+                ></el-input>天
+              </el-form-item>
+            </el-col>
+          </el-row>
         </div>
       </el-form>
       <div class="remarkText">
@@ -110,7 +111,7 @@
   </div>
 </template>
 <script>
-import { save, get,getRunningEP } from "./evaluationPlan.js";
+import { save, get, getRunningEP } from "./evaluationPlan.js";
 import { getEvaluKind } from "../onlineEvaluation.js";
 import { formatDate } from "@/utils/common.js";
 import Rules from "./validate.js";
@@ -133,7 +134,9 @@ export default {
       // 弹出窗口宽度 默认为屏幕的50%
       dialogWidth: "50%",
       // 评价类别
-      evaluKindOptions: []
+      evaluKindOptions: [],
+      //是否显示预警提前期和催办提前期
+      isShow: false
     };
   },
   methods: {
@@ -148,27 +151,40 @@ export default {
     },
     //保存
     saveData(formName, btnType) {
-      getRunningEP().then((result) => {
-        if(result.data){
+      if (this.formData.evaluKind == "内部客户满意度评测") {
+        if (
+          this.formData.alertDay == undefined ||
+          this.formData.emailDay == undefined
+        ) {
           this.$message({
-            message: '已有计划正在进行中，您可暂存该计划',
-            type: 'warning'
+            message: "预警提前期和催办提前期不能为空",
+            type: "warning"
           });
-        }else{
-          if (this.formData.endDate<this.formData.startDate) {
-            this.$message.error('完成时间不能小于开始时间');
-            this.formData.endDate='';
+          return;
+        }
+      }
+      getRunningEP().then(result => {
+        if (result.data) {
+          this.$message({
+            message: "已有计划正在进行中，您可暂存该计划",
+            type: "warning"
+          });
+        } else {
+          if (this.formData.endDate < this.formData.startDate) {
+            this.$message.error("完成时间不能小于开始时间");
+            this.formData.endDate = "";
             return false;
           }
           this.$refs[formName].validate(valid => {
             if (valid && this.beforeSubmit()) {
               let data = Object.assign({}, this.formData);
               data.flag = btnType;
-              data.inputerUserNo=this.$store.state.userInfo.id;
-              data.inputerFullName=this.$store.state.userInfo.name;
-              data.groupId=this.$store.state.userInfo.departmentId;
-              data.groupName=this.$store.state.userInfo.departmentName;
-              data.inputDate=formatDate(new Date());
+              data.inputerUserNo = this.$store.state.userInfo.id;
+              data.inputerFullName = this.$store.state.userInfo.name;
+              data.groupId = this.$store.state.userInfo.departmentId;
+              data.groupName = this.$store.state.userInfo.departmentName;
+              data.inputDate = formatDate(new Date());
+              console.log(data);
               save(data).then(res => {
                 if (res.status == 200) {
                   this.$store.state.data.callback({
@@ -177,34 +193,49 @@ export default {
                   });
                   this.close();
                   this.$message({
-                    message: '存储成功',
-                    type: 'success'
+                    message: "存储成功",
+                    type: "success"
                   });
-                }else{
-                  this.$message.error('保存失败，该时间段已存在相同类型的评价计划');
+                } else {
+                  this.$message.error(
+                    "保存失败，该时间段已存在相同类型的评价计划"
+                  );
                 }
               });
             }
           });
         }
-      })
+      });
     },
     //暂存
     zcData(formName, btnType) {
-      if (this.formData.endDate<this.formData.startDate) {
-        this.$message.error('完成时间不能小于开始时间');
-        this.formData.endDate='';
+      if (this.formData.evaluKind == "内部客户满意度评测") {
+        if (
+          this.formData.alertDay == undefined ||
+          this.formData.emailDay == undefined
+        ) {
+          this.$message({
+            message: "预警提前期和催办提前期不能为空",
+            type: "warning"
+          });
+          return;
+        }
+      }
+      if (this.formData.endDate < this.formData.startDate) {
+        this.$message.error("完成时间不能小于开始时间");
+        this.formData.endDate = "";
         return false;
       }
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
           let data = Object.assign({}, this.formData);
           data.flag = btnType;
-          data.inputerUserNo=this.$store.state.userInfo.id;
-          data.inputerFullName=this.$store.state.userInfo.name;
-          data.groupId=this.$store.state.userInfo.departmentId;
-          data.groupName=this.$store.state.userInfo.departmentName;
-          data.inputDate=formatDate(new Date());
+          data.inputerUserNo = this.$store.state.userInfo.id;
+          data.inputerFullName = this.$store.state.userInfo.name;
+          data.groupId = this.$store.state.userInfo.departmentId;
+          data.groupName = this.$store.state.userInfo.departmentName;
+          data.inputDate = formatDate(new Date());
+          console.log(data);
           save(data).then(res => {
             if (res.status == 200) {
               this.$store.state.data.callback({
@@ -213,11 +244,11 @@ export default {
               });
               this.close();
               this.$message({
-                message: '存储成功',
-                type: 'success'
+                message: "存储成功",
+                type: "success"
               });
-            }else{
-              this.$message.error('保存失败，该时间段已存在相同类型的评价计划');
+            } else {
+              this.$message.error("保存失败，该时间段已存在相同类型的评价计划");
             }
           });
         }
@@ -230,6 +261,20 @@ export default {
           this.formData = res.data;
         }
       });
+    },
+    //评价类别改变事件
+    evaluKindChange(val) {
+      if (val == "内部客户满意度评测") {
+        let form = {};
+        form.evaluKind = "内部客户满意度评测";
+        this.formData = form;
+        this.isShow = true;
+      } else if (val == "员工达优测评") {
+        let form = {};
+        form.evaluKind = "员工达优测评";
+        this.formData = form;
+        this.isShow = false;
+      }
     }
   },
   /**

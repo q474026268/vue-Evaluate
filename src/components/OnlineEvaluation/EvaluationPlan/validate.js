@@ -27,13 +27,5 @@ const rules = {
     endDate: [
         { required: true, message: '请选择结束时间', trigger: 'blur' }
     ],
-    // alertDay: [
-    //     { required: true, message: '请输入预警提前期', trigger: 'blur' }
-    //     // { validator: validAlertDay, trigger: 'blur' }
-    // ],
-    // emailDay: [
-    //     { required: true, message: '请输入催办提前期', trigger: 'blur' }
-    //     // { validator: validEmailDay, trigger: 'blur' }
-    // ]
 }
 export default rules;
