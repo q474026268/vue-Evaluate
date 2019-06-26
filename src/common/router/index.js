@@ -47,7 +47,8 @@ export const constantRouterMap = [
           { path: '/statisticsInquireStaff/statisticalClientViewStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/statisticalClientView.vue'), name: 'statisticalClientViewStaff' },
         ]
       },
-      { path: '/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
+      { path: '/statisticsInquireStaff/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
+      { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../components/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
     ]
   },
   {
@@ -86,7 +87,12 @@ export const constantRouterMap = [
             ]
           },
         ]
-      }
+      },
+      {
+        path: '/customerSatisfactionList', component: () => import('../../components/ProcessTracingEvalution/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
+          { path: '/customerSatisfactionList/customerSatisfactionView', component: () => import('../../components/ProcessTracingEvalution/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
+        ]
+      },
     ]
   },
   //内部顾客满意度
@@ -126,15 +132,15 @@ export const constantRouterMap = [
       },
     ]
   },
-  {//过程跟踪
-    path: '/processTracking', component: () => import('../../component/processTracking'), name: 'processTracking', redirect: { name: 'customerSatisfactionList' }, children: [
-      {
-        path: '/processTracking/customerSatisfactionList', component: () => import('../../component/processTracking/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
-          { path: '/processTracking/customerSatisfactionView', component: () => import('../../component/processTracking/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
-        ]
-      },
-    ]
-  },
+  // {//过程跟踪
+  //   path: '/processTracking', component: () => import('../../component/processTracking'), name: 'processTracking', redirect: { name: 'customerSatisfactionList' }, children: [
+  //     {
+  //       path: '/processTracking/customerSatisfactionList', component: () => import('../../component/processTracking/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
+  //         { path: '/processTracking/customerSatisfactionView', component: () => import('../../component/processTracking/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
+  //       ]
+  //     },
+  //   ]
+  // },
   {//统计查询
     path: '/statisticsInquire', component: () => import('../../component/statisticsInquire'), name: 'statisticsInquire', redirect: { name: 'statisticalPreprocessingList' }, children: [
       {
@@ -143,7 +149,7 @@ export const constantRouterMap = [
           { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../component/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
         ]
       },
-      { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../component/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
+      // { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../component/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
     ]
   },
 ]

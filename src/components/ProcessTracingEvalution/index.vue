@@ -2,6 +2,7 @@
   <div id="processTracing" class="content-height" style="width:100%">
     <div id="nbgkmydDiv">
       <router-link class="nbgkmydDivSon" tag="div" :to="{name:'staffEvalutionListStaff'}">员工达优测评</router-link>  
+      <router-link class="nbgkmydDivSon" tag="div" :to="{name:'customerSatisfactionList'}">顾客满意度评测</router-link>  
        </div>
     <router-view></router-view>
   </div>
@@ -31,13 +32,16 @@ export default {
 
       for (let i = 0; i < domArr.length; i++) {
         domArr[i].style.borderBottom = "";
+        domArr[i].style.color='';
       }
-      switch (
-        to.name //加个点击效果的蓝条条
-      ) {
+      switch(to.name){
         case "staffEvalutionListStaff":
-          domArr[0].style.borderBottom = "2px solid #66b1ff";
+          domArr[0].style.borderBottom='2px solid #66b1ff';
           domArr[0].style.color='#66b1ff';
+          break;
+        case "customerSatisfactionList":
+          domArr[1].style.borderBottom='2px solid #66b1ff';
+          domArr[1].style.color='#66b1ff';
           break;
       }
     }
