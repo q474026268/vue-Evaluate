@@ -16,6 +16,7 @@
             v-model="formData.evaluKind"
             placeholder="请选择"
             :disabled="Object.is(type,'view')"
+            @change="evaluKindChange"
           >
             <el-option
               v-for="item in evaluKindOptions"
@@ -29,6 +30,15 @@
           <el-input
             v-model="formData.targetName"
             placeholder="输入指标名称"
+            :disabled="Object.is(type,'view')"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="指标含义" class="item" v-show="isShow">
+          <el-input
+            type="textarea"
+            :rows="4"
+            v-model="formData.description"
+            placeholder="输入指标含义"
             :disabled="Object.is(type,'view')"
           ></el-input>
         </el-form-item>
@@ -69,7 +79,9 @@ export default {
       // 弹出窗口宽度 默认为屏幕的50%
       dialogWidth: "50%",
       // 评价类别
-      evaluKindOptions: []
+      evaluKindOptions: [],
+      //指标含义是否显示
+      isShow: false
     };
   },
   methods: {
@@ -83,6 +95,15 @@ export default {
       return true;
     },
     saveData(formName) {
+      if (this.formData.evaluKind == "内部客户满意度评测") {
+        if (this.formData.description == undefined||this.formData.description == "") {
+          this.$message({
+            message: "指标含义不能为空",
+            type: "warning"
+          });
+          return;
+        }
+      }
       this.$refs[formName].validate(valid => {
         if (valid && this.beforeSubmit()) {
           //部门ID
@@ -118,6 +139,20 @@ export default {
           this.formData = res.data;
         }
       });
+    },
+    //评价类别改变事件
+    evaluKindChange(val) {
+      if (val == "内部客户满意度评测") {
+        let form = {};
+        form.evaluKind = "内部客户满意度评测";
+        this.formData = form;
+        this.isShow = true;
+      } else if (val == "员工达优测评") {
+        let form = {};
+        form.evaluKind = "员工达优测评";
+        this.formData = form;
+        this.isShow = false;
+      }
     }
   },
   /**

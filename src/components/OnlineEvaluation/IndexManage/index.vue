@@ -198,6 +198,8 @@ export default {
           targetPkid: "",
           //主表的pkid
           formPkid: "",
+          //主表的评价类别
+          evaluKind:""
         }
       }
     };
@@ -277,6 +279,13 @@ export default {
     },
     //指标列表删除
     deleteButtonClickRight(id) {
+       if(this.evaluKind!="员工达优测评"){
+         this.$message({
+          message: "内部顾客满意度测评不可删除评分标准",
+          type: "warning"
+        });
+        return;
+      }
       if (this.formPkid == undefined) {
         this.$message({
           message: "未选择指标",
@@ -313,6 +322,13 @@ export default {
     },
     //指标列表修改
     modifyButtonClickRight(id, formPkid) {
+       if(this.evaluKind!="员工达优测评"){
+         this.$message({
+          message: "内部顾客满意度测评不可修改评分标准",
+          type: "warning"
+        });
+        return;
+      }
       if (this.formPkid == undefined) {
         this.$message({
           message: "未选择指标",
@@ -343,6 +359,13 @@ export default {
     },
     //指标列表增加
     addButtonClickRight() {
+      if(this.evaluKind!="员工达优测评"){
+         this.$message({
+          message: "内部顾客满意度测评不可增加评分标准",
+          type: "warning"
+        });
+        return;
+      }
       if (this.formPkid == undefined) {
         this.$message({
           message: "未选择指标",
@@ -388,6 +411,7 @@ export default {
      * currentRow:当前行 oldCurrentRow:上一次选中的行
      */
     rowSelected(currentRow, oldCurrentRow) {
+      this.evaluKind=currentRow.evaluKind
       this.formPkid = currentRow.pkid;
       //获取指标明细表
       findTargetDetail(currentRow.pkid).then(res => {
