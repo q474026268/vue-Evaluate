@@ -241,14 +241,14 @@ export default {
       //循环添加指标等级
       for (let j = 0; j < this.tData.length; j++) {
         for (let i = 1; i < this.tableColumn.length; i++) {
-          this.tableColumn[i]["target" + (j + 1)] =
-            datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
+          this.tableColumn[i]["target" + (j + 1)] =" "
+            // datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
           this.tableColumn[i]["optional" + (j + 1)] =
             datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
         }
       }
     }
-    console.log(this.$store.state.clientView);
+
   },
   mounted: function() {
     // 组件加载完成

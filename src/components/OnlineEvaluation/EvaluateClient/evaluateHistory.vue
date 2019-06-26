@@ -371,6 +371,7 @@ export default {
       this.formData = data.formData;
       this.formData.inputDate = time(this.formData.inputDate);
       this.index = data.index;
+      console.log(this.index);
       // 获取计划信息
       getCurrentEvaluate().then(res => {
         if (res.status == 200) {
@@ -468,10 +469,11 @@ export default {
           });
           for (let j = 0; j < data.index.length; j++) {
             itemArr[i].doneFullArr[k]["optional" + (j + 1)] = true;
-            itemArr[i].doneFullArr[k]["target" + (j + 1)] = "N";
+            itemArr[i].doneFullArr[k]["target" + (j + 1)] = " ";
           }
         }
       }
+      console.log(itemArr);
       this.$store.commit("setClientView", itemArr);
     }
   },

@@ -141,6 +141,21 @@ export default {
       this.formData.groupId = this.$store.state.userInfo.departmentId;
       this.formData.groupName = this.$store.state.userInfo.departmentName;
       this.formData.inputDate = formatDate(new Date());
+      if (Object.is(this.type, "add")) {
+        let targetPkid = [];
+        for (let i = 0; i < this.formDataDetail.length; i++) {
+          targetPkid.push(this.formDataDetail[i].pkid);
+        }
+
+        for (let i = 0; i < this.formDataDetail.length; i++) {
+          this.formDataDetail[i].targetPkid = targetPkid[i];
+          this.formDataDetail[i].pkid = "";
+        }
+      }else if(Object.is(this.type, "view")){
+        console.log(this.formDataDetail);
+      }
+
+      console.log(this.formDataDetail);
       // 合并明细数据
       let newFormDataDetail = [
         ...this.formDataDetail,
@@ -151,8 +166,8 @@ export default {
       if (valid1 && valid2 && this.beforeSubmit()) {
         let data = Object.assign({}, this.formData);
         data["childrens"] = Array.from(newFormDataDetail);
+        console.log(data);
         if (mark == 0) {
-          console.log(data);
           save(data).then(res => {
             if (res.status == 200) {
               let callback = this.$store.state.data.callback;
@@ -201,6 +216,15 @@ export default {
         if (res.status == 200) {
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
+          // let targetPkid=[];
+          // for(let i=0;i<this.formDataDetail.length;i++){
+          //  targetPkid.push(this.formDataDetail[i].targetPkid)
+          // }
+          // for(let i=0;i<this.formDataDetail.length;i++){
+          //   this.formDataDetail[i].pkid=targetPkid[i]
+          //   this.formDataDetail[i].targetPkid=""
+          // }
+          // console.log(this.formDataDetail);
           let target = this.formDataDetail;
           this.$store.commit("setTarget", target);
         }

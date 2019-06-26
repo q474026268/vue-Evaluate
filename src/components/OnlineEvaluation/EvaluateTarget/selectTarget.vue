@@ -138,10 +138,6 @@ export default {
         }
         //得到的指标名称和评价标准复制和主表数据
         this.tableData = targetDataArr;
-        let evaluStand = [];
-        for (let i = 0; i < targetDataArr.length; i++) {
-          evaluStand.push(targetDataArr[i].evaluStand);
-        }
       });
     },
     // 确定
