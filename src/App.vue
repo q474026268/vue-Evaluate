@@ -3,36 +3,33 @@
     <div id="bothAll" style="height:100%;">
       <div id="firstJ">
         <el-menu
-          default-active="1-1"
+          default-active="/evaluatePlanListStaff"
           class="el-menu-vertical-demo"
           :collapse="false"
           background-color="#0099ff"
           text-color="#fff"
           active-text-color="#ffd04b"
           :collapse-transition="false"
+          :router="true"
         >
-          <el-submenu index="1">
+          <el-submenu index="/">
             <template slot="title">
               <span slot="title">员工达优测评</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">
-                <router-link tag="div" :to="{name:'onlineEvaluationStaff'}">评价计划</router-link>
+              <el-menu-item index="/evaluatePlanListStaff">评价计划
               </el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="1-2">
-                <router-link tag="div" :to="{name:'fillEvaluationStaff'}">评价表填写</router-link>
+              <el-menu-item index="/fillEvaluationStaff">评价表填写
               </el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="1-3">
-                <router-link tag="div" :to="{name:'processTracingStaff'}">过程跟踪</router-link>
+              <el-menu-item index="/processTracingStaff">过程跟踪
               </el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="1-4">
-                <router-link tag="div" :to="{name:'statisticsInquireStaff'}">统计查询</router-link>
+              <el-menu-item index="/statisticsInquireStaff">统计查询
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>

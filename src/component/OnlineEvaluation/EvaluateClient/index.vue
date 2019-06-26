@@ -154,7 +154,7 @@ export default {
         
         viewButtonClick(id,state){
            switch(state){
-                case '暂存':
+                case 'save':
                     let that = this;
                     this.$store.commit("setData",{callback:function(){
                         that.$refs.table.refresh();
@@ -169,13 +169,13 @@ export default {
                         }
                     );
                     break;
-                case '分发':
+                case 'start':
                     this.$message({
                         message: '分发状态下不可查看',
                         type: 'warning'
                     });
                     break;
-                case '完成':
+                case 'finish':
                     this.$router.push(
                         {
                             name:'evaluateClientView',
