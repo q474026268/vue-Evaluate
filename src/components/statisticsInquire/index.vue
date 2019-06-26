@@ -3,6 +3,7 @@
     <div id="tjcxDiv">
       <router-link class="tjcxDivSon" tag="div" :to="{name:'statisticsInquireStaff'}">统计预处理</router-link>
       <router-link class="tjcxDivSon" tag="div" :to="{name:'employeeEvaluationStaff'}">员工达优测评</router-link>
+      <router-link class="tjcxDivSon" tag="div" :to="{name:'customerSatisfactionAssessment'}">顾客满意度测评</router-link>
     </div>
     <router-view></router-view>
   </div>
@@ -55,6 +56,10 @@ export default {
         case "employeeEvaluationStaff":
           domArr[1].style.borderBottom = "2px solid #66b1ff";
           domArr[1].style.color = "#66b1ff";
+          break;
+        case "customerSatisfactionAssessment":
+          domArr[2].style.borderBottom = "2px solid #66b1ff";
+          domArr[2].style.color = "#66b1ff";
           break;
       }
     }

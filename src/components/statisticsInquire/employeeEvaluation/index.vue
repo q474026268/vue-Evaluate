@@ -710,6 +710,6 @@ footer button {
   margin-right: 40px !important;
 }
 .formate {
-  margin-left: 29px;
+  margin-left: 42px;
 }
 </style>
