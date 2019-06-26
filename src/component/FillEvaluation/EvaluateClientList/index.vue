@@ -266,7 +266,7 @@ export default {
         }
     },
     created:function(){// 组件创建后
-        this.doUserNo = this.$route.query.doUserNo;
+        this.doUserNo=this.$store.state.userInfo.id;
     },
     mounted:function(){// 组件加载完成
         // DOTO
