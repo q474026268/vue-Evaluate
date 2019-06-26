@@ -37,7 +37,7 @@
               placeholder="评价表名"
               size="small"
               clearable
-              style="width:435px;"
+              style="width:162%;"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -82,7 +82,7 @@
               v-model="searchData.inputerFullName"
               placeholder="制表人"
               size="small"
-              style="width:200px;"
+              style="width:100%;"
               clearable
             ></el-input>
           </el-form-item>
@@ -93,7 +93,7 @@
               v-model="searchData.state"
               placeholder="状态"
               size="small"
-               style="width:213px;"
+               style="width:100%;"
             >
               <el-option
                 v-for="item in stateOptions"
@@ -130,7 +130,15 @@ export default {
   methods: {
     // 自定义方法
     searching() {
-      this.search(this.searchData);
+      console.log(this.searchData.evaluKind);
+      if(this.searchData.evaluKind==undefined){
+        this.$message({
+          message:'请先选择评价类别',
+          type:'warning'
+        })
+      }else{
+         this.search(this.searchData);
+      }
     },
     clear() {
       this.searchData = {
