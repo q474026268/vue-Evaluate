@@ -27,6 +27,17 @@ export const constantRouterMap = [
           { path: '/evaluateClientStaff', component: () => import('../../components/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), hidden: true, name: 'evaluateClientStaff' },
           { path: '/evaluateClientViewStaff', component: () => import('../../components/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), hidden: true, name: 'evaluateClientViewStaff' },
           { path: '/evaluateHistoryStaff', component: () => import('../../components/OnlineEvaluation/EvaluateClient/evaluateHistory.vue'), hidden: true, name: 'evaluateHistoryStaff' },
+          {
+            path: '/evaluateModelList', component: () => import('../../component/OnlineEvaluation/EvaluateModel'), name: 'evaluateModelList', children: [
+              { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
+            ]
+          },
+          {
+            path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
+              { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
+              { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
+            ]
+          }
         ]
       },
       {//分发历史查询
@@ -113,17 +124,17 @@ export const constantRouterMap = [
           { path: '/evaluateTarget', component: () => import('../../component/OnlineEvaluation/EvaluateTarget/evaluateTarget.vue'), name: 'evaluateTarget' },
         ]
       },
-      {
-        path: '/evaluateModelList', component: () => import('../../component/OnlineEvaluation/EvaluateModel'), name: 'evaluateModelList', children: [
-          { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
-        ]
-      },
-      {
-        path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
-          { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
-          { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
-        ]
-      }
+      // {
+      //   path: '/evaluateModelList', component: () => import('../../component/OnlineEvaluation/EvaluateModel'), name: 'evaluateModelList', children: [
+      //     { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
+      //   ]
+      // },
+      // {
+      //   path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
+      //     { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
+      //     { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
+      //   ]
+      // }
     ]
   },
   {//评价表填写

@@ -1,4 +1,4 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 /* 主表接口 */
 export function getList(currentPage,pageSize,orders,filters){
     return request({
@@ -43,7 +43,7 @@ export function deleted(pkid){
 
 export function getEvaluateTargetByEvaluKind(evaluKind){
     return request({
-        url: '/evaluateTarget/getByEvaluKind',
+        url: '/evaluateModel/getTargetIndexListC',
         params:{
             evaluKind
         },

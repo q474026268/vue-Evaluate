@@ -78,8 +78,7 @@ export default {
     };
   },
   methods: {
-    open(aaa) {
-        console.log(aaa);
+    open() {
       this.visible = true;
     },
     close() {
@@ -95,11 +94,8 @@ export default {
     },
     search() {},
     // 获取数据
-    getData(evaluKind) {
-        console.log(1111);
-        
-      console.log(evaluKind);
-      getEvaluateTargetByEvaluKind(evaluKinsd).then(res => {
+    getData() {
+      getEvaluateTargetByEvaluKind('内部顾客满意度测评').then(res => {
         if (res.status == 200) {
           this.tableData = res.data;
         }
@@ -125,7 +121,7 @@ export default {
   },
   created() {
     // 获取数据
-    // this.getData();
+    this.getData();
     this.selectedDatas = this.selected;
   }
 };

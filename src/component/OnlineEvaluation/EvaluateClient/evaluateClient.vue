@@ -330,8 +330,6 @@ export default {
         
     },
     created:function(){// 组件创建后
-        // DOTO
-        
         this.type = this.$route.query.useType;
         if(!Object.is(this.type,"add")){
             this.id = this.$route.query.id;
@@ -342,6 +340,7 @@ export default {
             let data = this.$store.state.data.data;
             // 获取计划信息
             getCurrentEvaluate('内部顾客满意度测评').then((res) => {
+                console.log(res.data);
                 if(res.status == 200){
                     if(res.data != ""){
                         let {pkid:planPKID,evaluPlan:planName,evaluKind,emailDay} = res.data;

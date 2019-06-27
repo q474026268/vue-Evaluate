@@ -68,7 +68,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div id="toolbar" class="toolbar" slot="footer">
+      <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(this.type,'view')">
         <el-button ref="saveButton" type="primary" @click="saveData('form',0)">保存</el-button>
         <el-button type="primary" @click="saveData('form',1)" icon="el-icon-success">保存并使用模板</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
@@ -221,10 +221,7 @@ export default {
     },
     // 添加行
     addDetailRow() {
-      let evaluKind=this.formData.evaluKind
-      this.$refs.target.open(evaluKind);
-      // console.log(this.$refs.target);
-      // this.$refs.target.getData(this.formData.evaluKind)
+      this.$refs.target.open();
     },
     // 删除行
     handleDelete(index, row) {

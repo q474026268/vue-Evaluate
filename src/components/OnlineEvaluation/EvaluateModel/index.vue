@@ -16,7 +16,7 @@ import SearchPage from "./search";
 import { getList, deleted, get, getRunningPlan } from "./evaluateModel.js";
 import { formatDate } from "@/utils/common.js";
 import { time } from "@/utils/common.js";
-import {getCustomer} from "@/component/OnlineEvaluation/EvaluateModel/evaluateModel.js"
+import { getCustomer } from "@/component/OnlineEvaluation/EvaluateModel/evaluateModel.js";
 // 表单的路由路径
 const pageUrl = "/evaluateModelStaff";
 // 路由的名称
@@ -183,7 +183,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key]);
+                this.modifyButtonClick(row[key], row);
               }
             },
             {
@@ -199,7 +199,7 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key]);
+                this.viewButtonClick(row[key], row);
               }
             }
           ],
@@ -236,13 +236,22 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id) {
-      this.$store.commit("setData", {
-        id,
-        useType: "modify",
-        callback: this.dialogCallback,
-      });
-      this.$router.push({ name: routerName });
+    modifyButtonClick(id, row) {
+      if (row.evaluKind == "员工达优测评") {
+        this.$store.commit("setData", {
+          id,
+          useType: "modify",
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: routerName });
+      } else {
+        this.$store.commit("setData", {
+          useType: "modify",
+          id,
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: "evaluateModel" });
+      }
     },
     /**
      * 浏览按钮点击事件
@@ -250,13 +259,22 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    viewButtonClick(id) {
-      this.$store.commit("setData", {
-        useType: "view",
-        id,
-        callback: this.dialogCallback
-      });
-      this.$router.push({ name: routerName });
+    viewButtonClick(id, row) {
+      if (row.evaluKind == "员工达优测评") {
+        this.$store.commit("setData", {
+          useType: "view",
+          id,
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: routerName });
+      } else {
+        this.$store.commit("setData", {
+          useType: "view",
+          id,
+          callback: this.dialogCallback
+        });
+        this.$router.push({ name: "evaluateModel"});
+      }
     },
     // 删除按钮点击事件
     deleteButtonClick(id) {

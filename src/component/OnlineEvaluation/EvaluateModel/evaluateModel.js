@@ -1,4 +1,4 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 
 /* 主表接口 */
 export function getList(currentPage,pageSize,orders,filters){
@@ -30,8 +30,11 @@ export function save(data){
 
 export function getCustomer(pkid){
     return request({
-        url: '/evaluateModel/get/'+pkid,
-        method: 'GET'
+        url: '/evaluateModel/getEvaluateModelByPkid/',
+        data:{
+            pkid
+        },
+        method: 'POST'
     })
 }
 
