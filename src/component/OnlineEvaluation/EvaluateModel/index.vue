@@ -8,7 +8,7 @@
 <script>
 import ZTable from '../../zTable'
 import SearchPage from './search'
-import {getList,deleted,get} from './evaluateModel.js'
+import {getList,deleted,getCustomer} from './evaluateModel.js'
 import { formatDate } from '@/utils/common.js'
 
 // 路由的名称
@@ -106,7 +106,7 @@ export default {
                         style:'background: #70d5e9;border-color: #70d5e9;color: #fff;',
                         click:() => {
                             if(this.selectedPkid != ''){
-                                get(this.selectedPkid).then((res) => {
+                                getCustomer(this.selectedPkid).then((res) => {
                                     if(res.status == 200){
                                         this.$store.commit("setData",{data:res.data});
                                         this.$router.push(

@@ -16,6 +16,7 @@ import SearchPage from "./search";
 import { getList, deleted, get, getRunningPlan } from "./evaluateModel.js";
 import { formatDate } from "@/utils/common.js";
 import { time } from "@/utils/common.js";
+import {getCustomer} from "@/component/OnlineEvaluation/EvaluateModel/evaluateModel.js"
 // 表单的路由路径
 const pageUrl = "/evaluateModelStaff";
 // 路由的名称
@@ -117,14 +118,21 @@ export default {
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: () => {
-              this.$store.commit("setHandout", {
-                callback: this.dialogCallback
-              });
-              getRunningPlan().then(res => {
-                if (res.data == 0) {
-                  this.$message.error("暂无评价计划");
-                } else {
-                  if (this.selectedPkid != "") {
+              if (this.selectedPkid == "") {
+                this.$message({
+                  message: "请先选择模板",
+                  type: "warning"
+                });
+                return;
+              }
+              if (this.evaluKind == "员工达优测评") {
+                this.$store.commit("setHandout", {
+                  callback: this.dialogCallback
+                });
+                getRunningPlan().then(res => {
+                  if (res.data == 0) {
+                    this.$message.error("暂无评价计划");
+                  } else {
                     get(this.selectedPkid).then(res => {
                       if (res.status == 200) {
                         this.$store.commit("setData", { data: res.data });
@@ -137,14 +145,23 @@ export default {
                         });
                       }
                     });
-                  } else {
-                    this.$message({
-                      message: "先选择模板",
-                      type: "warning"
+                  }
+                });
+              } else {
+                getCustomer(this.selectedPkid).then(res => {
+                  if (res.status == 200) {
+                    this.$store.commit("setData", { data: res.data });
+                    this.$router.push({
+                      path: "/evaluateClient",
+                      name: "evaluateClient",
+                      query: {
+                        useType: "add",
+                        mark: 1
+                      }
                     });
                   }
-                }
-              });
+                });
+              }
             }
           },
           {
@@ -190,7 +207,9 @@ export default {
           dropdown: []
         }
       },
-      selectedPkid: ""
+      selectedPkid: "",
+      //评价类别
+      evaluKind: ""
     };
   },
   methods: {
@@ -221,7 +240,7 @@ export default {
       this.$store.commit("setData", {
         id,
         useType: "modify",
-        callback: this.dialogCallback
+        callback: this.dialogCallback,
       });
       this.$router.push({ name: routerName });
     },
@@ -266,6 +285,7 @@ export default {
      */
     rowSelected(currentRow, oldCurrentRow) {
       this.selectedPkid = currentRow[key];
+      this.evaluKind = currentRow.evaluKind;
     },
     /**
      * 行选中事件:多选时触发

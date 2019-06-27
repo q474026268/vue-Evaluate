@@ -92,10 +92,10 @@ export default {
       rightList: [],
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: 'calc(100%)',
+        tableHeight: "calc(100%)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
-        opertionColumnWidth:180,
+        opertionColumnWidth: 180
       },
       // 列表配置
       tableColumnConfig: [
@@ -199,7 +199,7 @@ export default {
           //主表的pkid
           formPkid: "",
           //主表的评价类别
-          evaluKind:""
+          evaluKind: ""
         }
       }
     };
@@ -279,9 +279,15 @@ export default {
     },
     //指标列表删除
     deleteButtonClickRight(id) {
-       if(this.evaluKind!="员工达优测评"){
-         this.$message({
+      if (this.evaluKind == "内部顾客满意度测评") {
+        this.$message({
           message: "内部顾客满意度测评不可删除评分标准",
+          type: "warning"
+        });
+        return;
+      } else if (this.evaluKind == undefined) {
+        this.$message({
+          message: "请先选择指标",
           type: "warning"
         });
         return;
@@ -322,9 +328,15 @@ export default {
     },
     //指标列表修改
     modifyButtonClickRight(id, formPkid) {
-       if(this.evaluKind!="员工达优测评"){
-         this.$message({
+      if (this.evaluKind == "内部顾客满意度测评") {
+        this.$message({
           message: "内部顾客满意度测评不可修改评分标准",
+          type: "warning"
+        });
+        return;
+      } else if (this.evaluKind == undefined) {
+        this.$message({
+          message: "请先选择指标",
           type: "warning"
         });
         return;
@@ -359,9 +371,15 @@ export default {
     },
     //指标列表增加
     addButtonClickRight() {
-      if(this.evaluKind!="员工达优测评"){
-         this.$message({
+      if (this.evaluKind == "内部顾客满意度测评") {
+        this.$message({
           message: "内部顾客满意度测评不可增加评分标准",
+          type: "warning"
+        });
+        return;
+      } else if (this.evaluKind == undefined) {
+        this.$message({
+          message: "请先选择指标",
           type: "warning"
         });
         return;
@@ -411,7 +429,7 @@ export default {
      * currentRow:当前行 oldCurrentRow:上一次选中的行
      */
     rowSelected(currentRow, oldCurrentRow) {
-      this.evaluKind=currentRow.evaluKind
+      this.evaluKind = currentRow.evaluKind;
       this.formPkid = currentRow.pkid;
       //获取指标明细表
       findTargetDetail(currentRow.pkid).then(res => {
@@ -457,11 +475,14 @@ export default {
   },
   mounted: function() {
     // 组件加载完成
-    let leftDivDom=document.getElementById("indexManageList")
-    let divHeight=window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    leftDivDom.style.height=divHeight-228+"px";
-    let rightDivDom=document.getElementById("rightTableHeight");
-    rightDivDom.style.height=divHeight-175+"px";
+    let leftDivDom = document.getElementById("indexManageList");
+    let divHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    leftDivDom.style.height = divHeight - 228 + "px";
+    let rightDivDom = document.getElementById("rightTableHeight");
+    rightDivDom.style.height = divHeight - 175 + "px";
   },
   beforeUpdate: function() {
     // 组件数据更新之前

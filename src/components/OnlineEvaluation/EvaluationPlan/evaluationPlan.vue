@@ -22,7 +22,7 @@
                 style="width:220px"
                 v-model="formData.evaluKind"
                 placeholder="请选择"
-                :disabled="Object.is(type,'view')"
+                :disabled="!Object.is(this.type,'add')"
                 @change="evaluKindChange"
               >
                 <el-option
@@ -133,10 +133,12 @@ export default {
       id: "",
       // 弹出窗口宽度 默认为屏幕的50%
       dialogWidth: "50%",
-      // 评价类别
+      // 评价类别下拉框值
       evaluKindOptions: [],
       //是否显示预警提前期和催办提前期
-      isShow: false
+      isShow: false,
+      //评价类别判断
+      evaluKind: ""
     };
   },
   methods: {
@@ -151,7 +153,7 @@ export default {
     },
     //保存
     saveData(formName, btnType) {
-      if (this.formData.evaluKind == "内部客户满意度评测") {
+      if (this.formData.evaluKind == "内部顾客满意度测评") {
         if (
           this.formData.alertDay == undefined ||
           this.formData.emailDay == undefined
@@ -163,7 +165,7 @@ export default {
           return;
         }
       }
-      getRunningEP().then(result => {
+      getRunningEP(this.formData.evaluKind).then(result => {
         if (result.data) {
           this.$message({
             message: "已有计划正在进行中，您可暂存该计划",
@@ -209,7 +211,7 @@ export default {
     },
     //暂存
     zcData(formName, btnType) {
-      if (this.formData.evaluKind == "内部客户满意度评测") {
+      if (this.formData.evaluKind == "内部顾客满意度测评") {
         if (
           this.formData.alertDay == undefined ||
           this.formData.emailDay == undefined
@@ -264,9 +266,9 @@ export default {
     },
     //评价类别改变事件
     evaluKindChange(val) {
-      if (val == "内部客户满意度评测") {
+      if (val == "内部顾客满意度测评") {
         let form = {};
-        form.evaluKind = "内部客户满意度评测";
+        form.evaluKind = "内部顾客满意度测评";
         this.formData = form;
         this.isShow = true;
       } else if (val == "员工达优测评") {
@@ -289,6 +291,12 @@ export default {
     // 组件创建后
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
+    this.evaluKind = this.$store.state.data.evaluKind;
+    if (this.evaluKind == "内部顾客满意度测评") {
+      this.isShow = true;
+    } else {
+      this.isShow = false;
+    }
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

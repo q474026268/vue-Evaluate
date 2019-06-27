@@ -72,9 +72,12 @@ export function complete(pkid) {
 }
 
 // 判断是否有计划正在进行
-export function getRunningEP(pkid) {
+export function getRunningEP(evaluKind) {
     return request({
         url: '/evaluatePlan/getRunningEP',
-        method: 'GET'
+        data:{
+            evaluKind
+        },
+        method: 'POST'
     })
 }

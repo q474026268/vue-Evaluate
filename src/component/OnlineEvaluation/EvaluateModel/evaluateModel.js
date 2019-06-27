@@ -28,7 +28,7 @@ export function save(data){
     })
 }
 
-export function get(pkid){
+export function getCustomer(pkid){
     return request({
         url: '/evaluateModel/get/'+pkid,
         method: 'GET'
