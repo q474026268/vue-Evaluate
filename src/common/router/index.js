@@ -104,8 +104,8 @@ export const constantRouterMap = [
         ]
       },
       {
-        path: '/customerSatisfactionList', component: () => import('../../components/ProcessTracingEvalution/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
-          { path: '/customerSatisfactionList/customerSatisfactionView', component: () => import('../../components/ProcessTracingEvalution/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
+        path: '/customerSatisfactionList', component: () => import('../../component/processTracking/customerSatisfactionList'), name: 'customerSatisfactionList', children: [
+          { path: '/customerSatisfactionList/customerSatisfactionView', component: () => import('../../component/processTracking/customerSatisfactionView/customerSatisfactionView.vue'), name: 'customerSatisfactionView' },
         ]
       },
     ]

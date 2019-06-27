@@ -47,7 +47,7 @@ export default {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
-        opertionColumnWidth:180
+        opertionColumnWidth:130
       },
       // 列表配置
       tableColumnConfig: [
