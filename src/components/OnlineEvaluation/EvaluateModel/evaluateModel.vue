@@ -221,7 +221,10 @@ export default {
     },
     // 添加行
     addDetailRow() {
-      this.$refs.target.open();
+      let evaluKind=this.formData.evaluKind
+      this.$refs.target.open(evaluKind);
+      // console.log(this.$refs.target);
+      // this.$refs.target.getData(this.formData.evaluKind)
     },
     // 删除行
     handleDelete(index, row) {

@@ -88,11 +88,12 @@
   </div>
 </template>
 <script>
-import { save, getCustomer } from "./evaluateModel.js";
+import { getCustomer } from "./evaluateModel.js";
+import { save } from "@/components/OnlineEvaluation/EvaluateModel/evaluateModel.js";
 import { getEvaluKind, getLoginInfo } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
 import Rules, { addDictionary } from "./validate.js";
-import SelectTarget from "../EvaluateTarget/selectTarget.vue";
+import SelectTarget from "@/components/OnlineEvaluation/EvaluateTarget/selectTarget.vue";
 export default {
   name: "evaluateModel",
   props: {
@@ -165,6 +166,7 @@ export default {
       // 将明细的数据放在主表的childrens属性里面，后端的实体类也要有这个childrens属性
       data["childrens"] = Array.from(newFormDataDetail);
       if (valid1 && valid2 && this.beforeSubmit()) {
+        this.formData.flag = "0";
         let data = Object.assign({}, this.formData, getLoginInfo());
         save(data).then(res => {
           if (res.status == 200) {
@@ -211,6 +213,8 @@ export default {
     // 添加行
     addDetailRow() {
       this.$refs.target.open();
+      console.log(this.formData.evaluKind);
+      this.$refs.target.getData(this.formData.evaluKind);
     },
     // 删除行
     handleDelete(index, row) {
@@ -260,7 +264,6 @@ export default {
     // 组件创建后
     // DOTO
     this.type = this.$store.state.data.useType;
-    console.log(this.type);
     this.id = this.$store.state.data.id;
     if (!Object.is(this.type, "add")) {
       this.getData();
