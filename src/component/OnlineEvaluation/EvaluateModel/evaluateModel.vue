@@ -45,14 +45,14 @@
           ></el-button>
         </div>
         <el-table :data="formDataDetail" style="width: 100%" border>
-          <el-table-column align="center" label="指标名称" width="450">
+          <el-table-column align="center" label="指标名称" width="250">
             <template slot-scope="scope">
               <el-input v-model="scope.row.pkid" v-show="false"></el-input>
               <!-- <el-input size="mini" :name="'targetName_'+scope.$index" v-model="scope.row.targetName" :disabled="Object.is(type,'view')"></el-input> -->
               <label>{{ scope.row.targetName }}</label>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="指标权重" width="100">
+          <el-table-column align="center" label="指标权重" width="150">
             <template slot-scope="scope">
               <el-input
                 size="mini"
@@ -93,7 +93,7 @@ import { save } from "@/components/OnlineEvaluation/EvaluateModel/evaluateModel.
 import { getEvaluKind, getLoginInfo } from "../onlineEvaluation.js";
 import { guid } from "@/utils/common.js";
 import Rules, { addDictionary } from "./validate.js";
-import SelectTarget from "@/components/OnlineEvaluation/EvaluateTarget/selectTarget.vue";
+import SelectTarget from "../EvaluateTarget/selectTarget.vue";
 export default {
   name: "evaluateModel",
   props: {
@@ -168,6 +168,7 @@ export default {
       if (valid1 && valid2 && this.beforeSubmit()) {
         this.formData.flag = "0";
         let data = Object.assign({}, this.formData, getLoginInfo());
+        console.log(data);
         save(data).then(res => {
           if (res.status == 200) {
             // this.$store.state.data.callback({
@@ -205,6 +206,7 @@ export default {
     getData() {
       getCustomer(this.id).then(res => {
         if (res.status == 200) {
+          console.log(res.data);
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
         }
@@ -213,8 +215,6 @@ export default {
     // 添加行
     addDetailRow() {
       this.$refs.target.open();
-      console.log(this.formData.evaluKind);
-      this.$refs.target.getData(this.formData.evaluKind);
     },
     // 删除行
     handleDelete(index, row) {
@@ -226,9 +226,9 @@ export default {
     },
     //指标回调
     targetDialogCallback(data) {
-      data.forEach(({ pkid: targetPKID, targetName }) => {
-        this.formDataDetail.push({ targetPKID, targetName, doType: "add" });
-      });
+      data.forEach(({ pkid: targetPkid, targetName }) => {
+        this.formDataDetail.push({ targetPkid, targetName, doType: "add" });
+      });;
     },
     //根据评价类别改变跳转不同路由
     evaluKindChange(val) {
@@ -265,6 +265,7 @@ export default {
     // DOTO
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
+    console.log(this.$store.state.data);
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
