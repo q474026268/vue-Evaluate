@@ -45,7 +45,7 @@ export default {
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
         //操作列宽
-        opertionColumnWidth:"130"
+        opertionColumnWidth: "120"
       },
       // 列表配置
       tableColumnConfig: [
@@ -81,14 +81,14 @@ export default {
           id: "groupName",
           text: "制表部门",
           align: "center",
-          width: 200,
+          width: 180,
           sortable: true
         },
         {
           id: "inputDate",
           text: "制表时间",
           align: "center",
-          width: 120,
+          width: 110,
           sortable: true,
           formatter: function(row, column) {
             return formatDate(row.inputDate);
@@ -132,11 +132,11 @@ export default {
           // 默认显示
           default: [
             {
-              id:"default_delete",
-              text:"删除",
-              icon:"el-icon-delete",
-              click:(row) => {
-                  this.deleteButtonClick(row[key],row.state);
+              id: "default_delete",
+              text: "删除",
+              icon: "el-icon-delete",
+              click: row => {
+                this.deleteButtonClick(row[key], row.state);
               }
             },
             {
@@ -144,7 +144,7 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key], row.state);
+                this.viewButtonClick(row[key], row.state, row);
               }
             }
           ],
@@ -156,27 +156,27 @@ export default {
   },
   methods: {
     // 删除按钮点击事件
-    deleteButtonClick(id,state){
-        if(!Object.is('暂存',state)){
-            this.$message({
-                message: '该条目不能删除',
-                type: 'warning'
-            });
-            return;
-        }
-        this.$confirm('确定删除？').then((res) => {
-            deleted(id).then((res) => {
-                if(res.status == 200){
-                    this.$message({
-                        message: '删除成功',
-                        type: 'success'
-                    });
-                    this.$refs.table.refresh();
-                }
-            });
-        }).catch((err) => {
-                
+    deleteButtonClick(id, state) {
+      if (!Object.is("暂存", state)) {
+        this.$message({
+          message: "该条目不能删除",
+          type: "warning"
         });
+        return;
+      }
+      this.$confirm("确定删除？")
+        .then(res => {
+          deleted(id).then(res => {
+            if (res.status == 200) {
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+              this.$refs.table.refresh();
+            }
+          });
+        })
+        .catch(err => {});
     },
     // 自定义方法
     /**
@@ -185,41 +185,76 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    viewButtonClick(id, state) {
-       this.$store.commit("setData", {
-        callback: this.dialogCallback
-      });
-      switch (state) {
-        case "开始":
-          this.$message({
-            message: "开始状态下不可查看",
-            type: "warning"
-          });
-          break;
-        case "暂存":
-          this.$router.push({
-            name: "handoutHistorySearchStaff",
-            query: {
-              useType: "modify",
-              id
-            }
-          });
-          break;
-        case "分发":
-          this.$message({
-            message: "分发状态下不可查看",
-            type: "warning"
-          });
-          break;
-        case "完成":
-          this.$router.push({
-            name: "handoutHistorySearchStaff",
-            query: {
-              useType: "view",
-              id
-            }
-          });
-          break;
+    viewButtonClick(id, state, row) {
+      if (row.evaluKind == "员工达优测评") {
+        this.$store.commit("setData", {
+          callback: this.dialogCallback
+        });
+        switch (state) {
+          case "开始":
+            this.$message({
+              message: "开始状态下不可查看",
+              type: "warning"
+            });
+            break;
+          case "暂存":
+            this.$router.push({
+              name: "handoutHistorySearchStaff",
+              query: {
+                useType: "modify",
+                id
+              }
+            });
+            break;
+          case "分发":
+            this.$message({
+              message: "分发状态下不可查看",
+              type: "warning"
+            });
+            break;
+          case "完成":
+            this.$router.push({
+              name: "handoutHistorySearchStaff",
+              query: {
+                useType: "view",
+                id
+              }
+            });
+            break;
+        }
+      } else {
+        switch (state) {
+          case "save":
+            let that = this;
+            this.$store.commit("setData", {
+              callback: function() {
+                that.$refs.table.refresh();
+              }
+            });
+            this.$router.push({
+              name: "evaluateClient",
+              query: {
+                useType: "modify",
+                id
+              }
+            });
+            break;
+          case "start":
+            this.$message({
+              message: "分发状态下不可查看",
+              type: "warning"
+            });
+            break;
+          case "finish":
+            this.$router.push({
+              name: "evaluateClientView",
+              query: {
+                useType: "view",
+                id
+              }
+            });
+            break;
+        }
       }
     },
     // 弹出框回调函数
