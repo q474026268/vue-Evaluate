@@ -172,7 +172,7 @@ export default {
               text: "修改",
               icon: "el-icon-edit",
               click: row => {
-                this.modifyButtonClick(row[key], row.flag);
+                this.modifyButtonClick(row[key], row.flag,row);
               }
             },
             {
@@ -188,7 +188,7 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key]);
+                this.viewButtonClick(row[key],row);
               }
             }
           ],
@@ -225,7 +225,7 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    modifyButtonClick(id, flag) {
+    modifyButtonClick(id, flag,row) {
       if (flag == "1") {
         this.$message({
           message: "该条记录已经是无效，不可修改",
@@ -235,7 +235,8 @@ export default {
         this.$store.commit("setData", {
           useType: "modify",
           id,
-          callback: this.dialogCallback
+          callback: this.dialogCallback,
+          evaluKind:row.evaluKind
         });
         this.$router.push({ name: routerName });
       }
@@ -246,11 +247,12 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    viewButtonClick(id) {
+    viewButtonClick(id,row) {
       this.$store.commit("setData", {
         useType: "view",
         id,
-        callback: this.dialogCallback
+        callback: this.dialogCallback,
+        evaluKind:row.evaluKind
       });
       this.$router.push({ name: routerName });
     },
