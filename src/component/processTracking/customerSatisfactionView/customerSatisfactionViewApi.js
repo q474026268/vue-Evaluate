@@ -30,9 +30,9 @@ export function sendEmail(){
         data:JSON.stringify({
             // reqMap:{
                 // 邮件内容
-                content:'您有一个新任务【'+'内部客户满意度测评'+'】，请及时查看！点击链接查看详情<a href=\"http://hoon.ecidi.com\">查看流程详情</a>！',
+                content:'您有一个新任务【'+'内部顾客满意度测评'+'】，请及时查看！点击链接查看详情<a href=\"http://hoon.ecidi.com\">查看流程详情</a>！',
                 // 标题
-                subject:'【IT项目管理平台】内部客户满意度测评',
+                subject:'【IT项目管理平台】内部顾客满意度测评',
                 // 收件人
                 to:'987082641@qq.com'
             // }

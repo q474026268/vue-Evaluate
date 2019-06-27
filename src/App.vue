@@ -35,7 +35,7 @@
           </el-submenu>
           <el-submenu index="/onlineEvaluationr">
             <template slot="title">
-              <span slot="title">内部顾客满意度</span>
+              <span slot="title">内部顾客满意度测评</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/evaluatePlanList">评价计划</el-menu-item>

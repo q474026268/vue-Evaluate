@@ -15,7 +15,7 @@
           <el-input v-model="formData.flag" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item prop="evaluKind" label="模板类别" class="item">
-          <el-select v-model="formData.evaluKind" placeholder="请选择" :disabled="true">
+          <el-select v-model="formData.evaluKind" placeholder="请选择" @change="evaluKindChange" :disabled="!Object.is(this.type,'add')">
             <el-option
               v-for="item in evaluKindOptions"
               :key="item.value"
@@ -112,15 +112,17 @@ export default {
       id: "",
       // 弹出窗口宽度 默认为屏幕的50%
       dialogWidth: "45%",
-      // 评价类别
-      evaluKindOptions: []
+      // 评价类别下拉框值
+      evaluKindOptions: [],
     };
   },
   methods: {
     // 自定义方法
     // 关闭弹出框
     close() {
-      this.$router.back(-1);
+      this.$router.push({
+        name: "evaluateModelListStaff"
+      });
     },
     // 表单提交前事件
     beforeSubmit() {
@@ -151,11 +153,7 @@ export default {
           this.formDataDetail[i].targetPkid = targetPkid[i];
           this.formDataDetail[i].pkid = "";
         }
-      }else if(Object.is(this.type, "view")){
-        console.log(this.formDataDetail);
       }
-
-      console.log(this.formDataDetail);
       // 合并明细数据
       let newFormDataDetail = [
         ...this.formDataDetail,
@@ -170,10 +168,10 @@ export default {
         if (mark == 0) {
           save(data).then(res => {
             if (res.status == 200) {
-              let callback = this.$store.state.data.callback;
-              if (callback) {
-                callback({ type: this.type, data: res.data });
-              }
+              // let callback = this.$store.state.data.callback;
+              // if (callback) {
+              //   callback({ type: this.type, data: res.data });
+              // }
               this.$message({
                 message: "保存成功",
                 type: "success"
@@ -216,15 +214,6 @@ export default {
         if (res.status == 200) {
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
-          // let targetPkid=[];
-          // for(let i=0;i<this.formDataDetail.length;i++){
-          //  targetPkid.push(this.formDataDetail[i].targetPkid)
-          // }
-          // for(let i=0;i<this.formDataDetail.length;i++){
-          //   this.formDataDetail[i].pkid=targetPkid[i]
-          //   this.formDataDetail[i].targetPkid=""
-          // }
-          // console.log(this.formDataDetail);
           let target = this.formDataDetail;
           this.$store.commit("setTarget", target);
         }
@@ -256,6 +245,18 @@ export default {
       });
       let target = this.formDataDetail;
       this.$store.commit("setTarget", target);
+    },
+    //根据评价类别改变跳转不同路由
+    evaluKindChange(val) {
+      if (val == "内部顾客满意度测评") {
+        this.$router.push({
+          name: "evaluateModel"
+        });
+      } else if (val == "员工达优测评") {
+        this.$router.push({
+          name: "evaluateModelStaff"
+        });
+      }
     }
   },
   /**
@@ -271,7 +272,7 @@ export default {
     // 组件创建后
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
-    this.$store.state.target = [];
+    this.evaluKind=this.$store.state.data.evaluKind
     if (!Object.is(this.type, "add")) {
       this.getData();
     }

@@ -196,7 +196,7 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key]);
+                this.viewButtonClick(row[key], row);
               }
             }
           ],
@@ -226,6 +226,7 @@ export default {
      * 修改按钮点击事件
      */
     modifyButtonClick(id, row) {
+      console.log(row.evaluKind);
       if (row.flag == 2) {
         this.$message({
           message: "计划已经执行，不可修改",
@@ -240,7 +241,8 @@ export default {
         this.$store.commit("setData", {
           id,
           useType: "modify",
-          callback: this.dialogCallback
+          callback: this.dialogCallback,
+          evaluKind: row.evaluKind
         });
         this.$router.push({ name: routerName });
       }
@@ -248,11 +250,12 @@ export default {
     /**
      * 浏览按钮点击事件
      */
-    viewButtonClick(id) {
+    viewButtonClick(id, row) {
       this.$store.commit("setData", {
         useType: "view",
         id,
-        callback: this.dialogCallback
+        callback: this.dialogCallback,
+        evaluKind: row.evaluKind
       });
       this.$router.push({ name: routerName });
     },

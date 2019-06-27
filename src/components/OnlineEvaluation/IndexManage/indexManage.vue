@@ -15,8 +15,8 @@
           <el-select
             v-model="formData.evaluKind"
             placeholder="请选择"
-            :disabled="Object.is(type,'view')"
             @change="evaluKindChange"
+            :disabled="!Object.is(this.type,'add')"
           >
             <el-option
               v-for="item in evaluKindOptions"
@@ -81,7 +81,9 @@ export default {
       // 评价类别
       evaluKindOptions: [],
       //指标含义是否显示
-      isShow: false
+      isShow: false,
+      //根据评价类别是否显示指标含义
+      evaluKind: ""
     };
   },
   methods: {
@@ -95,8 +97,11 @@ export default {
       return true;
     },
     saveData(formName) {
-      if (this.formData.evaluKind == "内部客户满意度评测") {
-        if (this.formData.description == undefined||this.formData.description == "") {
+      if (this.formData.evaluKind == "内部顾客满意度测评") {
+        if (
+          this.formData.description == undefined ||
+          this.formData.description == ""
+        ) {
           this.$message({
             message: "指标含义不能为空",
             type: "warning"
@@ -142,9 +147,9 @@ export default {
     },
     //评价类别改变事件
     evaluKindChange(val) {
-      if (val == "内部客户满意度评测") {
+      if (val == "内部顾客满意度测评") {
         let form = {};
-        form.evaluKind = "内部客户满意度评测";
+        form.evaluKind = "内部顾客满意度测评";
         this.formData = form;
         this.isShow = true;
       } else if (val == "员工达优测评") {
@@ -168,6 +173,12 @@ export default {
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
     this.dialogCallback = this.$store.state.data.dialogCallback;
+    this.evaluKind = this.$store.state.data.evaluKind;
+    if (this.evaluKind == "内部顾客满意度测评") {
+      this.isShow = true;
+    } else if (this.evaluKind == "员工达优测评") {
+      this.isShow = false;
+    }
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
