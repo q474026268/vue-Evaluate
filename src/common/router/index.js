@@ -45,6 +45,7 @@ export const constantRouterMap = [
           { path: '/statisticsInquireStaff/statisticalPreprocessingViewStaff', component: () => import('../../components/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingViewStaff' },
           { path: '/statisticsInquireStaff/sendStatisticsTaskStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTaskStaff' },
           { path: '/statisticsInquireStaff/statisticalClientViewStaff', component: () => import('../../components/statisticsInquire/sendStatisticsTask/statisticalClientView.vue'), name: 'statisticalClientViewStaff' },
+          { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../component/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
         ]
       },
       { path: '/statisticsInquireStaff/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
@@ -149,7 +150,7 @@ export const constantRouterMap = [
       {
         path: '/statisticsInquire/statisticalPreprocessingList', component: () => import('../../component/statisticsInquire/statisticalPreprocessingList'), name: 'statisticalPreprocessingList', children: [
           { path: '/statisticsInquire/statisticalPreprocessingView', component: () => import('../../component/statisticsInquire/statisticalPreprocessingView/statisticalPreprocessingView.vue'), name: 'statisticalPreprocessingView' },
-          { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../component/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
+          // { path: '/statisticsInquire/sendStatisticsTask', component: () => import('../../component/statisticsInquire/sendStatisticsTask/sendStatisticsTask.vue'), name: 'sendStatisticsTask' },
         ]
       },
       // { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../component/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }

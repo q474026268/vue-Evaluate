@@ -94,7 +94,17 @@ export default {
         top: [
           {
             id: "refresh",
-            text: "发送统计任务",
+            text: "内部顾客统计任务",
+            icon: "el-icon-s-promotion",
+            style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
+            click: row => {
+              this.$store.commit("setData",{callback:this.dialogCallback});
+              this.$router.push({name:'sendStatisticsTask'});
+            }
+          },
+          {
+            id: "refresh",
+            text: "员工统计任务",
             icon: "el-icon-s-promotion",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: row => {

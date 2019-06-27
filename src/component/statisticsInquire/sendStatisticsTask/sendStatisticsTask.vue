@@ -1,9 +1,33 @@
 <template>
     <div id="customerSatisfactionView">
         <el-dialog :title="title"
-        width="50%" 
+        width="70%" 
         :visible.sync="dialogFormVisible"
         :before-close="handleClose" :close-on-click-modal="false">
+            <el-row>
+                <el-col :span="6">
+                <el-input
+                    size="mini"
+                    placeholder="测评表名称"
+                    v-model="tableName"
+                    class="tableName"
+                    style="width:200px"
+                    clearable
+                ></el-input>
+                </el-col>
+                <el-col :span="6">
+                <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
+                </el-col>
+                <el-col :span="12">
+                <span style="margin-left:9%;">请输入生成的任务名称:</span>
+                <el-input
+                    v-model="tastName"
+                    size="mini"
+                    style="width:200px;"
+                    class="tastName"
+                ></el-input>
+                </el-col>
+            </el-row>
             <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
             <div id="btnGroupDiv">
                 <el-button @click="save" type="primary">保存</el-button><el-button @click="handleClose" type="info">取消</el-button>
@@ -125,31 +149,34 @@ export default {
 }
 </script>
 <style scope>
-    h4{
+    h4 {
         font-size: 18px;
-        color: #409EFF;
+        color: #409eff;
     }
-    .el-dialog__body{
+    .el-dialog__body {
         padding: 5px 20px;
         padding-bottom: 20px;
     }
-    .pDiv{
+    .pDiv {
         margin-bottom: 22px;
         display: flex;
     }
-    .pDiv span{
+    .pDiv span {
         display: block;
         margin-right: 25px;
     }
-    #btnGroupDiv{
+    #btnGroupDiv {
         display: flex;
         justify-content: center;
         margin-top: 20px;
     }
-    #btnGroupDiv button{
+    #btnGroupDiv button {
         margin-right: 15px;
     }
-    .el-transfer-panel{
+    .el-transfer-panel {
         width: 44%;
+    }
+    .tableName {
+        margin-bottom: 2%;
     }
 </style>
