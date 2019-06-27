@@ -45,7 +45,7 @@ export default {
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
         //操作列宽
-        opertionColumnWidth:"80px"
+        opertionColumnWidth:"130"
       },
       // 列表配置
       tableColumnConfig: [
