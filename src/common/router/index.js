@@ -59,7 +59,9 @@ export const constantRouterMap = [
         children: [
           {
             path: '/evaluateReceivedStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecEditStaff'
-          }
+          },
+          { path: '/fillEvaluationStaff/evaluateReceivedStaff/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
+          { path: '/fillEvaluationStaff/evaluateReceivedStaff/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
         ]
       },
       {//个人评价反馈
@@ -67,7 +69,8 @@ export const constantRouterMap = [
         children: [
           {
             path: '/personalEvaluationFeedbackStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecLookStaff'
-          }
+          },
+          { path: '/personalEvaluationFeedbackStaff/evaluateClientSecXm', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSecXm' },
         ]
       },
     ]
@@ -126,8 +129,8 @@ export const constantRouterMap = [
     path: '/fillEvaluation', component: () => import('../../component/FillEvaluation'), name: 'fillEvaluation', redirect: { name: 'fillEvaluationList' }, children: [
       {
         path: '/fillEvaluation/fillEvaluationList', component: () => import('../../component/FillEvaluation/EvaluateClientList'), name: 'fillEvaluationList', children: [
-          { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
-          { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
+          // { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
+          // { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
         ]
       },
     ]

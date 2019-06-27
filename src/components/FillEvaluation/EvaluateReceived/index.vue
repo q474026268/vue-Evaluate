@@ -47,7 +47,7 @@ export default {
         tableHeight: "calc(100% - 140px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
-        opertionColumnWidth:65
+        opertionColumnWidth:180
       },
       // 列表配置
       tableColumnConfig: [
@@ -120,32 +120,94 @@ export default {
         eachRow: {
           // 默认显示
           default: [
+            // {
+            //   id: "default_view",
+            //   text: "执行",
+            //   icon: "el-icon-tickets",
+            //   click: row => {
+            //     console.log(row);
+                  // this.$store.commit("setData",{callback:this.dialogCallback})
+                  // this.$router.push({
+                  //   name:'EvaluateClientSecEditStaff',
+                  //   query:{
+                  //     evaluKind:row.evaluKind,
+                  //     evaluateTname:row.evaluateTname,
+                  //     levelType:row.levelType,
+                  //     startDate:row.inputDate,
+                  //     pkid:row.id,
+                  //   }
+                  // })
+            //   }
+            // },
             {
-              id: "default_view",
-              text: "执行",
-              icon: "el-icon-tickets",
-              click: row => {
-                console.log(row);
-                // if(row.state=='完成'){
-                //   this.$message({
-                //     message: '该表以完成，不可再编辑！',
-                //     type: 'warning'
-                //   });
-                // }else{
-                  this.$store.commit("setData",{callback:this.dialogCallback})
-                  this.$router.push({
-                    name:'EvaluateClientSecEditStaff',
-                    query:{
-                      evaluKind:row.evaluKind,
-                      evaluateTname:row.evaluateTname,
-                      levelType:row.levelType,
-                      startDate:row.inputDate,
-                      pkid:row.id,
+              id:"fill",
+              text:"填写",
+              icon:"el-icon-edit",
+              click:(row) => {
+                  console.log(row);
+                  if (row.evaluKind=="员工达优测评") {
+                    this.$store.commit("setData",{callback:this.dialogCallback})
+                    this.$router.push({
+                      name:'EvaluateClientSecEditStaff',
+                      query:{
+                        evaluKind:row.evaluKind,
+                        evaluateTname:row.evaluateTname,
+                        levelType:row.levelType,
+                        startDate:row.inputDate,
+                        pkid:row.id,
+                      }
+                    })
+                  }else{
+                    if(row.State=='finish' || row.State=='consign'){
+                        this.$message({
+                            message: '根据该条目状态判定不可填写',
+                            type: 'warning'
+                        });
+                    }else{
+                        this.$store.commit("setData",{callback:this.dialogCallback})
+                        this.$router.push(
+                            {
+                                name:'evaluateClientSec',
+                                query:{
+                                    EvaluKind:row.EvaluKind,
+                                    EvaluateTname:row.EvaluateTname,
+                                    StartDate:row.InputDate,
+                                    state:'add',
+                                    nowState:row.State,
+                                    id:row.EvaluateId,
+                                    EvaluateListPKID:row.EvaluateListPKID,
+                                    type:row.type,
+                                    inputerUserNo:this.$route.query.doUserNo
+                                }
+                            }
+                        ); 
                     }
-                  })
-                // }
+                  }
               }
-            }
+          },
+          {
+              id:"consign",
+              text:"委托",
+              icon:"el-icon-caret-right",
+              click:(row) => {
+                if (row.evaluKind=="内部顾客满意度评测") {
+                  this.$store.commit("setData",{callback:this.dialogCallback})
+                  if(row.type==1 || row.State=='finish' || row.State=='consign'){
+                      this.$message({
+                          message: '根据该条目状态判定不可委托',
+                          type: 'warning'
+                      });
+                  }else{
+                      this.$router.push({name:'evaluateConsign',query:{PlanName:row.PlanName,EvaluateId:row.EvaluateId,EvaluateListPKID:row.EvaluateListPKID}}); 
+                  }
+                }else{
+                  this.$message({
+                    message: '类别为员工达优测评，不可委托',
+                    type: 'warning'
+                  });
+                }
+              }
+          },
           ],
           // 下拉显示
           dropdown: []

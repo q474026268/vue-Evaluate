@@ -43,15 +43,11 @@ export function update(data) {
     // })
 }
 
-export function deleted(guid) {
-    return Promise.resolve({ status: 200 });
-    // return request({
-    //     url: '/furniture/deleteFurniture',
-    //     data:{
-    //         guid
-    //     },
-    //     method: 'POST'
-    // })
+export function deleted(id){
+    return request({
+        url: '/evaluateClient/delete/'+id,
+        method: 'DELETE'
+    })
 }
 
 /* 明细表接口 */

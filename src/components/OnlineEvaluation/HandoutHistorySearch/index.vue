@@ -132,6 +132,14 @@ export default {
           // 默认显示
           default: [
             {
+              id:"default_delete",
+              text:"删除",
+              icon:"el-icon-delete",
+              click:(row) => {
+                  this.deleteButtonClick(row[key],row.state);
+              }
+            },
+            {
               id: "default_view",
               text: "浏览",
               icon: "el-icon-view",
@@ -147,6 +155,29 @@ export default {
     };
   },
   methods: {
+    // 删除按钮点击事件
+    deleteButtonClick(id,state){
+        if(!Object.is('暂存',state)){
+            this.$message({
+                message: '该条目不能删除',
+                type: 'warning'
+            });
+            return;
+        }
+        this.$confirm('确定删除？').then((res) => {
+            deleted(id).then((res) => {
+                if(res.status == 200){
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    this.$refs.table.refresh();
+                }
+            });
+        }).catch((err) => {
+                
+        });
+    },
     // 自定义方法
     /**
      * 浏览按钮点击事件

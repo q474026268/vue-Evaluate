@@ -123,7 +123,6 @@ export default {
                             id:"fill",
                             text:"填写",
                             icon:"el-icon-edit",
-                            // disabled:!row.state=='start',
                             click:(row) => {
                                 console.log(row);
                                 if(row.State=='finish' || row.State=='consign'){
