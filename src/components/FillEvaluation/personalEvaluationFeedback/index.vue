@@ -105,23 +105,76 @@ export default {
         eachRow: {
           // 默认显示
           default: [
+            // {
+            //     id:"view",
+            //     text:"查看",
+            //     icon:"el-icon-view",
+            //     click:(row) => {
+            //         console.log(row);
+            //         if(row.State=='finish' || row.State=='save'){
+            //             this.$router.push(
+            //                 {
+            //                     name:'evaluateClientSec',
+            //                     query:{
+            //                         EvaluKind:row.EvaluKind,
+            //                         EvaluateTname:row.EvaluateTname,
+            //                         StartDate:row.InputDate,
+            //                         state:'look',
+            //                         id:row.EvaluateId,
+            //                         EvaluateListPKID:row.EvaluateListPKID,
+            //                         type:row.type,
+            //                     }
+            //                 }
+            //             ); 
+            //         }else{
+            //             this.$message({
+            //                 message: '根据该条目状态未完成，不能查看',
+            //                 type: 'warning'
+            //             });
+            //         }
+            //     }
+            // },
             {
               id: "default_view",
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.$router.push({
-                  name:'EvaluateClientSecLookStaff',
-                  query:{
-                    evaluKind:row.evaluKind,
-                    evaluateTname:row.evaluateTname,
-                    levelType:row.levelType,
-                    startDate:row.inputDate,
-                    pkid:row.pkid,
-                    id:row.id,
-                    look:'true'
+                if (row.evaluKind=="员工达优测评") {
+                  this.$router.push({
+                    name:'EvaluateClientSecLookStaff',
+                    query:{
+                      evaluKind:row.evaluKind,
+                      evaluateTname:row.evaluateTname,
+                      levelType:row.levelType,
+                      startDate:row.inputDate,
+                      pkid:row.pkid,
+                      id:row.id,
+                      look:'true'
+                    }
+                  })
+                }else{
+                  if(row.State=='finish' || row.State=='save'){
+                      this.$router.push(
+                          {
+                              name:'evaluateClientSecXm',
+                              query:{
+                                  EvaluKind:row.EvaluKind,
+                                  EvaluateTname:row.EvaluateTname,
+                                  StartDate:row.InputDate,
+                                  state:'look',
+                                  id:row.EvaluateId,
+                                  EvaluateListPKID:row.EvaluateListPKID,
+                                  type:row.type,
+                              }
+                          }
+                      ); 
+                  }else{
+                      this.$message({
+                          message: '根据该条目状态未完成，不能查看',
+                          type: 'warning'
+                      });
                   }
-                })
+                }
               }
             }
           ],
