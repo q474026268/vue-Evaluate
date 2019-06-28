@@ -14,7 +14,7 @@
         >
           <el-submenu index="/">
             <template slot="title">
-              <span slot="title">员工达优测评</span>
+              <span slot="title">在线评价管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/evaluatePlanListStaff">评价计划
@@ -33,7 +33,7 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="/onlineEvaluationr">
+          <!-- <el-submenu index="/onlineEvaluationr">
             <template slot="title">
               <span slot="title">内部顾客满意度测评</span>
             </template>
@@ -49,7 +49,7 @@
             <el-menu-item-group>
               <el-menu-item index="/statisticsInquire">统计查询</el-menu-item>
             </el-menu-item-group>
-          </el-submenu>
+          </el-submenu> -->
         </el-menu>
       </div>
       <router-view></router-view>
