@@ -90,18 +90,6 @@ export default {
           }
         },
         {
-          id:"FinishDate",
-          text:"结束时间",
-          align:"center",
-          width:80,
-          sortable:true,
-          formatter:function(row,column){
-              if(row.FinishDate != null){
-                  return formatDate(row.FinishDate);
-              }
-          }
-        },
-        {
           id: "state",
           text: "状态",
           align: "center",

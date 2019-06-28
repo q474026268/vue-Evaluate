@@ -9,7 +9,7 @@
                 <el-input
                     size="mini"
                     placeholder="测评表名称"
-                    v-model="tableName"
+                    v-model="evaluateTname"
                     class="tableName"
                     style="width:200px"
                     clearable
@@ -21,7 +21,7 @@
                 <el-col :span="12">
                 <span style="margin-left:9%;">请输入生成的任务名称:</span>
                 <el-input
-                    v-model="tastName"
+                    v-model="taskName"
                     size="mini"
                     style="width:200px;"
                     class="tastName"
@@ -61,28 +61,53 @@ export default {
             title:'统计任务发送',
             data:[],
             value: [],
+            // 测评表名
+            evaluateTname:'',
+            // 任务名称
+            taskName:'',
         }
     },
     methods:{// 自定义方法
         handleClose(done) {
             this.$router.back();
         },
+        search(){
+            gets(this.evaluateTname).then((result) => {
+                console.log(result.data)
+                this.data=[];
+                console.log(this.data);
+                
+                for(let i=0;i<result.data.length;i++){
+                    this.data.push(result.data[i]);
+                    this.data[i].key=result.data[i].EvaluateId;
+                    this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].EvaluPlan;
+                }
+            })
+        },
         // 保存
         save(){
             let saveData={};
+            
             saveData.evaluateId=this.value.join(',');
             for(let i=0;i<this.value.length;i++){
                 if(this.data[i].key==this.value[i]){
-                    saveData.planPKID=this.data[i].planPKID;
-                    saveData.evaluKind=this.data[i].EvaluKind;
+                    // saveData.planPKID=this.data[i].planPKID;
+                    // saveData.evaluKind=this.data[i].EvaluKind;
                     saveData.evaluateTname=this.data[i].EvaluateTname;
                     break;
                 }
             }
-            console.log(saveData);
+            saveData.inputerUserNo=this.$store.state.userInfo.id;
+            saveData.inputerFullName=this.$store.state.userInfo.name;
+            saveData.taskName=this.taskName;
             if(saveData.evaluateId==''){
                 this.$message({
                     message: '请选择评价表！',
+                    type: 'warning'
+                });
+            }else if(!saveData.taskName){
+                this.$message({
+                    message: '请输入任务名称！',
                     type: 'warning'
                 });
             }else{
@@ -120,21 +145,9 @@ export default {
             for(let i=0;i<result.data.length;i++){
                 this.data.push(result.data[i]);
                 this.data[i].key=result.data[i].EvaluateId;
-                let stateName='';
-                let state = result.data[i].state;
-                if(state =='finish'){
-                    // this.data[i].disabled=true;
-                    stateName='已统计';
-                }else if(state == 'start'){
-                    stateName='统计中';
-                }else{
-                    stateName='未统计';
-                }
-                this.data[i].label=result.data[i].EvaluateTname+'——'+stateName;
+                this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].EvaluPlan;
             }
-        }).catch((err) => {
-            
-        });
+        })
     },
     mounted:function(){// 组件加载完成
         // DOTO
