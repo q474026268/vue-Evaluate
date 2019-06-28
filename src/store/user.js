@@ -1,27 +1,27 @@
-import store from '@/store/store.js'
+import {store} from '@/store/store.js'
 const user = {
     state: {
       userInfo: {
-            "id":1,
-            "userName":"admin",
-            "avatar":"ce386f75-8a6f-4af4-a97f-257a820e9505",
-            "name":"超级管理员",
-            "sex":null,
-            "birthday":null,
-            "phone":null,
-            "email":"admin@ecidi.com",
-            "wechatId":null,
-            "remark":null,
-            "departmentId":"0",
-            "departmentName":"华东工程数字技术有限公司",
-            "deleteFlag":"0",
-            "disableFlag":null,
-            "wechatAvatarUrl":null,
-            "wechatNickname":null,
-            "signature":"管理员",
-            "loginTime":"2019-05-13T08:46:58.000+0800",
-            "ip":"10.215.48.35",
-            "createDate":null
+            "id":store.state.userInfo.id,
+            "userName":store.state.userInfo.userName,
+            "avatar":store.state.userInfo.avatar,
+            "name":store.state.userInfo.name,
+            "sex":store.state.userInfo.sex,
+            "birthday":store.state.userInfo.birthday,
+            "phone":store.state.userInfo.phone,
+            "email":store.state.userInfo.email,
+            "wechatId":store.state.userInfo.wechatId,
+            "remark":store.state.userInfo.remark,
+            "departmentId":store.state.userInfo.departmentId,
+            "departmentName":store.state.userInfo.departmentName,
+            "deleteFlag":store.state.userInfo.disableFlag,
+            "disableFlag":store.state.userInfo.disableFlag,
+            "wechatAvatarUrl":store.state.userInfo.wechatAvatarUrl,
+            "wechatNickname":store.state.userInfo.wechatNickname,
+            "signature":store.state.userInfo.signature,
+            "loginTime":store.state.userInfo.loginTime,
+            "ip":store.state.userInfo.ip,
+            "createDate":store.state.userInfo.createDate
         },
     }
 }
