@@ -72,8 +72,12 @@ export const constantRouterMap = [
           {
             path: '/evaluateReceivedStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecEditStaff'
           },
-          { path: '/fillEvaluationStaff/evaluateReceivedStaff/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
-          { path: '/fillEvaluationStaff/evaluateReceivedStaff/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
+        ]
+      },
+      {
+        path: '/fillEvaluation/fillEvaluationList', component: () => import('../../component/FillEvaluation/EvaluateClientList'), name: 'fillEvaluationList', children: [
+          { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
+          { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
         ]
       },
       {//个人评价反馈
@@ -137,16 +141,16 @@ export const constantRouterMap = [
       }
     ]
   },
-  {//评价表填写
-    path: '/fillEvaluation', component: () => import('../../component/FillEvaluation'), name: 'fillEvaluation', redirect: { name: 'fillEvaluationList' }, children: [
-      {
-        path: '/fillEvaluation/fillEvaluationList', component: () => import('../../component/FillEvaluation/EvaluateClientList'), name: 'fillEvaluationList', children: [
-          // { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
-          // { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
-        ]
-      },
-    ]
-  },
+  // {//评价表填写
+  //   path: '/fillEvaluation', component: () => import('../../component/FillEvaluation'), name: 'fillEvaluation', redirect: { name: 'fillEvaluationList' }, children: [
+  //     {
+  //       path: '/fillEvaluation/fillEvaluationList', component: () => import('../../component/FillEvaluation/EvaluateClientList'), name: 'fillEvaluationList', children: [
+  //         { path: '/fillEvaluation/evaluateClientSec', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSec' },
+  //         { path: '/fillEvaluation/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'evaluateConsign' },
+  //       ]
+  //     },
+  //   ]
+  // },
   // {//过程跟踪
   //   path: '/processTracking', component: () => import('../../component/processTracking'), name: 'processTracking', redirect: { name: 'customerSatisfactionList' }, children: [
   //     {

@@ -2,7 +2,7 @@
   <div id="search">
     <el-form :inline="true" :model="searchData" class="demo-form-inline">
       <el-row type="flex" justify="space-between">
-        <el-col :span="2">
+        <!-- <el-col :span="2">
           <el-select
             v-model="searchData.evaluKind"
             placeholder="评价类别"
@@ -15,7 +15,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-        </el-col>
+        </el-col> -->
         <el-col :span="2">
           <el-select
             v-model="searchData.markType"

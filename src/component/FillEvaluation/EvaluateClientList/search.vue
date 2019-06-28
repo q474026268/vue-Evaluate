@@ -2,14 +2,7 @@
     <div id="search">
         <el-form :inline="true" :model="searchData" class="demo-form-inline">
             <el-row type="flex" justify="space-between" class="searchRow">
-                <el-col :span="6" style="width:12%;">
-                    <el-form-item>
-                        <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small" clearable>
-                            <el-option v-for="item in evaluKindOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:15%;">
+                <!-- <el-col :span="6" style="width:15%;">
                     <el-form-item>
                         <el-input v-model="searchData.evaluateTname" placeholder="测评表名称" size="small" clearable></el-input>
                     </el-form-item>
@@ -19,11 +12,6 @@
                         <el-input v-model="searchData.levelType" placeholder="评价方式" size="small" clearable></el-input>
                     </el-form-item>
                 </el-col>
-                <!-- <el-col :span="4">
-                    <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
-                </el-col> -->
-            <!-- </el-row>
-            <el-row> -->
                 <el-col :span="6" style="width:15%;">
                     <el-form-item>
                         <el-input v-model="searchData.planName" placeholder="评价计划" size="small"  clearable></el-input>
@@ -36,8 +24,63 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="1">
-                    <!-- <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button> -->
                     <el-button style="margin-top: 4px;" type="primary" @click="searching" size="small" icon="el-icon-search">筛选</el-button>
+                </el-col> -->
+                <!-- <el-col :span="2">
+                    <el-select
+                        v-model="searchData.levelType"
+                        placeholder="评价方式"
+                        size="small"
+                    >
+                        <el-option
+                        v-for="item in levelTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                        ></el-option>
+                    </el-select>
+                </el-col> -->
+                <el-col :span="3">
+                    <el-input
+                        v-model="searchData.planName"
+                        placeholder="评价计划"
+                        size="small"
+                        clearable
+                    ></el-input>
+                </el-col>
+                <el-col :span="5">
+                    <el-date-picker
+                        size="small"
+                        style="width:100%"
+                        v-model="searchData.dateFrame"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                    ></el-date-picker>
+                </el-col>
+                <el-col :span="4">
+                    <el-input
+                        v-model="searchData.evaluateTname"
+                        placeholder="评价表名"
+                        size="small"
+                        clearable
+                    ></el-input>
+                </el-col>
+
+                <el-col :span="4">
+                    <el-button
+                        type="primary"
+                        @click="searching"
+                        size="small"
+                        icon="el-icon-search"
+                    >查询</el-button>
+                    <el-button
+                        type="primary"
+                        @click="clear"
+                        size="small"
+                        icon="el-icon-refresh"
+                    >清空</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -61,13 +104,13 @@ export default {
         searching(){
             this.search(this.searchData);
         },
-        // clear(){
-        //     this.searchData = {
-        //         evaluKind:'',
-        //         evaluPlan:'',
-        //         flag:''
-        //     };
-        // }
+        clear(){
+            this.searchData = {
+                evaluKind:'',
+                evaluPlan:'',
+                flag:''
+            };
+        }
     },
     /**
      * 计算属性（自定义方法）
@@ -101,9 +144,9 @@ export default {
 </script>
 <style scoped>
 .el-form-item {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-.searchRow{
-    padding-right: 5%;
+.demo-form-inline{
+  margin-bottom: 22px;
 }
 </style>
