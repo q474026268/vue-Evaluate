@@ -139,30 +139,32 @@ export default {
         this.tableArr[i].doneUserNo = "";
       }
       console.log(this.tableArr);
+      console.log(this.tableTarget);
       for (let i = 0; i < this.tableArr.length; i++) {
         for (let j = 0; j < this.tableTarget.length; j++) {
-          if (this.tableArr[i]['target'+(j+1)]=='') {
-            return false
+          if (!this.tableArr[i]['target'+(j+1)]) {
             this.$message({
-              message: `${this.tableArr[i].doneFullName}的${this.tableTarget[j].TargetName没有填写}！`,
+              message: `${this.tableArr[i].doneFullName}的${this.tableTarget[j].TargetName}没有填写！`,
               type: 'warning'
             });
+            return false
           }
         }
       }
+      console.log(('======'));
       
-      saveFillContent(this.tableArr).then(result => {
-        if (result.status == 200) {
-          this.$router.back();
-          this.$message({
-            message: "保存成功",
-            type: "success"
-          });
-          this.$store.state.data.callback();
-        } else {
-          this.$message.error("保存失败");
-        }
-      });
+      // saveFillContent(this.tableArr).then(result => {
+      //   if (result.status == 200) {
+      //     this.$router.back();
+      //     this.$message({
+      //       message: "保存成功",
+      //       type: "success"
+      //     });
+      //     this.$store.state.data.callback();
+      //   } else {
+      //     this.$message.error("保存失败");
+      //   }
+      // });
     }
   },
   /**
