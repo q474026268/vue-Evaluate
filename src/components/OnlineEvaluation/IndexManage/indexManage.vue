@@ -97,9 +97,9 @@ export default {
       return true;
     },
     saveData(formName) {
-      if (this.formData.evaluKind == "内部顾客满意度测评") {
-        this.$refs[formName].validate(valid => {
-          if (valid && this.beforeSubmit()) {
+      this.$refs[formName].validate(valid => {
+        if (valid && this.beforeSubmit()) {
+          if (this.formData.evaluKind == "内部顾客满意度测评") {
             if (
               this.formData.description == undefined ||
               this.formData.description == ""
@@ -110,33 +110,33 @@ export default {
               });
               return;
             }
-            //部门ID
-            this.formData.groupId = this.$store.state.userInfo.departmentId;
-            //部门名称
-            this.formData.groupName = this.$store.state.userInfo.departmentName;
-            //录入人ID
-            this.formData.inputerUserNo = this.$store.state.userInfo.id;
-            //录入人姓名
-            this.formData.inputerFullName = this.$store.state.userInfo.name;
-            //录入时间
-            this.formData.inputDate = formatDate(new Date());
-            let data = Object.assign({}, this.formData);
-            save(data).then(res => {
-              if (res.status == 200) {
-                this.$message({
-                  message: "保存成功",
-                  type: "success"
-                });
-                this.$store.state.data.callback({
-                  type: this.type,
-                  data: res.data
-                });
-                this.close();
-              }
-            });
           }
-        });
-      }
+          //部门ID
+          this.formData.groupId = this.$store.state.userInfo.departmentId;
+          //部门名称
+          this.formData.groupName = this.$store.state.userInfo.departmentName;
+          //录入人ID
+          this.formData.inputerUserNo = this.$store.state.userInfo.id;
+          //录入人姓名
+          this.formData.inputerFullName = this.$store.state.userInfo.name;
+          //录入时间
+          this.formData.inputDate = formatDate(new Date());
+          let data = Object.assign({}, this.formData);
+          save(data).then(res => {
+            if (res.status == 200) {
+              this.$message({
+                message: "保存成功",
+                type: "success"
+              });
+              this.$store.state.data.callback({
+                type: this.type,
+                data: res.data
+              });
+              this.close();
+            }
+          });
+        }
+      });
     },
     getData() {
       get(this.id).then(res => {

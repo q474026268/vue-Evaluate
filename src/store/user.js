@@ -1,3 +1,4 @@
+import store from '@/store/store.js'
 const user = {
     state: {
       userInfo: {
