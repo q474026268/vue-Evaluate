@@ -1,4 +1,4 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 /* 获取在线评价列表 */
 // export function clientList(id){
 //     return request({
