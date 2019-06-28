@@ -54,6 +54,10 @@ export default {
           domArr[3].style.borderBottom = "2px solid #66b1ff";
           domArr[3].style.color='#66b1ff';
           break;
+         case "evaluateClientList":
+          domArr[3].style.borderBottom = "2px solid #66b1ff";
+          domArr[3].style.color='#66b1ff';
+          break;
       }
     }
   },
