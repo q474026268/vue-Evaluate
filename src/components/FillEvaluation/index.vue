@@ -9,7 +9,8 @@
             </el-tab-pane>
         </el-tabs> -->
         <div id="tjcxDiv">
-            <router-link class="tjcxDivSon" tag='div' :to="{name:'evaluateReceivedStaff'}">收到的评价表</router-link>
+            <router-link class="tjcxDivSon" tag='div' :to="{name:'evaluateReceivedStaff'}">员工评价表</router-link>
+            <router-link class="tjcxDivSon" tag='div' :to="{name:'fillEvaluationList'}">内部顾客评价表</router-link>
             <router-link class="tjcxDivSon" tag='div' :to="{name:'personalEvaluationFeedbackStaff'}">个人评价反馈</router-link>
         </div>
         <router-view></router-view>
@@ -56,9 +57,13 @@ export default {
                     domArr[0].style.borderBottom='2px solid #66b1ff';
                     domArr[0].style.color='#66b1ff';
                     break;
-                case "personalEvaluationFeedbackStaff":
+                case "fillEvaluationList":
                     domArr[1].style.borderBottom='2px solid #66b1ff';
                     domArr[1].style.color='#66b1ff';
+                    break;
+                case "personalEvaluationFeedbackStaff":
+                    domArr[2].style.borderBottom='2px solid #66b1ff';
+                    domArr[2].style.color='#66b1ff';
                     break;
             }
         }
