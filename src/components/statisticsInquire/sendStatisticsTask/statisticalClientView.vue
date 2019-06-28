@@ -31,11 +31,11 @@
               <label>{{formData.inputDate}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item prop="inputerFullName" label="制表人：" class="item">
               <label>{{formData.inputerFullName}}</label>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <el-table :data="tableData">
@@ -247,7 +247,10 @@ export default {
       this.formData.taskName = data.TaskName;
       this.formData.inputDate = formatDate(data.InputDate);
       // this.formatDate.inputerFullName=data.InputerFullName;
-      getA(this.id).then(res => {
+      let dataApi={};
+      dataApi.evaluateId=this.id;
+      dataApi.evaluKind=this.$route.query.EvaluKind;
+      getA(dataApi).then(res => {
         this.tableData=res.data;
       });
     }

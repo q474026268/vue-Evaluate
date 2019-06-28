@@ -122,6 +122,7 @@ export default {
               text: "查看",
               icon: "el-icon-view",
               click: row => {
+                console.log(row);
                 if (row.State == "finish") {
                   this.$router.push({
                     name: "statisticalClientViewStaff",
@@ -129,7 +130,8 @@ export default {
                       useType: "view",
                       id: row.EvaluateId,
                       nowPage: "statisticalPreprocessingList",
-                      formDate:row
+                      formDate:row,
+                      EvaluKind:row.EvaluKind,
                     }
                   });
                 } else {
