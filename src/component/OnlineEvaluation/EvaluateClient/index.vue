@@ -151,7 +151,6 @@ export default {
         }
     },
     methods:{// 自定义方法
-        
         viewButtonClick(id,state){
            switch(state){
                 case 'save':
