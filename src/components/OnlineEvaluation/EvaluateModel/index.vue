@@ -129,7 +129,7 @@ export default {
                 this.$store.commit("setHandout", {
                   callback: this.dialogCallback
                 });
-                getRunningPlan().then(res => {
+                getRunningPlan(this.evaluKind).then(res => {
                   if (res.data == 0) {
                     this.$message.error("暂无评价计划");
                   } else {

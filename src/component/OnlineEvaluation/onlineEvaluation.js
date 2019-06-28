@@ -52,7 +52,7 @@ export function getEvaluteState(){
 
 const loginInfo = {
     inputerUserNo:store.state.userInfo.id,
-    inputerFullName:store.state.userInfo.name,
+    inputFullName:store.state.userInfo.name,
     groupId:store.state.userInfo.departmentId,
     groupFullId:store.state.userInfo.departmentId,
     groupName:store.state.userInfo.departmentName,

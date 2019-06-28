@@ -54,6 +54,7 @@
                 value-format="yyyy-MM-dd"
                 placeholder="选择开始时间"
                 :disabled="Object.is(type,'view')"
+                :picker-options="pickerOptions0"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -66,6 +67,7 @@
                 value-format="yyyy-MM-dd"
                 placeholder="选择结束时间"
                 :disabled="Object.is(type,'view')"
+                :picker-options="pickerOptions0"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -124,6 +126,12 @@ export default {
   data: function() {
     // 自定义变量
     return {
+      //限定日期组件的最小开始时间
+      pickerOptions0: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
       formRules: Rules,
       //表单类型
       type: "",
@@ -155,26 +163,26 @@ export default {
     },
     //保存
     saveData(formName, btnType) {
-      if (this.formData.evaluKind == "内部顾客满意度测评") {
-        if (
-          this.formData.alertDay == undefined ||
-          this.formData.emailDay == undefined
-        ) {
-          this.$message({
-            message: "预警提前期和催办提前期不能为空",
-            type: "warning"
-          });
-          return;
-        }
-      }
-      if (this.stateFlags == 1) {
-        if (this.formData.endDate < this.formData.startDate) {
-          this.$message.error("完成时间不能小于开始时间");
-          this.formData.endDate = "";
-          return false;
-        }
-        this.$refs[formName].validate(valid => {
-          if (valid && this.beforeSubmit()) {
+      this.$refs[formName].validate(valid => {
+        if (valid && this.beforeSubmit()) {
+          if (this.formData.evaluKind == "内部顾客满意度测评") {
+            if (
+              this.formData.alertDay == undefined ||
+              this.formData.emailDay == undefined
+            ) {
+              this.$message({
+                message: "预警提前期和催办提前期不能为空",
+                type: "warning"
+              });
+              return;
+            }
+          }
+          if (this.stateFlags == 1) {
+            if (this.formData.endDate < this.formData.startDate) {
+              this.$message.error("完成时间不能小于开始时间");
+              this.formData.endDate = "";
+              return false;
+            }
             let data = Object.assign({}, this.formData);
             data.flag = btnType;
             data.inputerUserNo = this.$store.state.userInfo.id;
@@ -200,53 +208,53 @@ export default {
                 );
               }
             });
-          }
-        });
-      } else {
-        getRunningEP(this.formData.evaluKind).then(result => {
-          if (result.data) {
-            this.$message({
-              message: "已有计划正在进行中，您可暂存该计划",
-              type: "warning"
-            });
           } else {
-            if (this.formData.endDate < this.formData.startDate) {
-              this.$message.error("完成时间不能小于开始时间");
-              this.formData.endDate = "";
-              return false;
-            }
-            this.$refs[formName].validate(valid => {
-              if (valid && this.beforeSubmit()) {
-                let data = Object.assign({}, this.formData);
-                data.flag = btnType;
-                data.inputerUserNo = this.$store.state.userInfo.id;
-                data.inputerFullName = this.$store.state.userInfo.name;
-                data.groupId = this.$store.state.userInfo.departmentId;
-                data.groupName = this.$store.state.userInfo.departmentName;
-                data.inputDate = formatDate(new Date());
-                console.log(data);
-                save(data).then(res => {
-                  if (res.status == 200) {
-                    this.$store.state.data.callback({
-                      type: this.type,
-                      data: res.data
+            getRunningEP(this.formData.evaluKind).then(result => {
+              if (result.data) {
+                this.$message({
+                  message: "已有计划正在进行中，您可暂存该计划",
+                  type: "warning"
+                });
+              } else {
+                if (this.formData.endDate < this.formData.startDate) {
+                  this.$message.error("完成时间不能小于开始时间");
+                  this.formData.endDate = "";
+                  return false;
+                }
+                this.$refs[formName].validate(valid => {
+                  if (valid && this.beforeSubmit()) {
+                    let data = Object.assign({}, this.formData);
+                    data.flag = btnType;
+                    data.inputerUserNo = this.$store.state.userInfo.id;
+                    data.inputerFullName = this.$store.state.userInfo.name;
+                    data.groupId = this.$store.state.userInfo.departmentId;
+                    data.groupName = this.$store.state.userInfo.departmentName;
+                    data.inputDate = formatDate(new Date());
+                    console.log(data);
+                    save(data).then(res => {
+                      if (res.status == 200) {
+                        this.$store.state.data.callback({
+                          type: this.type,
+                          data: res.data
+                        });
+                        this.close();
+                        this.$message({
+                          message: "存储成功",
+                          type: "success"
+                        });
+                      } else {
+                        this.$message.error(
+                          "保存失败，该时间段已存在相同类型的评价计划"
+                        );
+                      }
                     });
-                    this.close();
-                    this.$message({
-                      message: "存储成功",
-                      type: "success"
-                    });
-                  } else {
-                    this.$message.error(
-                      "保存失败，该时间段已存在相同类型的评价计划"
-                    );
                   }
                 });
               }
             });
           }
-        });
-      }
+        }
+      });
     },
     //暂存
     zcData(formName, btnType) {

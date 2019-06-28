@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { log } from 'util';
 
 /* 主表接口 */
 export function getList(currentPage,pageSize,orders,filters){
@@ -48,11 +49,12 @@ export function deleted(pkid){
     })
 }
 
-export function getRunningPlan(){
+export function getRunningPlan(evaluKind){
+    console.log(evaluKind);
     return request({
         url: '/evaluateModel/getRunningPlan',
         data:{
-            // pkid
+            evaluKind
         },
         method: 'POST'
     })
