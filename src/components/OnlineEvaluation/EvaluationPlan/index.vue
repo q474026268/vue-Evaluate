@@ -133,7 +133,14 @@ export default {
                 });
                 return;
               }
-              getRunningET(this.selectedPkid).then(res => {
+              if (this.flag == 0) {
+                this.$message({
+                  message: "计划未开始",
+                  type: "warning"
+                });
+                return;
+              }
+              getRunningET(this.selectedPkid,this.evaluKind).then(res => {
                 if (res.status == 200) {
                   if (res.data == true) {
                     this.$message({
@@ -201,7 +208,9 @@ export default {
             }
           ],
           // 下拉显示
-          dropdown: []
+          dropdown: [],
+          //评价类别
+          evaluKind:""
         }
       },
       //查询的记录的pkid
@@ -298,6 +307,7 @@ export default {
     rowSelected(currentRow, oldCurrentRow) {
       this.selectedPkid = currentRow[key];
       this.flag = currentRow.flag;
+      this.evaluKind=currentRow.evaluKind
     },
     /**
      * 行选中事件:多选时触发

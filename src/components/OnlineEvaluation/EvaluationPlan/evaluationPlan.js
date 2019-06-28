@@ -51,11 +51,11 @@ export function deleted(pkid) {
     })
 }
 //查询该计划是否还有测评表正在进行中
-export function getRunningET(pkid) {
+export function getRunningET(pkid,evaluKind) {
     return request({
         url: '/evaluatePlan/getRunningET',
         data: {
-            pkid
+            pkid,evaluKind
         },
         method: 'POST'
     })

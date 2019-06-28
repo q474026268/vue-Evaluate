@@ -10,26 +10,9 @@
             @change="evaluKindChange"
           >
             <el-radio-button label="员工达优测评">员工达优测评</el-radio-button>
-            <el-radio-button label="内部顾客满意度">内部顾客满意度</el-radio-button>
+            <el-radio-button label="内部顾客满意度测评">内部顾客满意度测评</el-radio-button>
           </el-radio-group>
         </el-col>
-        <!-- <el-col :span="7">
-          <el-form-item>
-            <el-select
-              v-model="searchData.evaluKind"
-              placeholder="评价类别"
-              size="small"
-              style="width:305px;"
-            >
-              <el-option
-                v-for="item in evaluKindOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>-->
         <el-col :span="7">
           <el-form-item>
             <el-input
@@ -134,7 +117,9 @@ export default {
   data: function() {
     // 自定义变量
     return {
-      searchData: {},
+      searchData: {
+        evaluKind:'员工达优测评'
+      },
       evaluKindOptions: [],
       stateOptions: []
     };
@@ -142,7 +127,6 @@ export default {
   methods: {
     // 自定义方法
     searching() {
-      console.log(this.searchData.evaluKind);
       if (this.searchData.evaluKind == undefined) {
         this.$message({
           message: "请先选择评价类别",
@@ -161,7 +145,6 @@ export default {
     },
     //评价类别改变事件
     evaluKindChange(val) {
-      console.log(val);
       if (val == "员工达优测评") {
         this.$router.push({
           name: "handoutHistorySearchListStaff"
@@ -213,4 +196,8 @@ export default {
 .el-form-item {
   margin-bottom: 10px;
 }
+.el-radio-group{
+  margin-top: 5px;
+}
+
 </style>

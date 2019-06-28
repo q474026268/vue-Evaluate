@@ -151,14 +151,6 @@ export default {
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: () => {
-              // exportTarget().then((res) => {
-              //     if(res.status == 200){
-              //       this.$message({
-              //           message: '导出成功',
-              //           type: 'success'
-              //       });
-              //     }
-              // });
               window.open("api/evaluateTarget/exportTarget");
             }
           }

@@ -168,10 +168,10 @@ export default {
         if (mark == 0) {
           save(data).then(res => {
             if (res.status == 200) {
-              // let callback = this.$store.state.data.callback;
-              // if (callback) {
-              //   callback({ type: this.type, data: res.data });
-              // }
+              let callback = this.$store.state.data.callback;
+              if (callback) {
+                callback({ type: this.type, data: res.data });
+              }
               this.$message({
                 message: "保存成功",
                 type: "success"
@@ -276,6 +276,7 @@ export default {
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
+    this.$store.state.target = [];
   },
   mounted: function() {
     // 组件加载完成

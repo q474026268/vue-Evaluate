@@ -171,10 +171,10 @@ export default {
         console.log(data);
         save(data).then(res => {
           if (res.status == 200) {
-            // this.$store.state.data.callback({
-            //   type: this.type,
-            //   data: res.data
-            // });
+            this.$store.state.data.callback({
+              type: this.type,
+              data: res.data
+            });
             if (mark == 0) {
               this.$message({
                 message: "保存成功",
@@ -269,6 +269,7 @@ export default {
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
+    
   },
   mounted: function() {
     // 组件加载完成
