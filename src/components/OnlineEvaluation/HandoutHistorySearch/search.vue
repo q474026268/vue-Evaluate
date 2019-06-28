@@ -3,6 +3,17 @@
     <el-form :inline="true" :model="searchData" class="demo-form-inline">
       <el-row>
         <el-col :span="7">
+          <el-radio-group
+            v-model="searchData.evaluKind"
+            style="margin-bottom: 30px;"
+            size="medium"
+            @change="evaluKindChange"
+          >
+            <el-radio-button label="员工达优测评">员工达优测评</el-radio-button>
+            <el-radio-button label="内部顾客满意度">内部顾客满意度</el-radio-button>
+          </el-radio-group>
+        </el-col>
+        <!-- <el-col :span="7">
           <el-form-item>
             <el-select
               v-model="searchData.evaluKind"
@@ -18,7 +29,7 @@
               ></el-option>
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col>-->
         <el-col :span="7">
           <el-form-item>
             <el-input
@@ -75,7 +86,7 @@
               style="width:305px;"
             ></el-date-picker>
           </el-form-item>
-        </el-col >
+        </el-col>
         <el-col :span="3">
           <el-form-item>
             <el-input
@@ -89,12 +100,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item>
-            <el-select
-              v-model="searchData.state"
-              placeholder="状态"
-              size="small"
-               style="width:100%;"
-            >
+            <el-select v-model="searchData.state" placeholder="状态" size="small" style="width:100%;">
               <el-option
                 v-for="item in stateOptions"
                 :key="item.value"
@@ -105,7 +111,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="3">
-          <el-button  style="margin-top: 4px;" type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
+          <el-button
+            style="margin-top: 4px;"
+            type="primary"
+            @click="clear"
+            size="small"
+            icon="el-icon-refresh"
+          >清空</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -131,13 +143,13 @@ export default {
     // 自定义方法
     searching() {
       console.log(this.searchData.evaluKind);
-      if(this.searchData.evaluKind==undefined){
+      if (this.searchData.evaluKind == undefined) {
         this.$message({
-          message:'请先选择评价类别',
-          type:'warning'
-        })
-      }else{
-         this.search(this.searchData);
+          message: "请先选择评价类别",
+          type: "warning"
+        });
+      } else {
+        this.search(this.searchData);
       }
     },
     clear() {
@@ -146,6 +158,19 @@ export default {
         evaluPlan: "",
         flag: ""
       };
+    },
+    //评价类别改变事件
+    evaluKindChange(val) {
+      console.log(val);
+      if (val == "员工达优测评") {
+        this.$router.push({
+          name: "handoutHistorySearchListStaff"
+        });
+      } else {
+        this.$router.push({
+          name: "evaluateClientList"
+        });
+      }
     }
   },
   /**

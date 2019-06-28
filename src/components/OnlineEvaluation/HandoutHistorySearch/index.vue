@@ -144,7 +144,7 @@ export default {
               text: "浏览",
               icon: "el-icon-view",
               click: row => {
-                this.viewButtonClick(row[key], row.state, row);
+                this.viewButtonClick(row[key], row.state);
               }
             }
           ],
@@ -185,8 +185,7 @@ export default {
      * routerName：路由名称
      * dialogWidth；窗口宽度
      */
-    viewButtonClick(id, state, row) {
-      if (row.evaluKind == "员工达优测评") {
+    viewButtonClick(id, state) {
         this.$store.commit("setData", {
           callback: this.dialogCallback
         });
@@ -221,41 +220,7 @@ export default {
               }
             });
             break;
-        }
-      } else {
-        switch (state) {
-          case "save":
-            let that = this;
-            this.$store.commit("setData", {
-              callback: function() {
-                that.$refs.table.refresh();
-              }
-            });
-            this.$router.push({
-              name: "evaluateClient",
-              query: {
-                useType: "modify",
-                id
-              }
-            });
-            break;
-          case "start":
-            this.$message({
-              message: "分发状态下不可查看",
-              type: "warning"
-            });
-            break;
-          case "finish":
-            this.$router.push({
-              name: "evaluateClientView",
-              query: {
-                useType: "view",
-                id
-              }
-            });
-            break;
-        }
-      }
+        } 
     },
     // 弹出框回调函数
     dialogCallback(data) {

@@ -32,12 +32,12 @@ export const constantRouterMap = [
               { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
             ]
           },
-          {
-            path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
-              { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
-              { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
-            ]
-          }
+          // {
+          //   path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
+          //     { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
+          //     { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
+          //   ]
+          // }
         ]
       },
       {//分发历史查询
@@ -133,12 +133,12 @@ export const constantRouterMap = [
       //     { path: '/evaluateModel', component: () => import('../../component/OnlineEvaluation/EvaluateModel/evaluateModel.vue'), name: 'evaluateModel' },
       //   ]
       // },
-      // {
-      //   path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
-      //     { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
-      //     { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
-      //   ]
-      // }
+      {
+        path: '/evaluateClientList', component: () => import('../../component/OnlineEvaluation/EvaluateClient'), name: 'evaluateClientList', children: [
+          { path: '/evaluateClient', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClient.vue'), name: 'evaluateClient' },
+          { path: '/evaluateClientView', component: () => import('../../component/OnlineEvaluation/EvaluateClient/evaluateClientView.vue'), name: 'evaluateClientView' },
+        ]
+      }
     ]
   },
   // {//评价表填写
