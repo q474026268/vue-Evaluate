@@ -62,13 +62,13 @@ export default {
                     width:150,
                     sortable:true
                 },
-                {
-                    id:"LevelType",
-                    text:"评价方式",
-                    align:"center",
-                    width:120,
-                    sortable:true
-                },
+                // {
+                //     id:"LevelType",
+                //     text:"评价方式",
+                //     align:"center",
+                //     width:120,
+                //     sortable:true
+                // },
                 {
                     id:"InputDate",
                     text:"开始时间",
@@ -88,6 +88,8 @@ export default {
                     formatter:function(row,column){
                         if(row.FinishDate != null){
                             return formatDate(row.FinishDate);
+                        }else{
+                            return '未完成'
                         }
                     }
                 },
