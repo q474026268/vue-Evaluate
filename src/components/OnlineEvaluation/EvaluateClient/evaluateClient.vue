@@ -253,7 +253,7 @@ export default {
       deleteDetailData_index: [],
       deleteDetailData_evaluate: [],
       // 弹出窗口宽度
-      dialogWidth: "90%",
+      dialogWidth: "91%",
       //评价方式列表
       levelTypeOptions: [],
       //打分方式列表
@@ -266,7 +266,7 @@ export default {
     // 自定义方法
     //关闭窗口返回的页面
     close() {
-      this.$router.push("/");
+      this.$router.push("/evaluateModelListStaff");
     },
     //获取从selectDepart中查询到的数据存放
     departDialogCallback(data) {

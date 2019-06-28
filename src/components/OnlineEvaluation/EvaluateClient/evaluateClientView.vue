@@ -62,6 +62,7 @@
                 @change="Change"
                 size="mini"
                 style="width:110px"
+                placeholder=""
               >
                 <el-option
                   v-for="(item,index) in selectOptions"
@@ -241,7 +242,7 @@ export default {
       //循环添加指标等级
       for (let j = 0; j < this.tData.length; j++) {
         for (let i = 1; i < this.tableColumn.length; i++) {
-          this.tableColumn[i]["target" + (j + 1)] =" "
+          this.tableColumn[i]["target" + (j + 1)] =null
             // datas[this.number].doneFullArr[i - 1]["target" + (j + 1)];
           this.tableColumn[i]["optional" + (j + 1)] =
             datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];

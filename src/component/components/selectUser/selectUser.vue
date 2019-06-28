@@ -5,7 +5,7 @@
     :visible="visible"
     @close="close"
     :modal="false"
-    width="30%"
+    width="40%"
   >
     <div class="head-area">
       <el-form ref="form" :inline="true">

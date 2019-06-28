@@ -153,7 +153,7 @@ export default {
             this.$validator.validateAll().then((valid) => {
                 if(valid && this.beforeSubmit()){
                     //this.$refs.saveButton.loading = true;
-                    this.formData.state = mark == 0?'暂存':'分发';
+                    this.formData.state = mark == 0?'save':'start';
                     let data = Object.assign({},this.formData,getLoginInfo());
                     // 添加明细数据
                     data["headChildrens"] = Array.from(this.formDataDetail_target);

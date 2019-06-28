@@ -181,7 +181,7 @@ export default {
             deleteDetailData_index:[],
             deleteDetailData_evaluate:[],
             // 弹出窗口宽度
-            dialogWidth:"70%",
+            dialogWidth:"91%",
         }
     },
     methods:{// 自定义方法

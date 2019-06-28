@@ -469,7 +469,7 @@ export default {
           });
           for (let j = 0; j < data.index.length; j++) {
             itemArr[i].doneFullArr[k]["optional" + (j + 1)] = true;
-            itemArr[i].doneFullArr[k]["target" + (j + 1)] = " ";
+            itemArr[i].doneFullArr[k]["target" + (j + 1)] =null;
           }
         }
       }

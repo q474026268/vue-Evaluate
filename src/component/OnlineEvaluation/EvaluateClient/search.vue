@@ -2,82 +2,88 @@
   <div id="search">
     <el-form :inline="true" :model="searchData" class="demo-form-inline">
       <el-row>
-        <el-col style="width:300px;">
+        <el-col :span="7">
           <el-radio-group
             v-model="searchData.evaluKind"
             style="margin-bottom: 30px;"
             size="medium"
             @change="evaluKindChange"
           >
-            <el-radio-button label="员工达优测评">员工达优测评</el-radio-button>
-            <el-radio-button label="内部顾客满意度">内部顾客满意度</el-radio-button>
+            <el-radio-button label="员工达优测评" class="staff">员工达优测评</el-radio-button>
+            <el-radio-button label="内部顾客满意度测评" class="customer">内部顾客满意度测评</el-radio-button>
           </el-radio-group>
         </el-col>
-        <!-- <el-col style="width:225px;">
-                    <el-form-item>
-                        <el-select v-model="searchData.evaluKind" placeholder="请选择评价类别" size="small" style="width:175px;" clearable>
-                            <el-option v-for="item in evaluKindOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                    </el-form-item>
-        </el-col>-->
-        <el-col style="width:225px;">
+        <el-col :span="7">
           <el-form-item>
             <el-input
               v-model="searchData.planName"
-              placeholder="输入评价名称"
+              placeholder="评价名称"
               size="small"
-              style="width:175px;"
               clearable
+              style="width:305px;"
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col style="width:225px;">
+        <el-col :span="7">
           <el-form-item>
             <el-input
               v-model="searchData.evaluateTname"
-              placeholder="输入评价表名"
+              placeholder="评价表名"
               size="small"
-              style="width:175px;"
               clearable
+              style="width:162%;"
             ></el-input>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="4">
-                    <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
-        </el-col>-->
+        <el-col :span="3">
+          <el-button
+            style="margin-top: 4px;"
+            type="primary"
+            @click="searching"
+            size="small"
+            icon="el-icon-search"
+          >查询</el-button>
+        </el-col>
       </el-row>
       <el-row>
-        <el-col style="width:225px;">
+        <el-col :span="7">
           <el-form-item>
             <el-input
               v-model="searchData.groupName"
-              placeholder="输入制表部门"
+              placeholder="部门"
               size="small"
-              style="width:175px;"
+              style="width:305px;"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col style="width:225px;">
+        <el-col :span="7">
+          <el-form-item label-width="100px">
+            <el-date-picker
+              size="small"
+              v-model="searchData.dateFrame"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="制表开始日期"
+              end-placeholder="制表结束日期"
+              style="width:305px;"
+            ></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
           <el-form-item>
             <el-input
               v-model="searchData.inputerFullName"
-              placeholder="输入制表人"
+              placeholder="制表人"
               size="small"
-              style="width:175px;"
+              style="width:100%;"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col style="width:290px;">
+        <el-col :span="4">
           <el-form-item>
-            <el-select
-              v-model="searchData.state"
-              placeholder="请选择状态"
-              size="small"
-              style="width:240px;"
-              clearable
-            >
+            <el-select v-model="searchData.state" placeholder="状态" size="small" style="width:100%;">
               <el-option
                 v-for="item in stateOptions"
                 :key="item.value"
@@ -87,28 +93,14 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="width:300px;">
-          <el-form-item label-width="100px">
-            <el-date-picker
-              size="small"
-              v-model="searchData.dateFrame"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              style="width:300px;"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col style="text-align:right" :span="2">
-          <!-- <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button> -->
+        <el-col :span="3">
           <el-button
             style="margin-top: 4px;"
             type="primary"
-            @click="searching"
+            @click="clear"
             size="small"
-            icon="el-icon-search"
-          >筛选</el-button>
+            icon="el-icon-refresh"
+          >清空</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -125,7 +117,9 @@ export default {
   data: function() {
     // 自定义变量
     return {
-      searchData: {},
+      searchData: {
+        evaluKind:'内部顾客满意度测评'
+      },
       evaluKindOptions: [],
       stateOptions: []
     };
@@ -195,5 +189,8 @@ export default {
 <style scoped>
 .el-form-item {
   margin-bottom: 10px;
+}
+.el-radio-group {
+  margin-top: 5px;
 }
 </style>

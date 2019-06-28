@@ -171,10 +171,10 @@ export default {
         console.log(data);
         save(data).then(res => {
           if (res.status == 200) {
-            // this.$store.state.data.callback({
-            //   type: this.type,
-            //   data: res.data
-            // });
+            this.$store.state.data.callback({
+              type: this.type,
+              data: res.data
+            });
             if (mark == 0) {
               this.$message({
                 message: "保存成功",
@@ -209,6 +209,8 @@ export default {
           console.log(res.data);
           this.formData = res.data.main;
           this.formDataDetail = res.data.detail;
+          let target = this.formDataDetail;
+          this.$store.commit("setTarget", target);
         }
       });
     },
@@ -219,6 +221,8 @@ export default {
     // 删除行
     handleDelete(index, row) {
       this.formDataDetail.splice(index, 1);
+      let target = this.formDataDetail;
+      this.$store.commit("setTarget", target);
       if (Object.is(row.doType, "add")) {
         return;
       }
@@ -228,7 +232,9 @@ export default {
     targetDialogCallback(data) {
       data.forEach(({ pkid: targetPkid, targetName }) => {
         this.formDataDetail.push({ targetPkid, targetName, doType: "add" });
-      });;
+      });
+      let target = this.formDataDetail;
+      this.$store.commit("setTarget", target);
     },
     //根据评价类别改变跳转不同路由
     evaluKindChange(val) {
@@ -265,10 +271,11 @@ export default {
     // DOTO
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
-    console.log(this.$store.state.data);
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
+    //清空一下指标查重中的数据
+    this.$store.state.target = [];
   },
   mounted: function() {
     // 组件加载完成
