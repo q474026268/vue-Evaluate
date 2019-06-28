@@ -1,4 +1,4 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 /* 获取在线评价列表 */
 export function clientList(id){
     return request({
@@ -32,7 +32,7 @@ export function gets(){
 // 获取年度任务
 export function getByYear(data){
     return request({
-        url: '/evaluateClientStatis/task/getByYear',
+        url: '/evaluateClientStatisA/task/getByYear',
         params:data,
         method: 'GET',
         // transformRequest: [(data) => {
@@ -56,7 +56,7 @@ export function getByEvaluKind(data){
 // 导出
 export function exportExcel(data){
     return request({
-        url: '/evaluateClientStatis/exportExcel',
+        url: '/evaluateClientStatisA/exportExcel',
         data:JSON.stringify({filterMap:data}),
         method: 'POST',
         transformRequest: [(data) => {

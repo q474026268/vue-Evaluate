@@ -1,4 +1,4 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 /* 主表接口 */
 // 获取列表
 export function getList(currentPage,pageSize,orders,filters){
