@@ -50,14 +50,18 @@ export default {
         },
         // 添加委托人
         callback(data){
-            this.data=data;
-            if(data.length>0){
-                let peopleArr=[];
-                for(let i=0;i<data.length;i++){
-                    peopleArr.push(data[i].name);
+            if (data.length>10) {
+                this.$message.error('最多只能委托给10个人');
+            }else{
+                this.data=data;
+                if(data.length>0){
+                    let peopleArr=[];
+                    for(let i=0;i<data.length;i++){
+                        peopleArr.push(data[i].name);
+                    }
+                    
+                    this.people=peopleArr.join(',');
                 }
-                
-                this.people=peopleArr.join(',');
             }
         },
         confirm(){
