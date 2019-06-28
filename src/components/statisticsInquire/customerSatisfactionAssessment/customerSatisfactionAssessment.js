@@ -23,7 +23,7 @@ export function gets(){
     return request({
         url: '/evaluatePlan/gets',
         data:{
-            filters:JSON.stringify({flag:3})
+            filters:JSON.stringify({flag:3,evaluKind:'内部顾客满意度测评'})
         },
         method: 'POST',
     })
