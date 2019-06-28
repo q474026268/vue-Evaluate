@@ -276,6 +276,7 @@ export default {
     if (!Object.is(this.type, "add")) {
       this.getData();
     }
+    //清空一下指标查重中的数据
     this.$store.state.target = [];
   },
   mounted: function() {

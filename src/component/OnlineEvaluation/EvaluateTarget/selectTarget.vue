@@ -7,16 +7,6 @@
     :modal="false"
     width="30%"
   >
-    <!-- <div class="head-area">
-            <el-form ref="form" :inline="true">
-                <el-form-item>
-                    <el-input v-model="searchData.targetName" placeholder="输入指标名称" size="small" style="width:200px;"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" size="small" icon="el-icon-search" @click="search">查询</el-button>
-                </el-form-item>
-            </el-form>
-    </div>-->
     <el-table
       ref="targetTable"
       :data="tableData"
@@ -41,11 +31,6 @@
         :formatter="item.formatter"
       ></el-table-column>
     </el-table>
-    <!-- <div class="page-box">
-            <el-pagination :current-page="currentPage" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-                :total="total" :page-sizes="[15, 20, 50, 100]" @size-change="handleSize" @current-change="handlePage">
-            </el-pagination>
-    </div>-->
     <div class="floot-area">
       <el-button type="primary" size="small" icon="el-icon-success" @click="determine">确定</el-button>
     </div>
@@ -71,9 +56,6 @@ export default {
       // 选中的值
       selectedDatas: [],
       visible: false,
-      // currentPage:0,
-      // pageSize:15,
-      // total:0,
       searchData: {}
     };
   },
@@ -89,13 +71,49 @@ export default {
     search() {},
     // 确定
     determine() {
-      this.callback(this.selectedDatas);
-      this.close();
+      console.log("VueX数据");
+      console.log(this.$store.state.target);
+      console.log("选中的数据");
+      console.log(this.selectedDatas);
+      if (this.$store.state.target.length == 0) {
+        this.callback(this.selectedDatas);
+        this.close();
+      } else {
+        //存储指标名称相同
+        let messageName = [];
+        //存储指标名称不相同的
+        let message = [];
+        for (let i = 0; i < this.selectedDatas.length; i++) {
+          let isHave = false;
+          for (let j = 0; j < this.$store.state.target.length; j++) {
+            if (this.$store.state.target[j].targetPkid ==this.selectedDatas[i].pkid) {
+              messageName.push(this.selectedDatas[i].targetName + " ");
+              if (j == this.$store.state.target.length - 1) {
+                isHave = true;
+                break;
+              }
+            }
+          }
+          if (!isHave) {
+            if (messageName.length > 0) {
+              this.$message.error("指标:" + messageName + "已经存在");
+            } else {
+              message.push(this.selectedDatas[i]);
+              if (i == this.selectedDatas.length - 1) {
+                this.callback(message);
+                this.close();
+              }
+            }
+          } else {
+            this.$message.error("指标:" + messageName + "已经存在");
+          }
+        }
+      }
     },
     search() {},
     // 获取数据
     getData() {
-      getEvaluateTargetByEvaluKind('内部顾客满意度测评').then(res => {
+      getEvaluateTargetByEvaluKind("内部顾客满意度测评").then(res => {
         if (res.status == 200) {
           this.tableData = res.data;
         }

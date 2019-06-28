@@ -138,7 +138,9 @@ export default {
       //是否显示预警提前期和催办提前期
       isShow: false,
       //评价类别判断
-      evaluKind: ""
+      evaluKind: "",
+      //根据修改传过来的状态判断
+      stateFlags: ""
     };
   },
   methods: {
@@ -165,49 +167,86 @@ export default {
           return;
         }
       }
-      getRunningEP(this.formData.evaluKind).then(result => {
-        if (result.data) {
-          this.$message({
-            message: "已有计划正在进行中，您可暂存该计划",
-            type: "warning"
-          });
-        } else {
-          if (this.formData.endDate < this.formData.startDate) {
-            this.$message.error("完成时间不能小于开始时间");
-            this.formData.endDate = "";
-            return false;
-          }
-          this.$refs[formName].validate(valid => {
-            if (valid && this.beforeSubmit()) {
-              let data = Object.assign({}, this.formData);
-              data.flag = btnType;
-              data.inputerUserNo = this.$store.state.userInfo.id;
-              data.inputerFullName = this.$store.state.userInfo.name;
-              data.groupId = this.$store.state.userInfo.departmentId;
-              data.groupName = this.$store.state.userInfo.departmentName;
-              data.inputDate = formatDate(new Date());
-              console.log(data);
-              save(data).then(res => {
-                if (res.status == 200) {
-                  this.$store.state.data.callback({
-                    type: this.type,
-                    data: res.data
-                  });
-                  this.close();
-                  this.$message({
-                    message: "存储成功",
-                    type: "success"
-                  });
-                } else {
-                  this.$message.error(
-                    "保存失败，该时间段已存在相同类型的评价计划"
-                  );
-                }
-              });
-            }
-          });
+      if (this.stateFlags == 1) {
+        if (this.formData.endDate < this.formData.startDate) {
+          this.$message.error("完成时间不能小于开始时间");
+          this.formData.endDate = "";
+          return false;
         }
-      });
+        this.$refs[formName].validate(valid => {
+          if (valid && this.beforeSubmit()) {
+            let data = Object.assign({}, this.formData);
+            data.flag = btnType;
+            data.inputerUserNo = this.$store.state.userInfo.id;
+            data.inputerFullName = this.$store.state.userInfo.name;
+            data.groupId = this.$store.state.userInfo.departmentId;
+            data.groupName = this.$store.state.userInfo.departmentName;
+            data.inputDate = formatDate(new Date());
+            console.log(data);
+            save(data).then(res => {
+              if (res.status == 200) {
+                this.$store.state.data.callback({
+                  type: this.type,
+                  data: res.data
+                });
+                this.close();
+                this.$message({
+                  message: "存储成功",
+                  type: "success"
+                });
+              } else {
+                this.$message.error(
+                  "保存失败，该时间段已存在相同类型的评价计划"
+                );
+              }
+            });
+          }
+        });
+      } else {
+        getRunningEP(this.formData.evaluKind).then(result => {
+          if (result.data) {
+            this.$message({
+              message: "已有计划正在进行中，您可暂存该计划",
+              type: "warning"
+            });
+          } else {
+            if (this.formData.endDate < this.formData.startDate) {
+              this.$message.error("完成时间不能小于开始时间");
+              this.formData.endDate = "";
+              return false;
+            }
+            this.$refs[formName].validate(valid => {
+              if (valid && this.beforeSubmit()) {
+                let data = Object.assign({}, this.formData);
+                data.flag = btnType;
+                data.inputerUserNo = this.$store.state.userInfo.id;
+                data.inputerFullName = this.$store.state.userInfo.name;
+                data.groupId = this.$store.state.userInfo.departmentId;
+                data.groupName = this.$store.state.userInfo.departmentName;
+                data.inputDate = formatDate(new Date());
+                console.log(data);
+                save(data).then(res => {
+                  if (res.status == 200) {
+                    this.$store.state.data.callback({
+                      type: this.type,
+                      data: res.data
+                    });
+                    this.close();
+                    this.$message({
+                      message: "存储成功",
+                      type: "success"
+                    });
+                  } else {
+                    this.$message.error(
+                      "保存失败，该时间段已存在相同类型的评价计划"
+                    );
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     },
     //暂存
     zcData(formName, btnType) {
@@ -292,6 +331,9 @@ export default {
     this.type = this.$store.state.data.useType;
     this.id = this.$store.state.data.id;
     this.evaluKind = this.$store.state.data.evaluKind;
+    this.stateFlags = this.$store.state.data.flag;
+    console.log("stateFlags");
+    console.log(this.stateFlags);
     if (this.evaluKind == "内部顾客满意度测评") {
       this.isShow = true;
     } else {
