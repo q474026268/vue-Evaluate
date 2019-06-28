@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-const ip="172.17.198.154";
+const ip="172.17.205.35";
 module.exports = {
   dev: {
     // Paths
