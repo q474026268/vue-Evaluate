@@ -3,41 +3,24 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-const ip="172.17.205.35";
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {    //将www.exaple.com印射为/apis
-        target: 'http://'+ip+':8090',  // 接口域名
+      '/api': {
+        // target: 'http://10.214.92.107:8090', // 接口的域名
+        target:'http://10.215.136.245:11330',
         // secure: false,  // 如果是https接口，需要配置这个参数
-        changeOrigin: true,  //是否跨域
+        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         pathRewrite: {
-          '^/api': ''   //需要rewrite的,
-        },
-      },
-      '/api2': {    //将www.exaple.com印射为/apis
-        target: 'http://10.215.136.245:11270',  // 接口域名
-        // secure: false,  // 如果是https接口，需要配置这个参数
-        changeOrigin: true,  //是否跨域
-        pathRewrite: {
-          '^/api2': ''   //需要rewrite的,
-        },
-      },
-      '/open': {    //将www.exaple.com印射为/apis
-        target: 'http://'+ip+':7570',  // 接口域名
-        // secure: false,  // 如果是https接口，需要配置这个参数
-        changeOrigin: true,  //是否跨域
-        pathRewrite: {
-          '^/open': ''   //需要rewrite的,
-        },
-      },
+          '^/api': ''
+        }
+      }
     },
-
     // Various Dev Server settings
-    host: '127.0.0.1', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

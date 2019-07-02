@@ -385,19 +385,19 @@ export default {
           this.iframeFlag = true;
           this.srcUrl = `${
             this.reportBaseUrl
-          }reportlet=基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
+          }reportlet=vue%2F基本数据.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}`;
           break;
         case "2":
           this.iframeFlag = true;
           this.srcUrl = `${
             this.reportBaseUrl
-          }reportlet=zongfen.cpt&op=write&taskId=${taskId}`;
+          }reportlet=vue%2Fzongfen.cpt&op=write&taskId=${taskId}`;
           break;
         case "3":
           this.iframeFlag = true;
           this.srcUrl = `${
             this.reportBaseUrl
-          }reportlet=%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
+          }reportlet=vue%2F%5B5206%5D%5B9879%5D%5B5236%5D%5B8868%5D.cpt&op=write&taskId=${taskId}&planPkid=${planPkid}&evaluateIds=${evaluateId}&TargetPkid=${
             this.specificTarget
           }`;
           break;

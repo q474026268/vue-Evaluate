@@ -17,7 +17,9 @@ export function getInterFace() {
 const reportBaseUrlOptions = [
     {
         label:'reportBaseUrl',
-        value:'http://127.0.0.1:8075/WebReport/ReportServer?',
+        // value:'http://10.214.92.107:8075/WebReport/ReportServer?',
+        value:'http://web.simulate.com:8080/webreport2/ReportServer?'
+
     }
 ]
 export function getReportBaseUrl() {

@@ -60,7 +60,7 @@ export const constantRouterMap = [
         ]
       },
       { path: '/statisticsInquireStaff/employeeEvaluationStaff', component: () => import('../../components/statisticsInquire/employeeEvaluation'), name: 'employeeEvaluationStaff' },
-      { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../components/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
+      { path: '/statisticsInquire/customerSatisfactionAssessment', component: () => import('../../component/statisticsInquire/customerSatisfactionAssessment'), name: 'customerSatisfactionAssessment' }
     ]
   },
   {

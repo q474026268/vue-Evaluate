@@ -44,7 +44,7 @@
                 </el-table-column>
                 <el-table-column
                 label="操作"
-                width="190"
+                width="160"
                 align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -54,13 +54,12 @@
                         type="primary"
                         @click="handleDiscard(scope.$index, scope.row)"></el-button>
 
-                        <el-button
+                        <!-- <el-button
                         title="催办"
                         size="mini"
                         icon="el-icon-s-promotion"
                         type="primary"
-                        @click="handleCb(scope.$index, scope.row)"></el-button>
-
+                        @click="handleCb(scope.$index, scope.row)"></el-button> -->
                         <el-button
                         title="查看"
                         size="mini"

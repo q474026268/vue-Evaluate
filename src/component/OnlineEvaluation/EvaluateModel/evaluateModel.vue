@@ -167,7 +167,12 @@ export default {
       data["childrens"] = Array.from(newFormDataDetail);
       if (valid1 && valid2 && this.beforeSubmit()) {
         this.formData.flag = "0";
-        let data = Object.assign({}, this.formData, getLoginInfo());
+        this.formData.inputerUserNo = this.$store.state.userInfo.id;
+        this.formData.inputFullName = this.$store.state.userInfo.name;
+        this.formData.groupId = this.$store.state.userInfo.departmentId;
+        this.formData.groupFullId = this.$store.state.userInfo.departmentId;
+        this.formData.groupName = this.$store.state.userInfo.departmentName;
+        let data = this.formData;
         console.log(data);
         save(data).then(res => {
           if (res.status == 200) {

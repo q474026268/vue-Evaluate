@@ -153,18 +153,18 @@ export default {
       }
       console.log(('======'));
       
-      // saveFillContent(this.tableArr).then(result => {
-      //   if (result.status == 200) {
-      //     this.$router.back();
-      //     this.$message({
-      //       message: "保存成功",
-      //       type: "success"
-      //     });
-      //     this.$store.state.data.callback();
-      //   } else {
-      //     this.$message.error("保存失败");
-      //   }
-      // });
+      saveFillContent(this.tableArr).then(result => {
+        if (result.status == 200) {
+          this.$router.back();
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+          this.$store.state.data.callback();
+        } else {
+          this.$message.error("保存失败");
+        }
+      });
     }
   },
   /**

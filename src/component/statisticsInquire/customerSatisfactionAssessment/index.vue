@@ -44,7 +44,7 @@
           <el-option
             v-for="item in evaluationFormSel"
             :key="item.evaluateId"
-            :label="item.evaluateTname"
+            :label="item.taskName"
             :value="item.evaluateId"
           ></el-option>
         </el-select>
@@ -304,7 +304,6 @@ export default {
 
       console.log(evaluateIdsStr);
       console.log(taskId);
-
       switch (this.exportedDataFormat) {
         case "1":
           this.srcUrl = `${
