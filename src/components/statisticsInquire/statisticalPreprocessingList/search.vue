@@ -1,52 +1,57 @@
 <template>
   <div id="search">
-    <el-form :inline="true" :model="searchData" class="demo-form-inline">
-      <el-row type="flex" justify="space-between" id="searchFrom">
-        <el-col :span="5">
-          <el-form-item label-width="100px">
-            <el-select v-model="searchData.evaluKind" placeholder="请选择评价类别" size="small" clearable>
-              <el-option
-                v-for="item in evaluKindOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item>
-            <el-input v-model="searchData.taskName" placeholder="请输入任务名" size="small" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item>
-           <el-date-picker size="small" v-model="searchData.inputDate" type="daterange" range-separator="至" 
-            start-placeholder="制表开始时间" end-placeholder="制表结束时间" style="width:250px"></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item>
-            <el-select v-model="searchData.state" placeholder="请选择状态" size="small" clearable>
-              <el-option
-                v-for="item in statisticalStateOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="1">
-          <el-button
-            style="margin-top: 4px;"
-            type="primary"
-            @click="searching"
+    <el-form
+      :inline="true"
+      :model="searchData"
+      class="demo-form-inline"
+      label-position="left"
+      label-width="70px"
+    >
+      <div>
+        <el-form-item label="评价类别">
+          <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small" clearable style="width:200px">
+            <el-option
+              v-for="item in evaluKindOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="任务名">
+          <el-input v-model="searchData.taskName" placeholder="任务名" size="small" clearable style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="制表时间">
+          <el-date-picker
             size="small"
-            icon="el-icon-search"
-          >查询</el-button>
-        </el-col>
-      </el-row>
+            v-model="searchData.inputDate"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="制表开始时间"
+            end-placeholder="制表结束时间"
+            style="width:250px"
+          ></el-date-picker>
+        </el-form-item>
+      </div>
+      <div>
+        <el-form-item label="状态">
+          <el-select v-model="searchData.state" placeholder="状态" size="small" clearable style="width:200px">
+            <el-option
+              v-for="item in statisticalStateOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-button
+          style="margin-top: 4px;"
+          type="primary"
+          @click="searching"
+          size="small"
+          icon="el-icon-search"
+        >查询</el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -79,26 +84,7 @@ export default {
     searching() {
       this.search(this.searchData);
     }
-    // clear(){
-    //     this.searchData = {
-    //         evaluKind:'',
-    //         evaluPlan:'',
-    //         flag:''
-    //     };
-    // }
-    // 清空
-    // clearFrom(){
-    //     this.searchData={};
-    // },
   },
-  /**
-   * 计算属性（自定义方法）
-   * 调用方式：是以属性的方式调用
-   * 使用场景：对于任何复杂逻辑
-   *
-   * computed是有缓存的功能
-   */
-  computed: {},
   created: function() {
     // 组件创建后
     // 获取评价类别
@@ -119,26 +105,24 @@ export default {
         this.statisticalStateOptions = res.data;
       }
     });
-  },
-  mounted: function() {
-    // 组件加载完成
-    // TODO
-  },
-  beforeUpdate: function() {
-    // 组件数据更新之前
-    // TODO
-  },
-  updated: function() {
-    // 组件数据更新之后
-    // TODO
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 10px;
 }
 #searchFrom {
   padding-right: 18%;
+}
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 6px;
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

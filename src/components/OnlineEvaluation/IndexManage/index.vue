@@ -499,4 +499,12 @@ export default {
   margin-left: 50%;
   height: 97px;
 }
+#indexManageList .zToolBar{
+  position: absolute;
+  top: 5px;
+  right: 0px;
+}
+#indexManageList hr{
+  display: none;
+}
 </style>

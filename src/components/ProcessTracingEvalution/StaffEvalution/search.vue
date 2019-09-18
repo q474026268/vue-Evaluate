@@ -1,75 +1,48 @@
 <template>
   <div id="search">
-    <el-form :inline="true" :model="searchData" class="demo-form-inline">
-      <el-row type="flex" justify="space-between" class="margin-top">
-        <el-col :span="2">
-            <el-input
-              v-model="searchData.GroupName"
-              placeholder="制表部门"
-              size="small"
-              clearable
-            ></el-input>
-        </el-col>
-
-        <el-col :span="2">
-            <el-select
-              v-model="searchData.levelType"
-              placeholder="评价方式"
-              size="small"
-              clearable
-            >
-              <el-option
-                v-for="item in levelTypeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-        </el-col>
-        <el-col :span="2">
-            <el-input
-              v-model="searchData.InputerFullName"
-              placeholder="制表人"
-              size="small"
-              clearable
-            ></el-input>
-        </el-col>
-        <el-col :span="4">
-            <el-date-picker
-              size="small"
-              style="width:100%"
-              v-model="searchData.dateFrame"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="起始日期"
-              end-placeholder="结束日期"
-            ></el-date-picker>
-        </el-col>
-        <el-col :span="4">
-            <el-input
-              v-model="searchData.evaluateTName"
-              placeholder="测评表名称"
-              size="small"
-              clearable
-            ></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-button
-            type="primary"
-            @click="searching"
+    <el-form
+      :inline="true"
+      :model="searchData"
+      class="demo-form-inline"
+      label-position="left"
+      label-width="90px"
+    >
+      <div>
+        <el-form-item label="制表部门">
+          <el-input v-model="searchData.GroupName" placeholder="制表部门" size="small" clearable style="width:300px"></el-input>
+        </el-form-item>
+        <el-form-item label="评价方式">
+          <el-select v-model="searchData.levelType" placeholder="评价方式" size="small" clearable style="width:300px">
+            <el-option
+              v-for="item in levelTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="制表人">
+          <el-input v-model="searchData.InputerFullName" placeholder="制表人" size="small" clearable style="width:300px"></el-input>
+        </el-form-item>
+      </div>
+      <div>
+        <el-form-item label="开始时间">
+          <el-date-picker
             size="small"
-            icon="el-icon-search"
-          >查询</el-button>
-          <el-button
-            type="primary"
-            @click="clear"
-            size="small"
-            icon="el-icon-refresh"
-          >清空</el-button>
-        </el-col>
-      </el-row>
-      <el-row>
-      </el-row>
+            style="width:300px"
+            v-model="searchData.dateFrame"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="起始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="测评表名称">
+          <el-input v-model="searchData.evaluateTName" placeholder="测评表名称" size="small" clearable style="width:300px"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
+        <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -103,14 +76,6 @@ export default {
       };
     }
   },
-  /**
-   * 计算属性（自定义方法）
-   * 调用方式：是以属性的方式调用
-   * 使用场景：对于任何复杂逻辑
-   *
-   * computed是有缓存的功能
-   */
-  computed: {},
   // 组件创建后
   created: function() {
     //获取打分方式
@@ -119,25 +84,32 @@ export default {
         this.levelTypeOptions = res.data;
       }
     });
-  },
-  // 组件加载完成
-  mounted: function() {},
-  // 组件数据更新之前
-  beforeUpdate: function() {},
-  // 组件数据更新之后
-  updated: function() {}
+  }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 10px;
 }
-span{
+span {
   display: inline-block;
   margin-bottom: 10px;
 }
-.margin-top{
+.margin-top {
   margin-top: 5px;
   margin-bottom: 10px;
+}
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 6px;
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.el-button{
+  margin-top: 4px;
 }
 </style>

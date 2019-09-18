@@ -6,7 +6,7 @@
           default-active="/evaluatePlanListStaff"
           class="el-menu-vertical-demo"
           :collapse="false"
-          background-color="#0099ff"
+          background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
           :collapse-transition="false"
@@ -17,20 +17,16 @@
               <span slot="title">在线评价管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/evaluatePlanListStaff">评价计划
-              </el-menu-item>
+              <el-menu-item index="/evaluatePlanListStaff">评价计划</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="/fillEvaluationStaff">评价表填写
-              </el-menu-item>
+              <el-menu-item index="/fillEvaluationStaff">评价表填写</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="/processTracingStaff">过程跟踪
-              </el-menu-item>
+              <el-menu-item index="/processTracingStaff">过程跟踪</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="/statisticsInquireStaff">统计查询
-              </el-menu-item>
+              <el-menu-item index="/statisticsInquireStaff">统计查询</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <!-- <el-submenu index="/onlineEvaluationr">
@@ -49,7 +45,7 @@
             <el-menu-item-group>
               <el-menu-item index="/statisticsInquire">统计查询</el-menu-item>
             </el-menu-item-group>
-          </el-submenu> -->
+          </el-submenu>-->
         </el-menu>
       </div>
       <router-view></router-view>
@@ -83,6 +79,10 @@ export default {
 body .el-table th.gutter {
   display: table-cell !important;
 }
+/* body {
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+  Microsoft YaHei, Arial, sans-serif;
+} */
 #bothAll {
   display: flex;
 }

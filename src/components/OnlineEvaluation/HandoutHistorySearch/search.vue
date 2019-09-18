@@ -1,108 +1,98 @@
 <template>
   <div id="search">
-    <el-form :inline="true" :model="searchData" class="demo-form-inline">
-      <el-row>
-        <el-col :span="7">
-          <el-radio-group
+    <el-form
+      :inline="true"
+      :model="searchData"
+      class="demo-form-inline"
+      label-position="left"
+      label-width="70px"
+    >
+      <div>
+        <el-form-item label="测评类别">
+          <el-select
             v-model="searchData.evaluKind"
-            style="margin-bottom: 30px;"
-            size="medium"
+            placeholder="测评类别"
+            size="small"
+            style="width:290px;"
             @change="evaluKindChange"
           >
-            <el-radio-button label="员工达优测评">员工达优测评</el-radio-button>
-            <el-radio-button label="内部顾客满意度测评">内部顾客满意度测评</el-radio-button>
-          </el-radio-group>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item>
-            <el-input
-              v-model="searchData.planName"
-              placeholder="评价名称"
-              size="small"
-              clearable
-              style="width:305px;"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item>
-            <el-input
-              v-model="searchData.evaluateTname"
-              placeholder="评价表名"
-              size="small"
-              clearable
-              style="width:162%;"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            style="margin-top: 4px;"
-            type="primary"
-            @click="searching"
+            <el-option
+              v-for="item in evaluKindOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="评价名称">
+          <el-input
+            v-model="searchData.planName"
+            placeholder="评价名称"
             size="small"
-            icon="el-icon-search"
-          >查询</el-button>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="7">
-          <el-form-item>
-            <el-input
-              v-model="searchData.groupName"
-              placeholder="部门"
-              size="small"
-              style="width:305px;"
-              clearable
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label-width="100px">
-            <el-date-picker
-              size="small"
-              v-model="searchData.dateFrame"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="制表开始日期"
-              end-placeholder="制表结束日期"
-              style="width:305px;"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-form-item>
-            <el-input
-              v-model="searchData.inputerFullName"
-              placeholder="制表人"
-              size="small"
-              style="width:100%;"
-              clearable
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item>
-            <el-select v-model="searchData.state" placeholder="状态" size="small" style="width:100%;">
-              <el-option
-                v-for="item in stateOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            style="margin-top: 4px;"
-            type="primary"
-            @click="clear"
+            clearable
+            style="width:290px;"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="评价表名">
+          <el-input
+            v-model="searchData.evaluateTname"
+            placeholder="评价表名"
             size="small"
-            icon="el-icon-refresh"
-          >清空</el-button>
-        </el-col>
-      </el-row>
+            clearable
+            style="width:290px;"
+          ></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
+      </div>
+      <div style="margin-top:-10px;">
+        <el-form-item label="部门">
+          <el-input
+            v-model="searchData.groupName"
+            placeholder="部门"
+            size="small"
+            style="width:290px;"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="制表时间">
+          <el-date-picker
+            size="small"
+            v-model="searchData.dateFrame"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="制表开始日期"
+            end-placeholder="制表结束日期"
+            style="width:290px;"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="制表人">
+          <el-input
+            v-model="searchData.inputerFullName"
+            placeholder="制表人"
+            size="small"
+            style="width:290px;"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-button
+          type="primary"
+          @click="clear"
+          size="small"
+          icon="el-icon-refresh"
+        >清空</el-button>
+        <div style="margin-top:-10px;">
+        <el-form-item label="状态">
+          <el-select v-model="searchData.state" placeholder="状态" size="small" style="width:290px;">
+            <el-option
+              v-for="item in stateOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
@@ -118,10 +108,20 @@ export default {
     // 自定义变量
     return {
       searchData: {
-        evaluKind:'员工达优测评'
+        evaluKind: "员工达优测评"
       },
       evaluKindOptions: [],
-      stateOptions: []
+      stateOptions: [],
+      evaluKindOptions: [
+        {
+          label: "员工达优测评",
+          value: "员工达优测评"
+        },
+        {
+          label: "内部顾客满意度测评",
+          value: "内部顾客满意度测评"
+        }
+      ]
     };
   },
   methods: {
@@ -156,17 +156,8 @@ export default {
       }
     }
   },
-  /**
-   * 计算属性（自定义方法）
-   * 调用方式：是以属性的方式调用
-   * 使用场景：对于任何复杂逻辑
-   *
-   * computed是有缓存的功能
-   */
-  computed: {},
   created: function() {
     // 组件创建后
-    // TODO
     getEvaluKind().then(res => {
       if (res.status == 200) {
         this.evaluKindOptions = res.data;
@@ -177,27 +168,21 @@ export default {
         this.stateOptions = res.data;
       }
     });
-  },
-  mounted: function() {
-    // 组件加载完成
-    // TODO
-  },
-  beforeUpdate: function() {
-    // 组件数据更新之前
-    // TODO
-  },
-  updated: function() {
-    // 组件数据更新之后
-    // TODO
   }
 };
 </script>
-<style scoped>
-.el-form-item {
-  margin-bottom: 10px;
+<style lang="scss" scoped>
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 6px;
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
 }
-.el-radio-group{
+.el-button{
   margin-top: 5px;
 }
-
 </style>
