@@ -43,7 +43,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 140px)",
+        tableHeight: "calc(100% - 185px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }]
       },

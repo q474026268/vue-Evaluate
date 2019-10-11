@@ -40,7 +40,7 @@ export default {
       // 列表的其他配置
       tableBaseConfig: {
         opertionColumnWidth: 152,
-        tableHeight: "calc(100% - 120px)",
+        tableHeight: "calc(100% - 215px)",
         // 默认排序
         currentSort: [
           { prop: "InputDate", order: "descending" },

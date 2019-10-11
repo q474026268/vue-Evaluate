@@ -37,7 +37,7 @@ export default {
         return {
             // 列表的其他配置
             tableBaseConfig:{
-                tableHeight:'calc(100% - 120px)',
+                tableHeight:'calc(100% - 125px)',
             },
             // 列表配置
             tableColumnConfig:[

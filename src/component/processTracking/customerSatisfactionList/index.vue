@@ -42,7 +42,7 @@ export default {
             // 列表的其他配置
             tableBaseConfig:{
                 // selectModel:"Multi",
-                tableHeight:'calc(100% - 120px)',
+                tableHeight:'calc(100% - 110px)',
                 // 默认排序
                 currentSort:[{prop: 'evaluateTname', order: 'descending'}]
             },
