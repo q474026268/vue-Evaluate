@@ -141,6 +141,13 @@
                 <label>{{ scope.row.targetName }}</label>
               </template>
             </el-table-column>
+            <el-table-column
+              prop="targetWeight"
+              align="center"
+              label="权重"
+            >
+
+            </el-table-column>
           </el-table>
         </div>
         <div class="area evaluate-config-right">

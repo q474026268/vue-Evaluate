@@ -233,7 +233,6 @@ export default {
         },
         // 请求列表数据之前
         beforeGetListData(currentPage,pageSize,order,filters){
-            filters.state = 'save,start,finish';
         }
     },
     /**

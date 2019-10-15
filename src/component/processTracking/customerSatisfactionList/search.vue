@@ -7,6 +7,7 @@
           v-model="searchData.dateFrame"
           type="daterange"
           range-separator="至"
+          value-format="yyyy-MM-dd"
           start-placeholder="制表时间"
           end-placeholder="制表时间"
           style="width:230px;"

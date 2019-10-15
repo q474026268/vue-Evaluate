@@ -45,9 +45,9 @@ export function saveConsignFillContent(data){
 }
 
 // 获取指定评价指标信息
-export function getTargetItem(pkid){
+export function getTargetItem(modelPkid){
     return request({
-        url: '/evaluateTableList/getTableTarget?pkid='+pkid,
+        url: '/evaluateTableList/getTableTarget?modelPkid='+modelPkid,
         method: 'GET',
     })
 }

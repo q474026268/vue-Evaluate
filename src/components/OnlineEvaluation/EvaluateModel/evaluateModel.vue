@@ -55,6 +55,11 @@
               <label>{{ scope.row.evaluStand }}</label>
             </template>
           </el-table-column>
+          <el-table-column align="center" width="100" label="权重" v-if="!Object.is(type,'view')">
+            <template slot-scope="scope">
+              <el-input @change="targetWeightChange(scope.$index)" v-model="scope.row.targetWeight" type="number" placeholder=""></el-input>
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作" v-if="!Object.is(type,'view')">
             <template slot-scope="scope">
               <el-button
@@ -98,6 +103,7 @@ export default {
     return {
       formRules: Rules,
       //表单类型
+      a:'',
       type: "",
       // 表单数据
       formData: {
@@ -128,6 +134,27 @@ export default {
     beforeSubmit() {
       return true;
     },
+    targetWeightChange(index){
+      if (this.formDataDetail[index].targetWeight<0 || this.formDataDetail[index].targetWeight>100) {
+        this.$message({
+          message: '单个权重值范围在0-100',
+          type: 'warning'
+        });
+        this.formDataDetail[index].targetWeight=''
+        return false
+      }
+      let sumTargetWeight=0;
+      this.formDataDetail.forEach(item => {
+        sumTargetWeight+=item.targetWeight
+      });
+      if (sumTargetWeight>100) {
+        this.$message({
+          message: '总权重不可大于100',
+          type: 'warning'
+        });
+        this.formDataDetail[index].targetWeight=''
+      }
+    },
     //根据按钮状态保存(保存,保存并使用模板)
     async saveData(formName, mark) {
       let valid1 = false;
@@ -148,7 +175,7 @@ export default {
         for (let i = 0; i < this.formDataDetail.length; i++) {
           targetPkid.push(this.formDataDetail[i].pkid);
         }
-
+        
         for (let i = 0; i < this.formDataDetail.length; i++) {
           this.formDataDetail[i].targetPkid = targetPkid[i];
           this.formDataDetail[i].pkid = "";

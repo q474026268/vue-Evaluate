@@ -36,13 +36,13 @@ export function getPlanState(){
 // 评价表状态
 const evaluteTStateOptions = [
     {
-        value: '暂存',
+        value: 'save',
         label: '暂存'
     },{
-        value: '分发',
+        value: 'start',
         label: '分发'
     },{
-        value: '完成',
+        value: 'finish',
         label: '完成'
     }
 ]

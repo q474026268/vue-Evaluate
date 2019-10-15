@@ -170,7 +170,6 @@ export default {
             id:'',
             // 主表数据
             formData:{
-
             },
             // 明细数据
             formDataDetail_group:[],
@@ -199,21 +198,46 @@ export default {
             }
         },
         departDialogCallback(data){
-            this.formDataDetail_group = [...this.formDataDetail_group,...data];
+            // debugger
+            // this.formDataDetail_group = [...this.formDataDetail_group,...data];
+            data.forEach(item => {
+                let have=false
+                this.formDataDetail_group.forEach(element => {
+                    if (item.name==element.name) {
+                        have=true
+                    }
+                });
+                if (!have) {
+                    this.formDataDetail_group.push(item)
+                }
+            });
         },
         userDialogCallback(data){
-            // 改变属性名
-            let newData = [];
-            data.forEach(({id:doUserNo,userName:doUserName,name:doFullName,departmentName:groupName}) => {
-                newData.push({doUserNo,doUserName,doFullName,groupName,doType:'add'});
+            // // 改变属性名
+            // debugger
+            // let newData = [];
+            // data.forEach(({id:doUserNo,userName:doUserName,name:doFullName,departmentName:groupName}) => {
+            //     newData.push({doUserNo,doUserName,doFullName,groupName,doType:'add'});
+            // });
+            // this.formDataDetail_evaluate = [...this.formDataDetail_evaluate,...newData];
+            // debugger
+            data.forEach(item => {
+                let have=false
+                this.formDataDetail_evaluate.forEach(element => {
+                    if (item.userName==element.doUserName) {
+                        have=true
+                    }
+                });
+                if (!have) {
+                    this.formDataDetail_evaluate.push({doUserNo:item.id,doUserName:item.userName,doFullName:item.name,groupName:item.departmentName})
+                }
             });
-            this.formDataDetail_evaluate = [...this.formDataDetail_evaluate,...newData];
         },
-        async getData(){
+        getData(){
             get(this.id).then((res) => {
                 if(res.status == 200){
                     this.formData = res.data.main;
-                    console.log(this.formData);
+                    this.formData.inputDate=new Date()
                     let groups = this.formData.doneFullName;
                     groups.split(',').forEach(val => {
                         this.formDataDetail_group.push(
@@ -340,7 +364,6 @@ export default {
             let data = this.$store.state.data.data;
             // 获取计划信息
             getCurrentEvaluate('内部顾客满意度测评').then((res) => {
-                console.log(res.data);
                 if(res.status == 200){
                     if(res.data != ""){
                         let {pkid:planPKID,evaluPlan:planName,evaluKind,emailDay} = res.data;
@@ -351,6 +374,7 @@ export default {
                         // this.formDataDetail_index = data.detail;
                         let {pkid:modelPKID,modelName} = data.main;
                         this.formData = Object.assign({modelPKID,modelName},{planPKID,planName,evaluKind,emailDay});
+                        this.formData.inputDate=new Date()
                     }else{
                         this.$message({
                             message: `没有开始的计划，请先添加计划`,

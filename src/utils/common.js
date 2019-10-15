@@ -651,3 +651,55 @@ export function randomString(len) {
     }
   }
   
+//解密
+export const intToByte = function (i) {
+  var b = i & 0xFF;
+  var c = 0;
+  if (b >= 128) {
+      c = b % 128;
+      c = -1 * (128 - c);
+  } else {
+      c = b;
+  }
+  return c;
+  }
+
+  //  解密
+  export const  DeCode = function (s) {
+    let SEED = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+
+    var i = 1;
+    var j = 1;
+    var k = 1;
+    var m = 1;
+
+    var buff = new Array(parseInt((s.length + 1) / 2));
+
+    var strkey = SEED; //"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    var t1 = null;
+    var t2 = null;
+    var n = 0;
+
+    for (i = 0; i < s.length; i = i + 2) {
+      t1 = s.substring(i, i + 1);
+      t2 = s.substring(i + 1, i + 2);
+
+      k = strkey.indexOf(t1);
+      m = strkey.indexOf(t2);
+      j = parseInt(m / Math.pow(2, 3));
+      m = parseInt(m - j * Math.pow(2, 3));
+
+      buff[n] = intToByte(parseInt(j * strkey.length + k));
+      buff[n] = intToByte(parseInt(buff[n] ^ m));
+      n = n + 1;
+    }
+
+    //var decode = new String(buff); //decode应该返回"chen_m2"
+    //System.out.println("解密"+decode);
+    var decode = "";
+    for(var i = 0 ; i < buff.length ; i++){
+      decode += String.fromCharCode(buff[i]);
+    }
+    return decode;
+  }
+  

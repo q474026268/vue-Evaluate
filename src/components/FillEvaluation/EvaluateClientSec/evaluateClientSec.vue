@@ -24,15 +24,18 @@
 
       <el-table border v-loading="loading" :data="tableTarget">
         <el-table-column prop="TargetName" label="指标" width="180"></el-table-column>
+        <el-table-column align="center" v-if="markType=='直接评价'" prop="TargetWeight" label="权重" width="60"></el-table-column>
         <el-table-column
           v-for="(item,index) in tableArr"
           align="center"
           :key="index"
+          min-width="100"
           :label="item.doneFullName"
           :prop="'target'+(index+1)"
         >
           <template class="iiiii" slot-scope="scope">
             <el-select
+              v-if="markType=='三级评价'"
               :disabled="!tableArr[index]['optional'+(scope.$index+1)] || look"
               v-model="tableArr[index]['target'+(scope.$index+1)]"
             >
@@ -41,6 +44,19 @@
               <el-option value="C">C</el-option>
               <el-option value="N">N</el-option>
             </el-select>
+            <el-select
+              v-else-if="markType=='五级评价'"
+              :disabled="!tableArr[index]['optional'+(scope.$index+1)] || look"
+              v-model="tableArr[index]['target'+(scope.$index+1)]"
+            >
+              <el-option value="A">A</el-option>
+              <el-option value="B">B</el-option>
+              <el-option value="C">C</el-option>
+              <el-option value="D">D</el-option>
+              <el-option value="E">E</el-option>
+              <el-option value="N">N</el-option>
+            </el-select>
+            <el-input @change="targetWeightChange(scope.$index,index)" :disabled="!tableArr[index]['optional'+(scope.$index+1)] || look" v-else v-model="tableArr[index]['target'+(scope.$index+1)]" type="number" placeholder=""></el-input>
           </template>
         </el-table-column>
       </el-table>
@@ -92,13 +108,29 @@ export default {
       //当前用户姓名
       name: "",
       //评价方式
-      levelType: ""
+      levelType: "",
+      // 打分方式
+      markType: ""
     };
   },
   methods: {
     // 自定义方法
     handleClose(done) {
       this.$router.back();
+    },
+    // 直接评分文本框改变
+    targetWeightChange(rowIndex,colIndex){
+      if (this.tableArr[colIndex]['target'+(rowIndex+1)]>this.tableTarget[colIndex].TargetWeight || this.tableArr[colIndex]['target'+(rowIndex+1)]<0) {
+        this.$message({
+          message: '评分应该在“0-权重”之间',
+          type: 'warning'
+        });
+        this.tableArr[colIndex]['target'+(rowIndex+1)]=''
+        return false
+      }
+      if (condition) {
+        
+      }
     },
     // 参数提示
     hoverTitle(index) {
@@ -142,7 +174,7 @@ export default {
       console.log(this.tableTarget);
       for (let i = 0; i < this.tableArr.length; i++) {
         for (let j = 0; j < this.tableTarget.length; j++) {
-          if (!this.tableArr[i]['target'+(j+1)]) {
+          if (!this.tableArr[i]['target'+(j+1)] && this.tableArr[i]['optional'+(j+1)]) {
             this.$message({
               message: `${this.tableArr[i].doneFullName}的${this.tableTarget[j].TargetName}没有填写！`,
               type: 'warning'
@@ -182,6 +214,7 @@ export default {
     this.nowUserName = this.$store.state.userInfo.userName;
     this.EvaluKind = this.$route.query.evaluKind;
     this.levelType = this.$route.query.levelType;
+    this.markType = this.$route.query.markType;
     this.EvaluateTname = this.$route.query.evaluateTname;
     this.name = this.$store.state.userInfo.name;
     this.StartDate = this.$route.query.startDate.substring(0, 10);
@@ -205,7 +238,7 @@ export default {
         this.loading = false;
       }),
         //获取哪几个指标
-        getTargetItem(pkid, this.nowUserName).then(result => {
+        getTargetItem(this.$route.query.modelPkid, this.nowUserName).then(result => {
           this.tableTarget = result.data;
         });
     }

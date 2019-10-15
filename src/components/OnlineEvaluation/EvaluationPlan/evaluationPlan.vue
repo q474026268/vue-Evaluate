@@ -72,7 +72,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div v-show="isShow">
+        <div>
           <el-row>
             <el-col :span="12">
               <el-form-item prop="alertDay" label="预警提前期" class="item">

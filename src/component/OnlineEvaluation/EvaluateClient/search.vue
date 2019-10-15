@@ -127,9 +127,7 @@ export default {
     },
     clear() {
       this.searchData = {
-        evaluKind: "",
-        evaluPlan: "",
-        flag: ""
+        evaluKind: "内部顾客满意度测评",
       };
     },
     //评价类别改变事件

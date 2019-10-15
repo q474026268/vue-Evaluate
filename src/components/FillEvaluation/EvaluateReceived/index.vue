@@ -142,6 +142,8 @@ export default {
                     levelType:row.levelType,
                     startDate:row.inputDate,
                     pkid:row.id,
+                    markType:row.markType,
+                    modelPkid:row.modelPkid,
                   }
                 })
               }

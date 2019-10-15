@@ -92,7 +92,7 @@ export default {
     // 自定义变量
     return {
       searchData: {
-        evaluKind: "员工达优测评"
+        // evaluKind: "员工达优测评"
       },
       evaluKindOptions: []
     };
@@ -116,11 +116,14 @@ export default {
       this.search(this.searchData);
     },
     clear() {
-      this.searchData.modelName = ""
-      this.searchData.groupName = ""
-      this.searchData.dateFrame = ""
-      this.searchData.inputerFullName = ""
-      this.searchData.modelName = ""
+      // this.searchData.evaluKind = ""
+      // this.searchData.modelName = ""
+      // this.searchData.groupName = ""
+      // this.searchData.dateFrame = ""
+      // this.searchData.inputFullName = ""
+      // this.searchData.beganStartDate = ""
+      // this.searchData.endStartDate = ""
+      this.searchData={}
     }
   },
   created: function() {

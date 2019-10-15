@@ -49,7 +49,9 @@ export default {
   data: function() {
     // 自定义变量
     return {
-      searchData: {},
+      searchData: {
+        flag:0
+      },
       evaluKindOptions: [],
       flagOptions: []
     };

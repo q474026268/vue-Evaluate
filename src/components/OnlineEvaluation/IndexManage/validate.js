@@ -8,6 +8,9 @@ const rules = {
     evaluStand: [
         { required: true, message: '请输入评分标准', trigger: 'blur' }
     ],
+    targetWeight: [
+        { required: true, message: '请输入权重', trigger: 'blur' }
+    ],
     description: [
         { required: true, message: '请输入典型行为描述', trigger: 'blur' }
     ]

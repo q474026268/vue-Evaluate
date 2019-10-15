@@ -107,9 +107,17 @@ export function getLevelType() {
 // 打分方式
 const markTypeOptions = [
     {
-        value: '等级评价',
-        label: '等级评价'
-    }
+        value: '三级评价',
+        label: '三级评价'
+    },
+    {
+        value: '五级评价',
+        label: '五级评价'
+    },
+    {
+        value: '直接打分',
+        label: '直接打分'
+    },
 ]
 
 export function getMarkType() {
@@ -143,10 +151,10 @@ export function getSelect() {
 // 统计查询状态
 const statisticalStateOptions = [
     {
-        value: '已统计',
+        value: 'finish',
         label: '已统计'
     },{
-        value: '未统计',
+        value: 'start',
         label: '未统计'
     }
 ]

@@ -49,6 +49,12 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/loginBlank',
+    name: 'loginBlank',
+    component: () =>import('../../component/loginBlank'),
+    hidden: true
+  },
   {//统计查询
     path: '/statisticsInquireStaff', component: () => import('../../components/statisticsInquire'), name: 'statisticsInquireStaff', redirect: { name: 'statisticalPreprocessingListStaff' }, children: [
       {

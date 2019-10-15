@@ -49,6 +49,14 @@
             :prop="item.id"
             :label="item.doneFullName"
           >
+            <template v-if="scope.$index>0" slot="header" slot-scope="scope">
+              <el-checkbox
+                :checked="item.allOptional"
+                :label="item.doneFullName"
+                @change='colCheck(index)'
+                size="mini">
+              </el-checkbox>
+            </template>
             <template slot-scope="scope">
               <el-checkbox
                 v-model="tableColumn[index]['optional'+(scope.$index+1)]"
@@ -72,7 +80,15 @@
                   style="width:100px"
                 ></el-option>
               </el-select>
-              <label v-else>{{ scope.row.target }}</label>
+              <label v-else>
+                <el-checkbox
+                  :checked="scope.row.allOptional"
+                  :label="scope.row.target"
+                  @change='rowCheck(scope.$index)'
+                  size="mini">
+                </el-checkbox>
+                <!-- {{ scope.row.target }} -->
+              </label>
             </template>
           </el-table-column>
         </el-table>
@@ -157,6 +173,37 @@ export default {
           back: "2"
         }
       });
+    },
+    // 列选
+    colCheck(index){
+      if (this.tableColumn[index].allOptional) {
+        this.tableColumn[index].allOptional=false
+        this.tData.forEach((item,y) => {
+          this.tableColumn[index]['optional'+(y+1)]=false
+        });
+      }else{
+        this.tableColumn[index].allOptional=true
+        this.tData.forEach((item,y) => {
+          this.tableColumn[index]['optional'+(y+1)]=true
+        });
+      }
+      this.Change()
+    },
+    // 行选
+    rowCheck(index){
+      this.tData
+      if (this.tData[index].allOptional) {
+        this.tData[index].allOptional=false
+        for (let i = 1; i < this.tableColumn.length; i++) {
+          this.tableColumn[i]['optional'+(index+1)]=false
+        }
+      } else {
+        this.tData[index].allOptional=true
+            for (let i = 1; i < this.tableColumn.length; i++) {
+              this.tableColumn[i]['optional'+(index+1)]=true
+            }
+      }
+      this.Change()
     },
     // 表单提交前
     beforeSubmit() {
@@ -248,6 +295,28 @@ export default {
             datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
         }
       }
+      debugger
+      for (let i = 1; i < this.tableColumn.length; i++) {
+        this.tableColumn[i].allOptional=true
+        this.tData.forEach((item,index) => {
+          if (!this.tableColumn[i]["optional"+(index+1)]) {
+            this.tableColumn[i].allOptional=false
+            return false
+          }
+        });
+      }
+      debugger
+
+      this.tData.forEach((item,index) => {
+        item.allOptional=true
+        for (let i = 1; i < this.tableColumn.length; i++) {
+          if (!this.tableColumn[i]["optional"+(index+1)]) {
+            item.allOptional=false
+            break
+          }
+        }
+      });
+      debugger
     }
 
   },

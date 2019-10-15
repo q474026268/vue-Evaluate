@@ -9,7 +9,7 @@
     >
       <div>
         <el-form-item label="制表部门">
-          <el-input v-model="searchData.GroupName" placeholder="制表部门" size="small" clearable style="width:300px"></el-input>
+          <el-input v-model="searchData.groupName" placeholder="制表部门" size="small" clearable style="width:300px"></el-input>
         </el-form-item>
         <el-form-item label="评价方式">
           <el-select v-model="searchData.levelType" placeholder="评价方式" size="small" clearable style="width:300px">
@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="制表人">
-          <el-input v-model="searchData.InputerFullName" placeholder="制表人" size="small" clearable style="width:300px"></el-input>
+          <el-input v-model="searchData.inputerFullName" placeholder="制表人" size="small" clearable style="width:300px"></el-input>
         </el-form-item>
       </div>
       <div>
@@ -69,9 +69,9 @@ export default {
     clear() {
       this.searchData = {
         evaluateTName: "",
-        GroupName: "",
+        groupName: "",
         levelType: "",
-        InputerFullName: "",
+        inputerFullName: "",
         dateFrame: ""
       };
     }

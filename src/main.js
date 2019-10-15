@@ -11,6 +11,7 @@ import {store} from './store/store.js'
 import '@/style/index.css' // global css
 import echarts from 'echarts' //引入echarts
 import 'echarts/theme/macarons.js'//引入echarts的主题
+import { getNowLoginPerson } from './api/loginApi'
 Vue.prototype.$echarts = echarts //引入组件
 
 Vue.use(ElementUI)
@@ -24,3 +25,42 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+// router.beforeEach((to, from, next) => {
+//   if(!top.onlineUser || top.onlineUser.UserNotLogin == 1) { // 进入未登录成功的处理逻辑
+//     debugger
+//     if (to.name=='loginBlank') {
+//       next()
+//     } else {
+//       debugger
+//       // 调用取用户信息接口
+//       // 成功,失败就跳回OA
+//       getNowLoginPerson().then((result) => {
+//         debugger
+//         if (result.UserNotLogin==1) {
+//           window.location.href=process.env.LOGIN_API // 根据当前环境判断跳转方式
+//         }else{
+//           top.onlineUser = result
+//           next()
+//         }
+//       }).catch((err) => {
+//         window.location.href=process.env.LOGIN_API // 根据当前环境判断跳转方式
+//         // if (fileIp!='webproduce.ecidi.com:80') {
+//         //   window.location.href="http://oa.simulate.com";
+//         // }else{
+//         //   window.location.href="http://oa.ecidi.com";
+//         // }
+//       });
+//     }
+//   } else { // 登录成功后进入登录成功的处理逻辑
+//     debugger
+//     if (to.name == 'loginBlank') {
+//       next({name:'home'})
+//     } else {
+//       if (process.env.NODE_ENV=="development") {
+//         next()
+//         return
+//       }
+//     }
+//   }
+// })

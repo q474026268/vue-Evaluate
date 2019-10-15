@@ -15,7 +15,7 @@ export function getList(currentPage,pageSize,orders,filters){
 
 export function save(data){
     return request({
-        url: '/evaluateClient',
+        url: '/evaluateClient/saveMainAndDetail',
         data:JSON.stringify(data),
         method: 'POST',
         transformRequest: [(data) => {

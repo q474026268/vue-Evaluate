@@ -138,9 +138,7 @@ export default {
     },
     clear() {
       this.searchData = {
-        evaluKind: "",
-        evaluPlan: "",
-        flag: ""
+        evaluKind: "员工达优测评",
       };
     },
     //评价类别改变事件

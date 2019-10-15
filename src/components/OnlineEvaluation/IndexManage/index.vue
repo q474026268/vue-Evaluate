@@ -151,7 +151,35 @@ export default {
             icon: "el-icon-document",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
             click: () => {
-              window.open("api/evaluateTarget/exportTarget");
+              console.log(this.tableBaseConfig.currentSort);
+              let evaluKind=document.getElementsByClassName('el-input__inner')[0].value
+              let targetName=document.getElementsByClassName('el-input__inner')[1].value
+              let flag=document.getElementsByClassName('el-input__inner')[2].value
+              if (!evaluKind) {
+                evaluKind='null'
+              }
+              if (!targetName) {
+                targetName='null'
+              }
+              if (!this.tableBaseConfig.currentSort.prop) {
+                this.tableBaseConfig.currentSort.prop='null'
+              }
+              if (!this.tableBaseConfig.currentSort.order) {
+                this.tableBaseConfig.currentSort.order='null'
+              }
+              if (flag=='有效') {
+                flag=0
+              }else if(flag=='无效'){
+                flag=1
+              }else{
+                flag='null'
+              }
+              if (this.tableBaseConfig.currentSort.order=="descending") {
+                this.tableBaseConfig.currentSort.order='desc'
+              }else if(this.tableBaseConfig.currentSort.order=='ascending'){
+                this.tableBaseConfig.currentSort.order='asc'
+              }
+              window.open(`api/evaluateTarget/exportTarget/${evaluKind}/${targetName}/${flag}/${this.tableBaseConfig.currentSort.prop}/${this.tableBaseConfig.currentSort.order}`);
             }
           }
         ],
