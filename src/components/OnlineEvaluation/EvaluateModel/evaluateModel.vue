@@ -145,7 +145,7 @@ export default {
       }
       let sumTargetWeight=0;
       this.formDataDetail.forEach(item => {
-        sumTargetWeight+=item.targetWeight
+        sumTargetWeight+=Number(item.targetWeight)
       });
       if (sumTargetWeight>100) {
         this.$message({
@@ -170,6 +170,29 @@ export default {
       this.formData.groupId = this.$store.state.userInfo.departmentId;
       this.formData.groupName = this.$store.state.userInfo.departmentName;
       this.formData.inputDate = formatDate(new Date());
+      let targetSum=0;
+      let flag=false
+      this.formDataDetail.forEach(item => {
+        if (!item.targetWeight || item.targetWeight=='') {
+          this.$message({
+            message: '请完整填写权重',
+            type: 'warning'
+          });
+          flag=true
+          return false
+        }
+        targetSum+=Number(item.targetWeight)
+      });
+      if (flag) {
+        return false
+      }
+      if (targetSum!=100) {
+        this.$message({
+          message: '权重之和必须为100',
+          type: 'warning'
+        });
+        return false
+      }
       if (Object.is(this.type, "add")) {
         let targetPkid = [];
         for (let i = 0; i < this.formDataDetail.length; i++) {

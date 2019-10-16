@@ -1,6 +1,6 @@
 <template>
   <div id="search" class="search">
-    <el-form :inline="true" :model="searchData" class="demo-form-inline">
+    <!-- <el-form :inline="true" :model="searchData" class="demo-form-inline">
       <el-form-item label="评价类别">
         <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small" style="width:270px">
           <el-option
@@ -28,7 +28,39 @@
         <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
         <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
+    <div class="leftDiv">
+      <div>
+        <span class="labelSpan">评价类别</span>
+        <el-select v-model="searchData.evaluKind" placeholder="评价类别" size="small" style="width:270px">
+          <el-option
+            v-for="item in evaluKindOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div>
+        <span class="labelSpan">状态</span>
+        <el-select v-model="searchData.flag" placeholder="状态" size="small" style="width:270px">
+          <el-option
+            v-for="item in flagOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div>
+        <span class="labelSpan">评价名称</span>
+        <el-input v-model="searchData.evaluPlan" placeholder="评价名称" size="small" clearable style="width:270px"></el-input>
+      </div>
+    </div>
+    <div class="rightDiv">
+        <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
+        <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -53,6 +85,8 @@ export default {
       let data = {};
       data.flag = parseInt(this.searchData.flag);
       this.search(this.searchData);
+      // table宽度重设
+      this.$parent.$refs['table'].$el.style=`width:${this.$tableWidth}px;`
     },
     clear() {
       this.searchData = {
@@ -88,11 +122,30 @@ export default {
 <style scoped>
 .search {
   display: flex;
-  justify-content: space-between;
   text-align: center;
   margin-top: 6px;
+  flex-wrap: wrap;
 }
-
+.labelSpan{
+  display: inline-block;
+  width: 70px;
+  color: #606266;
+  text-align: left;
+  font-size: 14px;
+}
+.leftDiv{
+  display: flex;
+  flex-wrap: wrap;
+}
+.leftDiv>div{
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.rightDiv{
+  display: flex;
+  margin-right: 10px;
+  height: 32px;
+}
 #state .el-select {
   width: 150px;
 }

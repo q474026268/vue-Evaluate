@@ -10,7 +10,7 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <el-col :span="8">
                         <el-form-item prop="evaluKind" label="评价类别" class="item">
                             <!-- <el-select style="width:220px" v-model="formData.evaluKind" placeholder="请选择" :disabled="Object.is(type,'view')">
                                 <el-option v-for="item in evaluKindOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -18,7 +18,7 @@
                             <label>{{formData.evaluKind}}</label>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="8">
                         <el-form-item prop="modelName" label="模板名称" class="item">
                             <!-- <el-input style="width:220px" v-model="formData.evaluPlan" placeholder="输入用户名" :disabled="Object.is(type,'view')"></el-input> -->
                             <label>{{formData.modelName}}</label>
@@ -34,12 +34,12 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item prop="inputDate" label="制表时间" class="item">
-                            <el-date-picker v-model="formData.inputDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择制表时间" :disabled="Object.is(type,'view')"></el-date-picker>
+                            <el-date-picker style="width:100%;" v-model="formData.inputDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择制表时间" :disabled="Object.is(type,'view')"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item prop="emailDay" label="催办提前期" class="item">
-                            <label>{{formData.emailDay}}天</label>
+                            <el-input v-model="formData.emailDay" type="number" placeholder="" :disabled="Object.is(type,'view')"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -180,7 +180,7 @@ export default {
             deleteDetailData_index:[],
             deleteDetailData_evaluate:[],
             // 弹出窗口宽度
-            dialogWidth:"91%",
+            dialogWidth:"1200px",
         }
     },
     methods:{// 自定义方法

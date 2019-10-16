@@ -135,6 +135,8 @@ export default {
       } else {
         this.search(this.searchData);
       }
+      // table宽度重设
+      this.$parent.$refs['table'].$el.style=`width:${this.$tableWidth}px;`
     },
     clear() {
       this.searchData = {

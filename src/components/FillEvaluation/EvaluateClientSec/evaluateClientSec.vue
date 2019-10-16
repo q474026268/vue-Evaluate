@@ -27,6 +27,7 @@
         <el-table-column align="center" v-if="markType=='直接评价'" prop="TargetWeight" label="权重" width="60"></el-table-column>
         <el-table-column
           v-for="(item,index) in tableArr"
+          v-if="item.allOptional"
           align="center"
           :key="index"
           min-width="100"
@@ -127,9 +128,6 @@ export default {
         });
         this.tableArr[colIndex]['target'+(rowIndex+1)]=''
         return false
-      }
-      if (condition) {
-        
       }
     },
     // 参数提示
@@ -235,12 +233,22 @@ export default {
       evaluateContent(pkid, this.nowUserName).then(result => {
         this.bigData = result.data[0];
         this.tableArr = JSON.parse(result.data[0].fillHtml);
+        
         this.loading = false;
-      }),
         //获取哪几个指标
         getTargetItem(this.$route.query.modelPkid, this.nowUserName).then(result => {
           this.tableTarget = result.data;
+          this.tableArr.forEach(element => {
+            element.allOptional=false
+            this.tableTarget.forEach((item,index) => {
+              if (element['optional'+(index+1)]) {
+                element.allOptional=true
+                return false
+              }
+            });
+          });
         });
+      })
     }
   },
   mounted: function() {

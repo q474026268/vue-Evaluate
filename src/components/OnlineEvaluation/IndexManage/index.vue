@@ -39,6 +39,7 @@
           :row-style="{cursor:'pointer'}"
           :border="true"
           fit
+          :header-cell-style="{'height':'59px'}"
           highlight-current-row
           @row-click="openDetails"
           id="rightTableHeight"
@@ -523,16 +524,18 @@ export default {
 }
 
 .right_button {
-  margin-top: 0.7%;
-  margin-left: 50%;
-  height: 97px;
+  margin-top: 6px;
+  height: 32px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 69px;
 }
 #indexManageList .zToolBar{
-  position: absolute;
+  /* position: absolute; */
   top: 5px;
   right: 0px;
 }
-#indexManageList hr{
+/* #indexManageList hr{
   display: none;
-}
+} */
 </style>

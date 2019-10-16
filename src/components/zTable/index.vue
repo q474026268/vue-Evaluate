@@ -269,7 +269,7 @@ export default {
   watch: {}
 };
 </script>
-<style>
+<style scoped>
 .dataTable {
   height: 100%;
   position: relative;
@@ -300,6 +300,7 @@ hr{
   background: rgb(212, 217, 224);
   height: 1px;
   border:none;
+  margin-right: 10px;
 }
 </style>
 

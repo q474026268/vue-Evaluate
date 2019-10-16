@@ -27,7 +27,7 @@
             size="small"
           ></el-input>
         </el-form-item>
-        <el-form-item label="部门" label-width="50px">
+        <el-form-item label="部门">
           <el-input
             v-model="searchData.groupName"
             placeholder="部门"
@@ -114,6 +114,8 @@ export default {
       }
       console.log(this.searchData);
       this.search(this.searchData);
+      // table宽度重设
+      this.$parent.$refs['table'].$el.style=`width:${this.$tableWidth}px;`
     },
     clear() {
       // this.searchData.evaluKind = ""

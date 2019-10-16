@@ -83,6 +83,8 @@ export default {
     // 自定义方法
     searching() {
       this.search(this.searchData);
+      // table宽度重设
+      this.$parent.$refs['table'].$el.style=`width:${this.$tableWidth}px;`
     }
   },
   created: function() {

@@ -1,6 +1,7 @@
 <template>
   <div id="zTable" class="dataTable">
     <component :is="SearchPage"></component>
+    <hr>
     <div id="zToolBar" class="zToolBar">
       <el-button
         v-for="item in toolBarConfig.top"
@@ -279,7 +280,7 @@ export default {
   watch: {}
 };
 </script>
-<style>
+<style scoped>
 .dataTable {
   height: 100%;
   position: relative;
@@ -297,9 +298,20 @@ export default {
   background: #fdfdfd;
 }
 .zToolBar {
-  position: absolute;
+  /* position: absolute; */
   top: 5px;
   right: 20px;
+}
+hr{
+  background: rgb(212, 217, 224);
+  height: 1px;
+  border:none;
+  margin-right: 10px;
+}
+.zToolBar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0px 10px 10px 0px;
 }
 </style>
 

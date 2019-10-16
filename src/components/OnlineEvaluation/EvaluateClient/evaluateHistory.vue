@@ -34,12 +34,12 @@
               <label>{{formData.levelType}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item prop="markType" label="打分方式 :" class="item">
               <label>{{formData.markType}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item prop="evaluKind" label="评价类别 :" class="item">
               <label>{{formData.evaluKind}}</label>
             </el-form-item>
@@ -49,7 +49,7 @@
               <label>{{formData.inputerFullName}}</label>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item prop="inputDate" label="制表时间 :" class="item">
               <label>{{formData.inputDate}}</label>
             </el-form-item>
@@ -59,105 +59,13 @@
           </el-form-item>
           <el-form-item prop="modelPkid" v-show="false"></el-form-item>
         </el-row>
-        <div v-show="false">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item prop="targetCount" label="指标个数">
-                <label>{{formData.targetCount}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="planPkid" label="计划评价表PKID">
-                <label>{{planPkid}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="emailDay" label="催办提前期">
-                <label>{{emailDay}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="7">
-              <el-form-item prop="doFullName" label="评价人姓名">
-                <label>{{formData.doFullName}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item prop="doUserCount" label="评价人数">
-                <label>{{formData.doUserCount}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item prop="donoFullName" label="被评价人姓名">
-                <label>{{formData.donoFullName}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item prop="doneUserCount" label="被评价人数">
-                <label>{{formData.doneUserCount}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="6">
-              <el-form-item prop="inputFullName" label="制表人名称">
-                <label>{{formData.inputFullName}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="groupId" label="部门Id">
-                <label>{{formData.groupId}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="groupFullId" label="部门全路径Id">
-                <label>{{formData.groupFullId}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="groupName" label="部门名称">
-                <label>{{formData.groupName}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="6">
-              <el-form-item prop="eidtFlag" label="是否在过程跟踪中调整" label-width="160px">
-                <label>{{formData.eidtFlag}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="fillNum" label="完整的填表人数" label-width="160px">
-                <label>{{formData.fillNum}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="finishDate" label="完成时间">
-                <label>{{formData.finishDate}}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="flag" label="flag">
-                <label>{{formData.flag}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-form-item label="state">
-                <label>{{formData.state}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-form-item label="deptName">
-                <label>{{formData.deptName}}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </div>
+        <el-row>
+          <el-col :span="4">
+            <el-form-item prop="emailDay" label="催办提前期" class="item">
+              <el-input type="number" v-model="emailDay" size="mini"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <el-table ref="multipleTable" :data="dataTable" tooltip-effect="dark" style="width: 100%">
         <el-table-column prop="doFullName" label="评价人" width="100" align="center"></el-table-column>
@@ -172,9 +80,31 @@
         </el-table-column>
       </el-table>
       <div id="toolbar" class="toolbar" slot="footer" v-show="!Object.is(type,'view')">
-        <el-button @click="handout('formData',0)" type="primary" v-loading="loading">分发</el-button>
+        <el-button @click="handout('formData',0)" type="primary">分发</el-button>
         <el-button @click="handout('formData',1)" type="primary">暂存</el-button>
         <el-button @click="close" icon="el-icon-close">取消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="发送通知" width="700px" :visible.sync="dialogFormVisible">
+      <div class='itemDiv'>
+        <span class="labelSpan">邮件标题</span>
+        <el-input v-model="subject"></el-input>
+      </div>
+      <div class='itemDiv'>
+        <span class="labelSpan">邮件内容</span>
+        <el-input
+          type="textarea"
+          placeholder=""
+          v-model="text"
+          maxlength="30"
+          show-word-limit
+          rows='4'
+        >
+        </el-input>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sendMail">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -233,9 +163,14 @@ export default {
       // 明细数据
       formDataDetail: [],
       // 弹出窗口宽度
-      dialogWidth: "70%",
+      dialogWidth: "1200px",
       //存储的targetName,ModelPkid,targetPkid
-      index: []
+      index: [],
+      dialogFormVisible:false,
+      // 邮件标题
+      subject:'',
+      // 邮件内容
+      text:''
     };
   },
   methods: {
@@ -277,11 +212,20 @@ export default {
         }
       });
     },
+    // 发送邮件
+    sendMail(){
 
+    },
     // 分发 暂存
     handout(formName, mark) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if (this.emailDay=='' || !this.emailDay) {
+            this.$message({
+              message: '请填写催办提前期',
+              type: 'warning'
+            });
+          }
           // 指标数据
           let targetName = this.formData.targetName.split(",");
           let targetPkid = this.formData.targetPkid.split(",");
@@ -319,30 +263,33 @@ export default {
           // 主表数据
           if (mark == 0) {
             this.formData.state = "开始";
+            this.dialogFormVisible=true
           } else {
             this.formData.state = "暂存";
           }
+          this.formData.emailDay=this.emailDay
           let data = this.formData;
           data["headChildrens"] = Array.from(headChildrens);
           data["listChildrens"] = Array.from(listChildrens);
           console.log(data);
-          const loading = this.$loading({
-            lock: true,
-            text: "保存数据中,请稍等",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
-          save(data).then(res => {
-            if (res.status == 200) {
-              loading.close();
-              this.$message({
-                message: "保存成功",
-                type: "success"
-              });
-              this.$store.state.handout.callback();
-              this.close();
-            }
-          });
+          debugger
+          // const loading = this.$loading({
+          //   lock: true,
+          //   text: "保存数据中,请稍等",
+          //   spinner: "el-icon-loading",
+          //   background: "rgba(0, 0, 0, 0.7)"
+          // });
+          // save(data).then(res => {
+          //   if (res.status == 200) {
+          //     loading.close();
+          //     this.$message({
+          //       message: "保存成功",
+          //       type: "success"
+          //     });
+          //     this.$store.state.handout.callback();
+          //     this.close();
+          //   }
+          // });
         }
       });
     }
@@ -376,6 +323,7 @@ export default {
       getCurrentEvaluate().then(res => {
         if (res.status == 200) {
           this.planPkid = res.data.pkid;
+          // 催办提前期
           this.emailDay = res.data.emailDay;
           this.evaluPlan=res.data.evaluPlan;
         }
@@ -384,8 +332,6 @@ export default {
         this.formData.planPkid = this.planPkid;
         //模板pKid
         this.formData.modelPkid = this.$route.query.modelPkid;
-        //预警提前期
-        this.formData.emailDay = this.emailDay;
         this.formData.planName=this.evaluPlan;
       });
       //评价指标列表数据
@@ -488,5 +434,15 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+.itemDiv{
+  display: flex;
+  align-items: center;
+}
+.itemDiv:first-child{
+  margin-bottom: 20px;
+}
+.labelSpan{
+  width: 100px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="search">
-    <el-form
+    <!-- <el-form
       :inline="true"
       :model="searchData"
       label-position="left"
@@ -35,7 +35,39 @@
         </el-form-item>
         <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
       </div>
-    </el-form>
+    </el-form> -->
+    <div class="leftDiv">
+      <div>
+        <span class="labelSpan">评价类别</span>
+        <el-select size="small" v-model="searchData.evaluKind" placeholder="评价类别" style="width:160px;">
+          <el-option
+            v-for="item in evaluKindOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div>
+        <span class="labelSpan">指标名称</span>
+        <el-input size="small" v-model="searchData.targetName" placeholder="指标名称" style="width:160px;"></el-input>
+      </div>
+      <div>
+        <span class="labelSpan">状态</span>
+        <el-select size="small" v-model="searchData.flag" placeholder="状态" style="width:160px;">
+          <el-option
+            v-for="item in flagOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+    </div>
+    <div class="rightDiv">
+        <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
+        <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -85,13 +117,30 @@ export default {
 </script>
 <style lang="scss" scoped>
 #search {
-  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.labelSpan{
+  display: inline-block;
+  width: 70px;
+  color: #606266;
+  text-align: left;
+  font-size: 14px;
+}
+.leftDiv{
   display: flex;
   flex-wrap: wrap;
-  text-align: center;
-  > div {
-    display: flex;
-    justify-content: space-between;
-  }
+}
+.leftDiv>div{
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.rightDiv{
+  margin-right: 10px;
+  display: flex;
+  height: 32px;
 }
 </style>

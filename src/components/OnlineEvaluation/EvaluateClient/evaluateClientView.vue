@@ -295,7 +295,7 @@ export default {
             datas[this.number].doneFullArr[i - 1]["optional" + (j + 1)];
         }
       }
-      debugger
+      
       for (let i = 1; i < this.tableColumn.length; i++) {
         this.tableColumn[i].allOptional=true
         this.tData.forEach((item,index) => {
@@ -305,8 +305,7 @@ export default {
           }
         });
       }
-      debugger
-
+      
       this.tData.forEach((item,index) => {
         item.allOptional=true
         for (let i = 1; i < this.tableColumn.length; i++) {
@@ -316,7 +315,6 @@ export default {
           }
         }
       });
-      debugger
     }
 
   },

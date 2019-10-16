@@ -92,6 +92,13 @@
                 size="mini"
                 title="添加行"
               ></el-button>
+              <ecidi-user-selector
+                v-model="userFullnameObj"
+                :disabled="viewState=='view' || peopleDisabled"
+                :url="chosePeopleOrDept"
+                @change="peopleChange"
+                width="200px"
+              ></ecidi-user-selector>
             </div>
           </div>
           <el-table :data="formDataDetail_group" style="width: 100%;" border height="360">
@@ -244,6 +251,8 @@ export default {
   data: function() {
     // 自定义变量
     return {
+      // 选人选部门IP
+      chosePeopleOrDept:this.$chosePeopleOrDept,
       formRules: Rules,
       // 表单类型 add(添加) modify(修改) view(查看)
       type: "",

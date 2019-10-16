@@ -53,6 +53,7 @@ export default {
           id: "evaluKind",
           text: "评价类别",
           align: "center",
+          width: 60,
           sortable: true
         },
         {
@@ -65,7 +66,7 @@ export default {
           id: "startDate",
           text: "开始时间",
           align: "center",
-          width: 90,
+          width: 40,
           sortable: true,
           formatter: function(row, column) {
             return formatDate(row.startDate);
@@ -75,7 +76,7 @@ export default {
           id: "endDate",
           text: "结束时间",
           align: "center",
-          width: 90,
+          width: 40,
           sortable: true,
           formatter: function(row, column) {
             return formatDate(row.endDate);
@@ -85,14 +86,14 @@ export default {
           id: "inputerFullName",
           text: "编制人",
           align: "center",
-          width: 80,
+          width: 50,
           sortable: true
         },
         {
           id: "flag",
           text: "状态",
           align: "center",
-          width: 40,
+          width: 20,
           sortable: true,
           formatter: function(row, column) {
             return planStates[row.flag].label;
@@ -348,5 +349,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -162,14 +162,14 @@ export default {
                                 // this.viewButtonClick(row[key],row.state);
                                 console.log(row);
                                 
-                                if(row.type==1 || row.State=='finish' || row.State=='consign'){
-                                    this.$message({
-                                        message: '根据该条目状态判定不可委托',
-                                        type: 'warning'
-                                    });
-                                }else{
+                                // if(row.type==1 || row.State=='finish' || row.State=='consign'){
+                                //     this.$message({
+                                //         message: '根据该条目状态判定不可委托',
+                                //         type: 'warning'
+                                //     });
+                                // }else{
                                     this.$router.push({name:'evaluateConsign',query:{PlanName:row.PlanName,EvaluateId:row.EvaluateId,EvaluateListPKID:row.EvaluateListPKID}}); 
-                                }
+                                // }
                             }
                         },
                         {

@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import EcidiComponents from 'ecidi-components'
+import 'ecidi-components/lib/ecidi.css'
 import App from './App'
 import router from './common/router'
 import './utils/veeValidate.js'
@@ -13,8 +15,12 @@ import echarts from 'echarts' //引入echarts
 import 'echarts/theme/macarons.js'//引入echarts的主题
 import { getNowLoginPerson } from './api/loginApi'
 Vue.prototype.$echarts = echarts //引入组件
-
+let tableWidth=(document.documentElement.scrollWidth>document.documentElement.clientWidth) ? document.documentElement.scrollWidth : document.documentElement.scrollWidth
+Vue.prototype.$tableWidth = tableWidth-145
+// 选人、选部门控件Ip地址
+Vue.prototype.$chosePeopleOrDept = 'http://10.215.136.245:17200'
 Vue.use(ElementUI)
+Vue.use(EcidiComponents)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
