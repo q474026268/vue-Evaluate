@@ -1,9 +1,9 @@
-import request from '@/utils/requestXm'
+import request from '@/utils/request'
 
 // 保存委托信息
 export function saveConsignInfo(data){
   return request({
-      url: '/evaluateClientList/saveConsignInfo',
+      url: '/evaluateClientList/save',
       data:JSON.stringify(data),
       method: 'POST',
       transformRequest: [(data) => {

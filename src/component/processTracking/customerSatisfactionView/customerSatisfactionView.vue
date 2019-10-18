@@ -190,6 +190,7 @@ export default {
         this.inputDate=this.$route.query.inputDate.substring(0,10);
         clientList(this.$route.query.id).then((result) => {
             this.tableData=result.data
+            debugger
             for(let i=0;i<this.tableData.length;i++){
                 this.tableData[i].inputDate=this.tableData[i].inputDate.substring(0,10);
                 switch (this.tableData[i].state){

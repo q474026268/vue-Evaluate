@@ -44,7 +44,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 140px)",
+        tableHeight: "calc(100% - 148px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
         opertionColumnWidth:65
@@ -86,7 +86,7 @@ export default {
           width: 80,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.inputDate);
+            return row.inputDate.substring(0,10)
           }
         },
         {
@@ -147,7 +147,8 @@ export default {
                     levelType:row.levelType,
                     startDate:row.inputDate,
                     pkid:row.pkid,
-                    id:row.id,
+                    id:row.modelPkid,
+                    markType:row.markType,
                     look:'true'
                   }
                 })

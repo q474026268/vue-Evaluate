@@ -32,7 +32,7 @@
                 v-model="formData.levelType"
                 placeholder="请选择"
                 :disabled="Object.is(type,'view')"
-                :change="levelTypeChange()"
+                @change="levelTypeChange"
               >
                 <el-option
                   v-for="item in levelTypeOptions"
@@ -93,10 +93,11 @@
                 title="添加行"
               ></el-button>
               <ecidi-user-selector
-                v-model="userFullnameObj"
-                :disabled="viewState=='view' || peopleDisabled"
+                v-model="bpjrArr"
+                v-show="false"
+                multiple
                 :url="chosePeopleOrDept"
-                @change="peopleChange"
+                @change="bpjChange"
                 width="200px"
               ></ecidi-user-selector>
             </div>
@@ -107,12 +108,12 @@
                 <label>{{ scope.$index+1 }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="员工号">
+            <el-table-column width="90" align="center" label="员工号">
               <template slot-scope="scope">
                 <label>{{ scope.row.doneUserNo }}</label>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="姓名">
+            <el-table-column width="90" align="center" label="姓名">
               <template slot-scope="scope">
                 <label>{{ scope.row.doneFullName }}</label>
               </template>
@@ -169,6 +170,14 @@
                 title="添加行"
                 :disabled="!showOperation()"
               ></el-button>
+              <ecidi-user-selector
+                v-model="pjrArr"
+                multiple
+                v-show="false"
+                :url="chosePeopleOrDept"
+                @change="pjChange"
+                width="200px"
+              ></ecidi-user-selector>
             </div>
           </div>
           <el-table :data="formDataDetail_evaluate" style="width: 100%;" border height="360">
@@ -260,6 +269,10 @@ export default {
       id: "",
       // 主表数据
       formData: {},
+      // 被评价人数组
+      bpjrArr:[],
+      // 评价人数组
+      pjrArr:[],
       // 明细数据
       formDataDetail_group: [],
       formDataDetail_index: [],
@@ -283,6 +296,42 @@ export default {
     //关闭窗口返回的页面
     close() {
       this.$router.push("/evaluateModelListStaff");
+    },
+    bpjChange(){
+      this.formDataDetail_group=[]
+      this.bpjrArr.forEach(element => {
+        let departArr=element.deptPathName.split('-')
+        let departStr=departArr[departArr.length-1]
+        this.formDataDetail_group.push({groupName:departStr,departmentNo:element.departmentNo,doneUserNo:element.userNo,doneFullName:element.name,userName:element.userName})
+      });
+      //将被评价人明细数据存储到VueX中
+      let group = this.formDataDetail_group;
+      this.$store.commit("setGroup", group);
+      if (this.formData.levelType == "互评") {
+        this.formDataDetail_evaluate=[]
+        let arr = [];
+        this.formDataDetail_group.forEach(element => {
+          arr.push({
+            doFullName: element.doneFullName,
+            userNo: element.doneUserNo,
+            groupName: element.groupName,
+            doUserName: element.userName
+          });
+        });
+        this.$store.commit("setEvaluates", arr);
+        this.formDataDetail_evaluate = this.$store.state.evaluates;
+      }
+    },
+    pjChange(){
+      this.formDataDetail_evaluate=[]
+      this.pjrArr.forEach(element => {
+        let departArr=element.deptPathName.split('-')
+        let departStr=departArr[departArr.length-1]
+        this.formDataDetail_evaluate.push({groupName:departStr,departmentNo:element.departmentNo,userNo:element.userNo,doFullName:element.name,doUserName:element.userName})
+      });
+      //将被评价人明细数据存储到VueX中
+      let group = this.formDataDetail_evaluate;
+      this.$store.commit("setGroup", group);
     },
     //获取从selectDepart中查询到的数据存放
     departDialogCallback(data) {
@@ -319,6 +368,7 @@ export default {
       //将被评价人明细数据存储到VueX中
       let group = this.formDataDetail_group;
       this.$store.commit("setGroup", group);
+      debugger
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
     userDialogCallback(data) {
@@ -334,13 +384,15 @@ export default {
       //将评价人明细数据存储到VueX中
       let evaluate = this.formDataDetail_evaluate;
       this.$store.commit("setEvaluate", evaluate);
+      debugger
     },
     // 被评价人添加行
     addDetailRow_group() {
       if (this.formData.levelType == undefined) {
         this.$message.error("请先选择评价方式");
       } else {
-        this.$refs.depart.open();
+        // this.$refs.depart.open();
+        document.getElementsByClassName('el-icon-circle-plus-outline')[0].click()
       }
     },
     //指标添加行
@@ -354,25 +406,20 @@ export default {
       } else if (this.formData.levelType == "互评") {
         this.$message.error("请选择被评价人");
       } else {
-        this.$refs.user.open();
+        // this.$refs.user.open();
+        document.getElementsByClassName('el-icon-circle-plus-outline')[1].click()
       }
     },
     // 被评价人删除行
     handleDelete_group(index, row) {
       if (this.formData.levelType == "互评") {
         this.formDataDetail_group.splice(index, 1);
-        this.deleteDetailData_group.push(
-          Object.assign(row, { doType: "delete" })
-        );
+        this.bpjrArr.splice(index,1);
         this.formDataDetail_evaluate.splice(index, 1);
-        this.deleteDetailData_evaluate.push(
-          Object.assign(row, { doType: "delete" })
-        );
+        this.pjrArr.splice(index,1);
       } else {
         this.formDataDetail_group.splice(index, 1);
-        this.deleteDetailData_group.push(
-          Object.assign(row, { doType: "delete" })
-        );
+        this.bpjrArr.splice(index,1);
       }
       let group = this.formDataDetail_group;
       this.$store.commit("setGroup", group);
@@ -387,9 +434,7 @@ export default {
     //评价人删除行
     handleDelete_evaluate(index, row) {
       this.formDataDetail_evaluate.splice(index, 1);
-      this.deleteDetailData_evaluate.push(
-        Object.assign(row, { doType: "delete" })
-      );
+      this.pjrArr.splice(index,1);
       let evaluate = this.formDataDetail_evaluate;
       this.$store.commit("setEvaluate", evaluate);
     },
@@ -456,6 +501,10 @@ export default {
     //评价方式改变
     levelTypeChange() {
       let data = this.formData.levelType;
+      this.bpjrArr=[]
+      this.pjrArr=[]
+      this.formDataDetail_group=[]
+      this.formDataDetail_evaluate=[]
       this.$store.commit("setLeaveType", data);
     }
   },
@@ -526,7 +575,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .evaluate-config {
   width: 100%;
   height: 400px;

@@ -69,6 +69,28 @@
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
+    <el-dialog :close-on-click-modal='false' title="设置催办邮件信息" width="700px" :visible.sync="dialogFormVisible">
+      <div class='itemDiv'>
+        <span class="labelSpan">邮件标题</span>
+        <el-input v-model="emailSubject"></el-input>
+      </div>
+      <div class='itemDiv'>
+        <span class="labelSpan">邮件内容</span>
+        <el-input
+        type="textarea"
+        placeholder=""
+        v-model="emailContent"
+        maxlength="200"
+        show-word-limit
+        rows='4'
+        >
+        </el-input>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="sendMail">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -110,6 +132,11 @@ export default {
       type: "",
       // 主表主键值
       id: "",
+      dialogFormVisible:false,
+      // 邮件标题
+      emailSubject:'',
+      // 邮件内容
+      emailContent:'',
       // 主表数据
       formData: {},
       // 明细数据
@@ -198,8 +225,11 @@ export default {
     },
     // 分发
     handout() {
+      this.dialogFormVisible=true
+    },
+    sendMail(){
       //保存开始计划
-      saveStartPlan(this.id).then(res => {
+      saveStartPlan(this.id,this.emailSubject,this.emailContent).then(res => {
         if (res.status == 200) {
           this.$message({
             message: "分发成功",
@@ -249,5 +279,15 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+.itemDiv{
+  display: flex;
+  align-items: center;
+}
+.itemDiv:first-child{
+  margin-bottom: 20px;
+}
+.labelSpan{
+  width: 100px;
+}
 </style>

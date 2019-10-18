@@ -85,26 +85,26 @@
         <el-button @click="close" icon="el-icon-close">取消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="发送通知" width="700px" :visible.sync="dialogFormVisible">
+    <el-dialog :close-on-click-modal='false' title="设置催办邮件信息" width="700px" :visible.sync="dialogFormVisible">
       <div class='itemDiv'>
         <span class="labelSpan">邮件标题</span>
-        <el-input v-model="subject"></el-input>
+        <el-input v-model="emailSubject"></el-input>
       </div>
       <div class='itemDiv'>
         <span class="labelSpan">邮件内容</span>
         <el-input
           type="textarea"
           placeholder=""
-          v-model="text"
-          maxlength="30"
+          v-model="emailContent"
+          maxlength="200"
           show-word-limit
           rows='4'
         >
         </el-input>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="sendMail">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -168,9 +168,9 @@ export default {
       index: [],
       dialogFormVisible:false,
       // 邮件标题
-      subject:'',
+      emailSubject:'',
       // 邮件内容
-      text:''
+      emailContent:''
     };
   },
   methods: {
@@ -214,7 +214,65 @@ export default {
     },
     // 发送邮件
     sendMail(){
+      // 指标数据
+      let targetName = this.formData.targetName.split(",");
+      let targetPkid = this.formData.targetPkid.split(",");
+      let headChildrens = [];
+      for (let i = 0; i < this.formData.targetCount; i++) {
+        headChildrens.push({
+          targetName: targetName[i],
+          targetPKID: targetPkid[i]
+        });
+      }
+      // 评价人与被评价人数据
+      let evaluate = this.$store.state.data.evaluate;
+      for (let i = 0; i < evaluate.length; i++) {
+        this.dataTable[i].doneFullArr = this.$store.state.clientView[
+          i
+        ].doneFullArr;
+      }
+      let listChildrens = [];
+      for (let i = 0; i < this.dataTable.length; i++) {
+        listChildrens.push({
+          doFullName: this.dataTable[i].doFullName,
+          doneFullArr: [],
+          doneFullName: this.dataTable[i].doneFullName,
+          deptName: this.dataTable[i].groupName,
+          targetName: this.dataTable[i].targetName,
+          doUserNo: this.dataTable[i].userNo,
+          doUserName: this.$store.state.data.evaluate[i].doUserName
+        });
+      }
+      for (let i = 0; i < this.dataTable.length; i++) {
+        listChildrens[i].doneFullArr = JSON.stringify(
+          this.dataTable[i].doneFullArr
+        );
+      }
 
+      this.formData.emailDay=this.emailDay
+      let data = this.formData;
+      data["headChildrens"] = Array.from(headChildrens);
+      data["listChildrens"] = Array.from(listChildrens);
+      console.log(data);
+      data.emailSubject=this.emailSubject
+      data.emailContent=this.emailContent
+      const loading = this.$loading({
+        lock: true,
+        text: "保存数据中,请稍等",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      save(data).then(res => {
+        if (res.status == 200) {
+          loading.close();
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+          this.$store.state.handout.callback();
+          this.close();
+        }
+      });
     },
     // 分发 暂存
     handout(formName, mark) {
@@ -266,30 +324,29 @@ export default {
             this.dialogFormVisible=true
           } else {
             this.formData.state = "暂存";
+            this.formData.emailDay=this.emailDay
+            let data = this.formData;
+            data["headChildrens"] = Array.from(headChildrens);
+            data["listChildrens"] = Array.from(listChildrens);
+            console.log(data);
+            const loading = this.$loading({
+              lock: true,
+              text: "保存数据中,请稍等",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            save(data).then(res => {
+              if (res.status == 200) {
+                loading.close();
+                this.$message({
+                  message: "保存成功",
+                  type: "success"
+                });
+                this.$store.state.handout.callback();
+                this.close();
+              }
+            });
           }
-          this.formData.emailDay=this.emailDay
-          let data = this.formData;
-          data["headChildrens"] = Array.from(headChildrens);
-          data["listChildrens"] = Array.from(listChildrens);
-          console.log(data);
-          debugger
-          // const loading = this.$loading({
-          //   lock: true,
-          //   text: "保存数据中,请稍等",
-          //   spinner: "el-icon-loading",
-          //   background: "rgba(0, 0, 0, 0.7)"
-          // });
-          // save(data).then(res => {
-          //   if (res.status == 200) {
-          //     loading.close();
-          //     this.$message({
-          //       message: "保存成功",
-          //       type: "success"
-          //     });
-          //     this.$store.state.handout.callback();
-          //     this.close();
-          //   }
-          // });
         }
       });
     }

@@ -4,12 +4,19 @@
         :visible.sync="dialogFormVisible"
         :before-close="handleClose" :close-on-click-modal="false">
             <h4>{{PlanName}}委托</h4>
-            <el-input
+            <!-- <el-input
                 @focus="iptFocus"
                 placeholder="请选择人选"
                 suffix-icon="el-icon-plus"
                 v-model="people">
-            </el-input>
+            </el-input> -->
+            <ecidi-user-selector
+            v-model="peopleArr"
+            multiple
+            :url="chosePeopleOrDept"
+            @change="peopleChange"
+            width="100%"
+            ></ecidi-user-selector>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
@@ -37,13 +44,29 @@ export default {
             title:'',
             people:'',
             data:[],
+            peopleArr:[],
+            // 选人选部门IP
+            chosePeopleOrDept:this.$chosePeopleOrDept,
         }
     },
     methods:{// 自定义方法
         handleClose(done) {
             this.$router.back();
         },
-
+        peopleChange(){
+            if (this.peopleArr.length>10) {
+                this.peopleArr.splice(10,this.peopleArr.length-10)
+                this.$message({
+                    message: '最多委托10人',
+                    type: 'warning'
+                });
+            }
+            this.peopleArr.forEach((item,index) => {
+                if (item.userName==this.$store.state.userInfo.userName) {
+                    this.peopleArr.splice(index,1)
+                }
+            });
+        },
         // 文本框获得焦点事件
         iptFocus(){
             this.$refs.selectSon.open();
@@ -66,21 +89,25 @@ export default {
         },
         confirm(){
             let apiData={};
-            apiData.doUserCount=this.data.length;
+            apiData.doUserCount=this.peopleArr.length;
             let doFullNameArr=[];
             let doUserNoArr=[];
-            
-            for(let i=0;i<this.data.length;i++){
-                doFullNameArr.push(this.data[i].name)
-                doUserNoArr.push(this.data[i].id)
+            let doFullUserNameArr=[];
+            for(let i=0;i<this.peopleArr.length;i++){
+                doFullNameArr.push(this.peopleArr[i].name)
+                doUserNoArr.push(this.peopleArr[i].userNo)
+                doFullUserNameArr.push(this.peopleArr[i].userName)
             }
+            let doFullUserNameStr=doFullUserNameArr.join(',');
             let doFullNameStr=doFullNameArr.join(',');
             let doUserNoStr=doUserNoArr.join(',');
             apiData.doFullName=doFullNameStr;
+            apiData.doFullUserName=doFullUserNameStr;
             apiData.doUserNo=doUserNoStr;
             apiData.evaluateId=this.$route.query.EvaluateId;
             apiData.evaluateListPKID=this.$route.query.EvaluateListPKID;
-            
+            apiData.evaluKind=this.$route.query.evaluKind;
+
             saveConsignInfo(apiData).then((result) => {
                 if(result.status==200){
                     this.$router.back();
@@ -124,5 +151,5 @@ export default {
     },
 }
 </script>
-<style scope>
+<style scoped>
 </style>

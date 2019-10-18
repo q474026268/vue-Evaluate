@@ -69,7 +69,7 @@ export default {
   updated: function() {}
 };
 </script>
-<style> 
+<style scoped> 
 #fillEvaluation {
   height: 100%;
   width: 100%;

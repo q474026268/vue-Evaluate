@@ -70,7 +70,7 @@ export default {
           width: 90,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.InputDate);
+            return row.InputDate.substring(0,10)
           }
         },
         {

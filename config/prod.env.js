@@ -7,6 +7,7 @@
     BASE_API: '"http://10.215.136.245:11330/"',
     USER_API:'"http://10.215.136.245:11200/"',
     LOGIN_API:'http://oa.simulate.com',
+    // 用户信息获取
     OVERSEA_LOGIN_API:'http://webproduce.simulate.com:8080',
     // 模拟
     COMMON_API : 'http://10.215.136.245:17200'

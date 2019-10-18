@@ -119,7 +119,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .remarkText{
     padding: 0 20px 0 20px;
 }

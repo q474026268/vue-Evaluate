@@ -41,7 +41,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 250px)",
+        tableHeight: "calc(100% - 240px)",
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
         //操作列宽
@@ -91,7 +91,7 @@ export default {
           width: 110,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.inputDate);
+            return row.inputDate.substring(0,10)
           }
         },
         {

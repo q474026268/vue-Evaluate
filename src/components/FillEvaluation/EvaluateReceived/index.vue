@@ -44,7 +44,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 140px)",
+        tableHeight: "calc(100% - 148px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
         opertionColumnWidth:130
@@ -86,7 +86,7 @@ export default {
           width: 80,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.inputDate);
+            return row.inputDate.substring(0,10)
           }
         },
         {
@@ -133,21 +133,46 @@ export default {
               icon:"el-icon-edit",
               click:(row) => {
                 console.log(row);
-                this.$store.commit("setData",{callback:this.dialogCallback})
-                this.$router.push({
-                  name:'EvaluateClientSecEditStaff',
-                  query:{
-                    evaluKind:row.evaluKind,
-                    evaluateTname:row.evaluateTname,
-                    levelType:row.levelType,
-                    startDate:row.inputDate,
-                    pkid:row.id,
-                    markType:row.markType,
-                    modelPkid:row.modelPkid,
-                  }
-                })
+                if(row.type==0){
+                  this.$store.commit("setData",{callback:this.dialogCallback})
+                  this.$router.push({
+                    name:'EvaluateClientSecEditStaff',
+                    query:{
+                      evaluKind:row.evaluKind,
+                      evaluateTname:row.evaluateTname,
+                      levelType:row.levelType,
+                      startDate:row.inputDate,
+                      pkid:row.id,
+                      markType:row.markType,
+                      modelPkid:row.modelPkid,
+                    }
+                  })
+                }else{
+                  this.$message({
+                    message: '该条目已经委托给他人填写',
+                    type: 'warning'
+                  });
+                }
               }
-          },
+            },
+            {
+              id:"wt",
+              text:"委托",
+              icon:"el-icon-caret-right",
+              click:(row) => {
+                this.$store.commit("setData",{callback:this.dialogCallback})
+                // this.viewButtonClick(row[key],row.state);
+                console.log(row);
+                if(row.type==1 || row.state!='待填'){
+                    this.$message({
+                        message: '该条目不可委托',
+                        type: 'warning'
+                    });
+                }else{
+                    this.$router.push({name:'ygEvaluateConsign',query:{PlanName:row.planName,EvaluateId:row.id,EvaluateListPKID:row.pkid,evaluKind:'员工达优'}}); 
+                }
+              }
+            },
           ],
           // 下拉显示
           dropdown: []
@@ -192,7 +217,6 @@ export default {
     // 请求列表数据之前
     beforeGetListData(currentPage,pageSize,order,filters){
         filters.loginUser=this.$store.state.userInfo.userName;
-        filters.state='待填';
     },
     /**
      * 点击全选的checkbox触发

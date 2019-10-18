@@ -220,14 +220,23 @@ export default {
     let id = this.$route.query.id;
     if (this.look) {
       getDeatailList(pkid).then(result => {
-        this.bigData = result.data;
+        // this.bigData = result.data;
         this.tableArr = result.data;
         this.loading = false;
-      }),
         //获取哪几个指标
         getTargetItem(id, this.nowUserName).then(result => {
           this.tableTarget = result.data;
+          this.tableArr.forEach(element => {
+            element.allOptional=false
+            this.tableTarget.forEach((item,index) => {
+              if (element['target'+(index+1)]!=null || element['target'+(index+1)]!='0') {
+                element.allOptional=true
+                return false
+              }
+            });
+          });
         });
+      })
     } else {
       // 获取人物内具体指标
       evaluateContent(pkid, this.nowUserName).then(result => {
@@ -265,7 +274,7 @@ export default {
   }
 };
 </script>
-<style scope>
+<style scoped>
 .blockDiv {
   display: flex;
   margin-bottom: 15px;

@@ -37,7 +37,7 @@ export default {
         return {
             // 列表的其他配置
             tableBaseConfig:{
-                tableHeight:'calc(100% - 125px)',
+                tableHeight:'calc(100% - 148px)',
             },
             // 列表配置
             tableColumnConfig:[
@@ -76,7 +76,7 @@ export default {
                     width:80,
                     sortable:true,
                     formatter:function(row,column){
-                        return formatDate(row.InputDate);
+                        return row.InputDate.substring(0,10)
                     }
                 },
                 {
@@ -87,7 +87,7 @@ export default {
                     sortable:true,
                     formatter:function(row,column){
                         if(row.FinishDate != null){
-                            return formatDate(row.FinishDate);
+                            return row.FinishDate.substring(0,10)
                         }else{
                             return '未完成'
                         }
@@ -127,9 +127,9 @@ export default {
                             icon:"el-icon-edit",
                             click:(row) => {
                                 console.log(row);
-                                if(row.State=='finish' || row.State=='consign'){
+                                if(row.State=='finish' || row.type==1){
                                     this.$message({
-                                        message: '根据该条目状态判定不可填写',
+                                        message: '该条目不可填写',
                                         type: 'warning'
                                     });
                                 }else{
@@ -162,14 +162,14 @@ export default {
                                 // this.viewButtonClick(row[key],row.state);
                                 console.log(row);
                                 
-                                // if(row.type==1 || row.State=='finish' || row.State=='consign'){
-                                //     this.$message({
-                                //         message: '根据该条目状态判定不可委托',
-                                //         type: 'warning'
-                                //     });
-                                // }else{
-                                    this.$router.push({name:'evaluateConsign',query:{PlanName:row.PlanName,EvaluateId:row.EvaluateId,EvaluateListPKID:row.EvaluateListPKID}}); 
-                                // }
+                                if(row.type==1 || row.State!='start'){
+                                    this.$message({
+                                        message: '该条目不可委托',
+                                        type: 'warning'
+                                    });
+                                }else{
+                                    this.$router.push({name:'evaluateConsign',query:{PlanName:row.PlanName,EvaluateId:row.EvaluateId,EvaluateListPKID:row.EvaluateListPKID,evaluKind:'内部顾客'}}); 
+                                }
                             }
                         },
                         {

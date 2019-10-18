@@ -83,11 +83,13 @@ export function getSaveTableList(id,DoFullName) {
     })
 }
 
-export function saveStartPlan(id) {
+export function saveStartPlan(id,emailSubject,emailContent) {
     return request({
         url: '/evaluateHandoutHistory/startPlan',
         data: {
-            id
+            id,
+            emailSubject,
+            emailContent
         },
         method: 'POST'
     })

@@ -46,29 +46,31 @@
            </el-form>
            <div class="evaluate-config">
                <div class="area evaluate-config-left">
-                    <div>
+                    <div style="height:38px;">
                         <span class="detail_title">被评价部门</span>
-                        <div class="detail_toolbar" v-show="!Object.is(type,'view')">
+                        <!-- <div class="detail_toolbar" v-show="!Object.is(type,'view')">
                             <el-button type="primary" @click="addDetailRow_group" icon="el-icon-plus" size="mini" title="添加行"></el-button>
-                        </div>
+                            <ecidi-org-selector @change="departChange" v-model="groupNameArr"  :url="chosePeopleOrDept" multiple width="612px"></ecidi-org-selector>
+                        </div> -->
                     </div>
-                    <el-table :data="formDataDetail_group" style="width: 100%;" border height="360">
+                    <!-- <el-table :data="formDataDetail_group" style="width: 100%;" border height="360">
                         <el-table-column align="center" label="序号" width="50">
                             <template slot-scope="scope">
                                 <label>{{ scope.$index+1 }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="部门" width="180">
+                        <el-table-column align="center" label="部门">
                             <template slot-scope="scope">
                                 <label>{{ scope.row.name }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="操作" min-width="40">
+                        <el-table-column align="center" label="操作" width="80">
                             <template slot-scope="scope">
                                 <el-button :disabled="Object.is(type,'view')" size="mini" type="danger" @click="handleDelete_group(scope.$index, scope.row)" icon="el-icon-delete" title="删除"></el-button>
                             </template>
                         </el-table-column>
-                    </el-table>
+                    </el-table> -->
+                    <ecidi-org-selector :disabled="type=='view'" style="width:100%;" @change="departChange" v-model="groupNameArr"  :url="chosePeopleOrDept" multiple width="612px"></ecidi-org-selector>
                </div>
                <div class="area evaluate-config-center">
                    <div style="position: relative;">
@@ -97,6 +99,14 @@
                         <div class="detail_toolbar" v-show="!Object.is(type,'view')">
                             <el-button type="primary" @click="addDetailRow_evaluate" icon="el-icon-plus" size="mini" title="添加行"></el-button>
                         </div>
+                        <ecidi-user-selector
+                            v-model="bpjrArr"
+                            multiple
+                            v-show="false"
+                            :url="chosePeopleOrDept"
+                            @change="bpjChange"
+                            width="200px"
+                        ></ecidi-user-selector>
                    </div>
                     <el-table :data="formDataDetail_evaluate" style="width: 100%;" border height="360">
                         <el-table-column align="center" label="序号" width="50">
@@ -105,25 +115,25 @@
                                 <label>{{ scope.$index+1 }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="员工号" width="70">
+                        <el-table-column align="center" label="员工号" width="90">
                             <template slot-scope="scope">
                                 <!-- <el-input size="mini" v-model="scope.row.id" :disabled="Object.is(type,'view')"></el-input> -->
                                 <label>{{ scope.row.doUserNo }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="姓名" width="80">
+                        <el-table-column align="center" label="姓名" width="90">
                             <template slot-scope="scope">
                                 <!-- <el-input size="mini" v-model="scope.row.name" :disabled="Object.is(type,'view')"></el-input> -->
                                 <label>{{ scope.row.doFullName }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="部门" width="80">
+                        <el-table-column align="center" label="部门">
                             <template slot-scope="scope">
                                 <!-- <el-input size="mini" v-model="scope.row.groupName" :disabled="Object.is(type,'view')"></el-input> -->
                                 <label>{{ scope.row.groupName }}</label>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="操作" min-width="40">
+                        <el-table-column align="center" label="操作" width="80">
                             <template slot-scope="scope">
                                 <el-button :disabled="Object.is(type,'view')" size="mini" type="danger" @click="handleDelete_evaluate(scope.$index, scope.row)" icon="el-icon-delete" title="删除"></el-button>
                             </template>
@@ -162,6 +172,12 @@ export default {
     },
     data:function(){// 自定义变量
         return {
+            // 选人选部门IP
+            chosePeopleOrDept:this.$chosePeopleOrDept,
+            // 部门Arr
+            groupNameArr:[],
+            // 被评价人Arr
+            bpjrArr:[],
             formRules:Rules,
             // 表单类型 add modify view
             type:'',
@@ -180,7 +196,7 @@ export default {
             deleteDetailData_index:[],
             deleteDetailData_evaluate:[],
             // 弹出窗口宽度
-            dialogWidth:"1200px",
+            dialogWidth:"91%",
         }
     },
     methods:{// 自定义方法
@@ -197,8 +213,29 @@ export default {
                 this.$router.back();
             }
         },
+        departChange(){
+            this.formDataDetail_group=[]
+            this.groupNameArr.forEach(element => {
+                this.formDataDetail_group.push({doneFullId:element.id,name:element.label})
+            });
+            console.log(this.groupNameArr);
+            const obj = {}
+            const newObjArr = []
+            let have=false
+            for(let i = 0; i < this.groupNameArr.length; i++){
+                if(!obj[this.groupNameArr[i].id]){
+                    newObjArr.push(this.groupNameArr[i]);
+                    obj[this.groupNameArr[i].id] = true
+                }else{
+                    have=true
+                }
+            }
+            if (have) {
+                this.groupNameArr=newObjArr
+            }
+            
+        },
         departDialogCallback(data){
-            // debugger
             // this.formDataDetail_group = [...this.formDataDetail_group,...data];
             data.forEach(item => {
                 let have=false
@@ -212,6 +249,14 @@ export default {
                 }
             });
         },
+        bpjChange(){
+            this.formDataDetail_evaluate=[]
+            this.bpjrArr.forEach(element => {
+                let departArr=element.deptPathName.split('-')
+                let departStr=departArr[departArr.length-1]
+                this.formDataDetail_evaluate.push({groupName:departStr,departmentNo:element.departmentNo,doUserNo:element.userNo,doFullName:element.name,doUserName:element.userName})
+            });
+        },
         userDialogCallback(data){
             // // 改变属性名
             // debugger
@@ -220,7 +265,6 @@ export default {
             //     newData.push({doUserNo,doUserName,doFullName,groupName,doType:'add'});
             // });
             // this.formDataDetail_evaluate = [...this.formDataDetail_evaluate,...newData];
-            // debugger
             data.forEach(item => {
                 let have=false
                 this.formDataDetail_evaluate.forEach(element => {
@@ -237,13 +281,18 @@ export default {
             get(this.id).then((res) => {
                 if(res.status == 200){
                     this.formData = res.data.main;
-                    this.formData.inputDate=new Date()
                     let groups = this.formData.doneFullName;
-                    groups.split(',').forEach(val => {
+                    console.log(this.formData);
+                    
+                    let groupIds=this.formData.doneFullId.split(',');
+                    groups.split(',').forEach((item,index) => {
                         this.formDataDetail_group.push(
-                            {name:val}
+                            {name:item}
                         );
+                        this.groupNameArr.push({label:item,id:parseInt(groupIds[index])})
                     });
+                    console.log(this.groupNameArr);
+                    
                     let evaluateUsers = this.formData.doFullName;
                     evaluateUsers.split(',').forEach(val => {
                         this.formDataDetail_evaluate.push(
@@ -257,28 +306,28 @@ export default {
         },
         // 添加行
         addDetailRow_group(){
-            this.$refs.depart.open();
+            // this.$refs.depart.open();
+            document.getElementsByClassName('el-input__inner')[13].click()
         },
         addDetailRow_index(){
             this.formDataDetail_index.push({doType:"add"});
         },
         addDetailRow_evaluate(){
-            this.$refs.user.open();
+            // this.$refs.user.open();
+            document.getElementsByClassName('el-icon-circle-plus-outline')[1].click()
         },
         // 删除行
         handleDelete_group(index,row){
             this.formDataDetail_group.splice(index, 1);
+            this.groupNameArr.splice(index,1);
             if(Object.is(row.doType,'add')){
                 return;
             }
             this.deleteDetailData_group.push(Object.assign(row,{doType:"delete"}));
         },
-        // handleDelete_index(index,row){
-        //     this.formDataDetail_index.splice(index, 1);
-        //     this.deleteDetailData_index.push(Object.assign(row,{doType:"delete"}));
-        // },
         handleDelete_evaluate(index,row){
             this.formDataDetail_evaluate.splice(index, 1);
+            this.bpjrArr.splice(index,1)
             if(Object.is(row.doType,'add')){
                 return;
             }
@@ -297,6 +346,10 @@ export default {
                             }
                             doneFullNames += `${name}`;
                         });
+                        let doneFullIdArr=[]
+                        this.formDataDetail_group.forEach(element => {
+                            doneFullIdArr.push(element.doneFullId)
+                        });
                         // 拼接评价人
                         let doFullNames = '';
                         this.formDataDetail_evaluate.forEach(({doFullName},index) => {
@@ -309,6 +362,7 @@ export default {
                                                                         doFullName:doFullNames,
                                                                         doUserCount:this.formDataDetail_evaluate.length,
                                                                         doneFullName:doneFullNames,
+                                                                        doneFullId:doneFullIdArr.join(','),
                                                                         doneUserCount:this.formDataDetail_group.length,
                                                                         targetCount:this.formDataDetail_index.length
                                                                     });
@@ -398,7 +452,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .evaluate-config{
     width: 100%;
     height: 400px;

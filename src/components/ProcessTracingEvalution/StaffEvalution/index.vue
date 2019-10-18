@@ -40,7 +40,7 @@ export default {
     // 自定义变量
     return {
       tableBaseConfig: {
-        tableHeight: "calc(100% - 175px)", // 列表的其他配置
+        tableHeight: "calc(100% - 178px)", // 列表的其他配置
         currentSort: [{ prop: "id", order: "descending" }], // 默认排序
         opertionColumnWidth:65
       },
@@ -82,7 +82,8 @@ export default {
           width: 70,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.StartDate);
+            // return formatDate(row.StartDate);
+            return row.StartDate.substring(0,10)
           }
         },
         {

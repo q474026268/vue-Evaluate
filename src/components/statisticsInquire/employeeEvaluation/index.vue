@@ -675,9 +675,9 @@ export default {
   font-size: 14px;
   display: block;
   display: inline-block;
-  width: 70px;
+  width: 112px;
   text-align: right;
-  margin-right: 69px;
+  margin-right: 26px;
 }
 .lastDiv > div:first-child {
   margin-right: 78px;

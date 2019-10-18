@@ -77,7 +77,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 /* .el-tabs{
     height: 100%;
 }

@@ -52,6 +52,28 @@
                <el-button @click="close" icon="el-icon-close" v-show="Object.is(type,'view')">关闭</el-button>
             </div>
         </el-dialog>
+        <el-dialog :close-on-click-modal='false' title="设置催办邮件信息" width="700px" :visible.sync="dialogFormVisible">
+            <div class='itemDiv'>
+                <span class="labelSpan">邮件标题</span>
+                <el-input v-model="emailSubject"></el-input>
+            </div>
+            <div class='itemDiv'>
+                <span class="labelSpan">邮件内容</span>
+                <el-input
+                type="textarea"
+                placeholder=""
+                v-model="emailContent"
+                maxlength="200"
+                show-word-limit
+                rows='4'
+                >
+                </el-input>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="sendMail">确 定</el-button>
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -86,6 +108,11 @@ export default {
             type:'',
             // 主表主键值
             id:'',
+            dialogFormVisible:false,
+            // 邮件标题
+            emailSubject:'',
+            // 邮件内容
+            emailContent:'',
             // 主表数据
             formData:{},
             // 明细数据
@@ -154,30 +181,53 @@ export default {
                 if(valid && this.beforeSubmit()){
                     //this.$refs.saveButton.loading = true;
                     this.formData.state = mark == 0?'save':'start';
-                    let data = Object.assign({},this.formData,getLoginInfo());
-                    // 添加明细数据
-                    data["headChildrens"] = Array.from(this.formDataDetail_target);
-                    data["listChildrens"] = Array.from(this.formDataDetail_evaluate);
-                    console.log(data);
-                    save(data).then((res)=>{
-                        if(res.status == 200){
-                            let callback = this.$store.state.data.callback;
-                            if(callback){
-                                callback({type:this.type,data:res.data});
+                    if (this.formData.state=='start') {
+                        this.dialogFormVisible=true
+                    }else{
+                        let data = Object.assign({},this.formData,getLoginInfo());
+                        // 添加明细数据
+                        data["headChildrens"] = Array.from(this.formDataDetail_target);
+                        data["listChildrens"] = Array.from(this.formDataDetail_evaluate);
+                        console.log(data);
+                        save(data).then((res)=>{
+                            if(res.status == 200){
+                                let callback = this.$store.state.data.callback;
+                                if(callback){
+                                    callback({type:this.type,data:res.data});
+                                }
+                                this.$message({
+                                    message: '保存成功',
+                                    type: 'success'
+                                });
+                                this.close();
                             }
-                            this.$message({
-                                message: '保存成功',
-                                type: 'success'
-                            });
-                            this.close();
-                        }
-                    });
+                        });
+                    }
                 }
             });
         },
         // 分发
-        handout(){
-
+        sendMail(){
+            let data = Object.assign({},this.formData,getLoginInfo());
+            // 添加明细数据
+            data["headChildrens"] = Array.from(this.formDataDetail_target);
+            data["listChildrens"] = Array.from(this.formDataDetail_evaluate);
+            console.log(data);
+            data.emailSubject=this.emailSubject
+            data.emailContent=this.emailContent
+            save(data).then((res)=>{
+                if(res.status == 200){
+                    let callback = this.$store.state.data.callback;
+                    if(callback){
+                        callback({type:this.type,data:res.data});
+                    }
+                    this.$message({
+                        message: '保存成功',
+                        type: 'success'
+                    });
+                    this.close();
+                }
+            });
         },
         async dataToview(){
             if(!Object.is(this.type,"add") && !Object.is(this.type,'amodify')){
@@ -263,7 +313,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .evaluate-config{
     width: 100%;
     height: 400px;
@@ -289,5 +339,15 @@ export default {
 .evaluate-config-center{
     width: 31%;
     margin-right: 30px;
+}
+.itemDiv{
+  display: flex;
+  align-items: center;
+}
+.itemDiv:first-child{
+  margin-bottom: 20px;
+}
+.labelSpan{
+  width: 100px;
 }
 </style>

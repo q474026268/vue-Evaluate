@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     userInfo: {
-      "id": '001',
+      "id": '2007073',
       "userName": "rong_hg",
       "avatar": "ce386f75-8a6f-4af4-a97f-257a820e9505",
       "name": "荣红光",

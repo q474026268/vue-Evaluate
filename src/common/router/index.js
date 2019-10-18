@@ -78,6 +78,9 @@ export const constantRouterMap = [
           {
             path: '/evaluateReceivedStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecEditStaff'
           },
+          {
+            path: '/evaluateReceivedStaff/evaluateConsign', component: () => import('../../component/FillEvaluation/evaluateConsign/evaluateConsign.vue'), name: 'ygEvaluateConsign'
+          },
         ]
       },
       {
@@ -91,8 +94,7 @@ export const constantRouterMap = [
         children: [
           {
             path: '/personalEvaluationFeedbackStaff/EvaluateClientSec', component: () => import('../../components/FillEvaluation/EvaluateClientSec/EvaluateClientSec.vue'), name: 'EvaluateClientSecLookStaff'
-          },
-          { path: '/personalEvaluationFeedbackStaff/evaluateClientSecXm', component: () => import('../../component/FillEvaluation/evaluateClientSec/evaluateClientSec.vue'), name: 'evaluateClientSecXm' },
+          }
         ]
       },
     ]

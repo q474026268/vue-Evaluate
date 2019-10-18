@@ -347,7 +347,7 @@ export default {
     },
 }
 </script>
-<style scope>
+<style scoped>
     .blockDiv{
         display: flex;
         margin-bottom: 15px;

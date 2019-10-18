@@ -43,7 +43,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 185px)",
+        tableHeight: "calc(100% - 165px)",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }]
       },
@@ -69,7 +69,7 @@ export default {
           width: 40,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.startDate);
+            return row.startDate.substring(0,10)
           }
         },
         {
@@ -79,7 +79,7 @@ export default {
           width: 40,
           sortable: true,
           formatter: function(row, column) {
-            return formatDate(row.endDate);
+            return row.startDate.substring(0,10)
           }
         },
         {

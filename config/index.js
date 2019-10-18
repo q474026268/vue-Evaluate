@@ -4,14 +4,14 @@
 
 const path = require('path')
 module.exports = {
+  entry: ['babel-polyfill', './src/main.js'],
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://10.214.12.171:8090', // 接口的域名
-        target:'http://10.214.12.76:8090',
+        target:'http://10.214.13.148:18860',
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         pathRewrite: {
@@ -20,7 +20,7 @@ module.exports = {
       }
     },
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '10.214.13.129', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

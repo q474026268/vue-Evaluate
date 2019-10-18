@@ -42,7 +42,7 @@ export default {
             // 列表的其他配置
             tableBaseConfig:{
                 // selectModel:"Multi",
-                tableHeight:'calc(100% - 110px)',
+                tableHeight:'calc(100% - 165px)',
                 // 默认排序
                 currentSort:[{prop: 'evaluateTname', order: 'descending'}]
             },
@@ -69,7 +69,8 @@ export default {
                     width:150,
                     sortable:true,
                     formatter:function(row,column){
-                        return formatDate(row.inputDate);
+                        // return formatDate(row.inputDate);
+                        return row.inputDate.substring(0,10)
                     }
                 },
                 {

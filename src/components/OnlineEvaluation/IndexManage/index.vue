@@ -39,7 +39,7 @@
           :row-style="{cursor:'pointer'}"
           :border="true"
           fit
-          :header-cell-style="{'height':'59px'}"
+          :header-cell-style="{'height':'55px'}"
           highlight-current-row
           @row-click="openDetails"
           id="rightTableHeight"

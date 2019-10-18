@@ -64,7 +64,9 @@ export default {
       appHeight: window.innerHeight - 67
     };
   },
-  created() {},
+  created() {
+    document.title='在线评价'
+  },
   mounted() {
     // 监听窗口大小变化
     let self = this;

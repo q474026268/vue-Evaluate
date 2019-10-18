@@ -71,7 +71,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .search{
     /* text-align: right; */
     padding-right: 250px;
