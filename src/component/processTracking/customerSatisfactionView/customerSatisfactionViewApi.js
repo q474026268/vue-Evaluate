@@ -20,28 +20,16 @@ export function deletePeople(pkid){
 
 
 // 
-export function sendEmail(){
+export function sendEmail(data){
     return request({
-        baseURL: process.env.USER_API,
-        url: '/service-message/message/email',
+        url: '/evaluateProcessTracing/sendMail',
         transformRequest: [(data) => {
             return data
         }],
-        data:JSON.stringify({
-            // reqMap:{
-                // 邮件内容
-                content:'您有一个新任务【'+'内部顾客满意度测评'+'】，请及时查看！点击链接查看详情<a href=\"http://hoon.ecidi.com\">查看流程详情</a>！',
-                // 标题
-                subject:'【IT项目管理平台】内部顾客满意度测评',
-                // 收件人
-                to:'987082641@qq.com'
-            // }
-        }),
+        data:JSON.stringify(data),
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
-            'JSESSIONID':'745597CB1248A7801A968B6466A063AC',
-            'io':'F3AOkbjuesRlZFyOAAQu'
         }
     })
 }

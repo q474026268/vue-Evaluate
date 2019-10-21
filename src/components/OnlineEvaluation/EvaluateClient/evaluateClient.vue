@@ -368,7 +368,6 @@ export default {
       //将被评价人明细数据存储到VueX中
       let group = this.formDataDetail_group;
       this.$store.commit("setGroup", group);
-      debugger
     },
     //获取从selectUser中查询到的数据存放到formDataDetail_evaluate中
     userDialogCallback(data) {
@@ -384,7 +383,6 @@ export default {
       //将评价人明细数据存储到VueX中
       let evaluate = this.formDataDetail_evaluate;
       this.$store.commit("setEvaluate", evaluate);
-      debugger
     },
     // 被评价人添加行
     addDetailRow_group() {

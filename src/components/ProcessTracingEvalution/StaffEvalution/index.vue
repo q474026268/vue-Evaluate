@@ -42,7 +42,7 @@ export default {
       tableBaseConfig: {
         tableHeight: "calc(100% - 178px)", // 列表的其他配置
         currentSort: [{ prop: "id", order: "descending" }], // 默认排序
-        opertionColumnWidth:65
+        opertionColumnWidth:120
       },
       // 列表配置
       tableColumnConfig: [
@@ -50,7 +50,7 @@ export default {
           id: "evaluKind",
           text: "评价类别",
           align: "center",
-          width: 120,
+          width: 70,
           sortable: true
         },
         {
@@ -64,7 +64,7 @@ export default {
           id: "levelType",
           text: "评价方式",
           align: "center",
-          width: 70,
+          width: 40,
           sortable: true
         },
         {
@@ -97,14 +97,14 @@ export default {
           id: "DoUserCount",
           text: "评价人数",
           align: "center",
-          width: 70,
+          width: 50,
           sortable: true
         },
         {
           id: "DoneUserCount",
           text: "被评价人数",
           align: "center",
-          width: 80,
+          width: 60,
           sortable: true
         },
       ],

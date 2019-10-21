@@ -65,6 +65,28 @@
                 </el-table-column>
             </el-table>
         </el-dialog>
+        <el-dialog :close-on-click-modal='false' title="发送邮件" width="700px" :visible.sync="dialogSendMailVisible">
+            <div class='itemDiv'>
+                <span class="labelSpan">邮件标题</span>
+                <el-input v-model="emailSubject"></el-input>
+            </div>
+            <div class='itemDiv'>
+                <span class="labelSpan">邮件内容</span>
+                <el-input
+                type="textarea"
+                placeholder=""
+                v-model="emailContent"
+                maxlength="200"
+                show-word-limit
+                rows='4'
+                >
+                </el-input>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="sendMail">发送</el-button>
+                <el-button @click="dialogSendMailVisible = false">取消</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -78,6 +100,13 @@ export default {
     },
     data:function(){// 自定义变量
         return {
+            dialogSendMailVisible:false,
+            // 邮件标题
+            emailSubject:'',
+            // 邮件内容
+            emailContent:'',
+            toList:[],
+            toFullNameList:[],
             // 评价表名
             evaluateTname:'',
             // 模板名称
@@ -99,15 +128,44 @@ export default {
         handleClose(done) {
             this.$router.back();
         },
+        // 发送邮件
+        sendMail(){
+            let data={
+                toList:this.toList,
+                toFullNameList:this.toFullNameList,
+                from:this.$store.state.userInfo.userName,
+                fromFullName:this.$store.state.userInfo.name,
+                subject:this.emailSubject,
+                text:this.emailContent,
+            }
+            sendEmail(data).then((result) => {
+                if(result.status == 200){
+                    this.$message({
+                        type: 'success',
+                        message: '发送邮件成功!'
+                    });
+                    this.dialogSendMailVisible=false
+                }else{
+                    this.$message.error('发送邮件失败!');
+                }
+            }).catch((err) => {
+                this.$message.error('发送邮件失败!');
+            });
+        },
         // 删除评价人
         handleDelete(index,row){
             console.log(row);
             if(row.state!='完成'){
-                this.$confirm('是否删除, 是否继续?', '提示', {
+                this.$confirm('是否删除?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.emailContent=''
+                    this.emailSubject=''
+                    this.toList.push(row.doUserName)
+                    this.toFullNameList.push(row.doFullName)
+                    this.dialogSendMailVisible=true 
                     deletePeople(row.pkid).then((result) => {
                         this.$message({
                             type: 'success',
@@ -133,10 +191,10 @@ export default {
                                 }
                             }
                         }).catch((err) => {
-                            
+                            this.$message.error('删除失败');
                         });
                     }).catch((err) => {
-                        
+                        this.$message.error('删除失败');
                     });
                 }).catch(() => {
                     this.$message({
@@ -154,18 +212,38 @@ export default {
         // 催办
         handleCb(index,row){
             console.log(row);
-            sendEmail().then((result) => {
-                if(result.status == 200){
-                    this.$message({
-                        type: 'success',
-                        message: '发送邮件成功!'
-                    });
-                }else{
-                    this.$message.error('发送邮件失败!');
+            this.$confirm('是否催办?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let data={
+                    toList:[],
+                    toFullNameList:[],
+                    from:this.$store.state.userInfo.userName,
+                    fromFullName:this.$store.state.userInfo.name
                 }
-            }).catch((err) => {
-                
+                data.toList.push(row.doUserName)
+                data.toFullNameList.push(row.doFullName)
+                sendEmail(data).then((result) => {
+                    if(result.status == 200){
+                        this.$message({
+                            type: 'success',
+                            message: '发送邮件成功!'
+                        });
+                    }else{
+                        this.$message.error('发送邮件失败!');
+                    }
+                }).catch((err) => {
+                    
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消催办'
+                });          
             });
+            
         }
     },
     /**
@@ -190,7 +268,6 @@ export default {
         this.inputDate=this.$route.query.inputDate.substring(0,10);
         clientList(this.$route.query.id).then((result) => {
             this.tableData=result.data
-            debugger
             for(let i=0;i<this.tableData.length;i++){
                 this.tableData[i].inputDate=this.tableData[i].inputDate.substring(0,10);
                 switch (this.tableData[i].state){
@@ -224,7 +301,7 @@ export default {
     },
 }
 </script>
-<style scope>
+<style scoped>
     h4{
         font-size: 18px;
         color: #409EFF;
@@ -241,7 +318,14 @@ export default {
         display: block;
         margin-right: 25px;
     }
-    td{
-        
+    .itemDiv{
+        display: flex;
+        align-items: center;
+    }
+    .itemDiv:first-child{
+        margin-bottom: 20px;
+    }
+    .labelSpan{
+        width: 100px;
     }
 </style>

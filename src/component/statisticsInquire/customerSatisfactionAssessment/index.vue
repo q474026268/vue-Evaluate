@@ -379,6 +379,7 @@ export default {
 <style scope>
 #customerSatisfactionAssessment {
   padding: 30px;
+  box-sizing: border-box;
 }
 .exportedDataFormat {
   display: flex;

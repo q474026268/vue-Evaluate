@@ -44,7 +44,7 @@
                 </el-table-column>
                 <el-table-column
                 label="操作"
-                width="160"
+                width="240"
                 align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -54,12 +54,13 @@
                         type="primary"
                         @click="handleDiscard(scope.$index, scope.row)"></el-button>
 
-                        <!-- <el-button
-                        title="催办"
+                        <el-button
                         size="mini"
+                        title="催办"
                         icon="el-icon-s-promotion"
                         type="primary"
-                        @click="handleCb(scope.$index, scope.row)"></el-button> -->
+                        @click="handleCb(scope.$index, scope.row)"></el-button>
+
                         <el-button
                         title="查看"
                         size="mini"
@@ -87,6 +88,7 @@
 // import {clientList,deletePeople,sendEmail} from './customerSatisfactionViewApi.js'
 // import {getLoginInfo} from '../../OnlineEvaluation/onlineEvaluation.js'
 import {getList,deleteTableLists} from './StaffEvalutionInfo.js'
+import { sendEmail } from "../../../component/processTracking/customerSatisfactionView/customerSatisfactionViewApi.js";
 export default {
     name:'customerSatisfactionView',
     props:{// 其他组件传入的值
@@ -194,7 +196,38 @@ export default {
         },
         // 催办
         handleCb(index,row){
-            
+            console.log(row);
+            this.$confirm('是否催办?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let data={
+                    toList:[],
+                    toFullNameList:[],
+                    from:this.$store.state.userInfo.userName,
+                    fromFullName:this.$store.state.userInfo.name
+                }
+                data.toList.push(row.DoUserName)
+                data.toFullNameList.push(row.DoFullName)
+                sendEmail(data).then((result) => {
+                    if(result.status == 200){
+                        this.$message({
+                            type: 'success',
+                            message: '发送邮件成功!'
+                        });
+                    }else{
+                        this.$message.error('发送邮件失败!');
+                    }
+                }).catch((err) => {
+                    this.$message.error('发送邮件失败!');
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消催办'
+                });          
+            });
         },
         // 查看
         handleLook(index,row){
@@ -270,7 +303,7 @@ export default {
     },
 }
 </script>
-<style scope>
+<style scoped>
     h4{
         font-size: 18px;
         color: #409EFF;

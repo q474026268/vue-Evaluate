@@ -93,7 +93,7 @@ export default {
         // 列表上方按钮
         top: [
           {
-            id: "refresh",
+            id: "nb",
             text: "内部顾客统计任务",
             icon: "el-icon-s-promotion",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",
@@ -103,7 +103,7 @@ export default {
             }
           },
           {
-            id: "refresh",
+            id: "yg",
             text: "员工统计任务",
             icon: "el-icon-s-promotion",
             style: "background: #70d5e9;border-color: #70d5e9;color: #fff;",

@@ -18,8 +18,8 @@
       <el-date-picker
         v-model="startYear"
         placeholder="请选择初始年度"
-        size="mini"
         format="yyyy-MM"
+        style="width:217px;"
         @change="startYearChange"
         type="month"
       ></el-date-picker>
@@ -35,8 +35,8 @@
       <el-date-picker
         v-model="endYear"
         placeholder="请选择结束年度"
-        size="mini"
         format="yyyy-MM"
+        style="width:217px;"
         :disabled="year==1"
         @change="endYearChange"
         type="month"
@@ -55,7 +55,6 @@
         <el-select
           v-model="evaluationForm"
           placeholder="评价表"
-          size="mini"
           @change="evaluationFormSelChange"
         >
           <el-option
@@ -72,7 +71,6 @@
           @change="getTarget"
           v-model="evaluKind"
           placeholder="指标类型"
-          size="mini"
         >
           <el-option
             v-for="item in indicatorTypeSel"
@@ -87,7 +85,6 @@
           :disabled="exportedDataFormat!=3"
           v-model="specificTarget"
           placeholder="具体指标"
-          size="mini"
         >
           <el-option
             v-for="(item,index) in specificIndicatorsSel"
@@ -97,9 +94,11 @@
           ></el-option>
         </el-select>
       </div>
-       <el-button @click="confirm" type="primary" size="mini" style="margin-left:2%">确定</el-button>
-        <el-button @click="clear" size="mini">清空</el-button>
     </div>
+    <footer>
+      <el-button @click="confirm" type="primary" style="margin-left:2%">确定</el-button>
+      <el-button @click="clear">清空</el-button>
+    </footer>
     <div id="myChart" :style="{width: '1000px', height: '500px'}" v-show="this.echatFlag"></div>
     <iframe
       :src="srcUrl"
@@ -180,6 +179,7 @@ export default {
       this.evaluKind = "";
       this.specificTarget = "";
       this.echatFlag = false;
+      debugger
       if (this.year == 1) {
         this.endYear = "";
         if (this.startYear != "") {
@@ -643,6 +643,7 @@ export default {
 <style scope>
 #employeeEvaluation {
   padding: 30px;
+  box-sizing: border-box;
 }
 .exportedDataFormat {
   display: flex;
@@ -708,6 +709,7 @@ footer {
 }
 footer button {
   margin-right: 40px !important;
+  margin-left: 0px !important;
 }
 .formate {
   margin-left: 42px;

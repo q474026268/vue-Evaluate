@@ -70,7 +70,7 @@
                             </template>
                         </el-table-column>
                     </el-table> -->
-                    <ecidi-org-selector :disabled="type=='view'" style="width:100%;" @change="departChange" v-model="groupNameArr"  :url="chosePeopleOrDept" multiple width="612px"></ecidi-org-selector>
+                    <ecidi-org-selector :disabled="type=='view'" style="width:100%;margin-top:10px;" @change="departChange" v-model="groupNameArr"  :url="chosePeopleOrDept" multiple width="612px"></ecidi-org-selector>
                </div>
                <div class="area evaluate-config-center">
                    <div style="position: relative;">
@@ -259,7 +259,6 @@ export default {
         },
         userDialogCallback(data){
             // // 改变属性名
-            // debugger
             // let newData = [];
             // data.forEach(({id:doUserNo,userName:doUserName,name:doFullName,departmentName:groupName}) => {
             //     newData.push({doUserNo,doUserName,doFullName,groupName,doType:'add'});
@@ -422,8 +421,8 @@ export default {
                     if(res.data != ""){
                         let {pkid:planPKID,evaluPlan:planName,evaluKind,emailDay} = res.data;
                         // let {targetPKID,targetName,TargetWeight} = data.detail;
-                        data.detail.forEach(({targetPKID,targetName,targetWeight}) => {
-                            this.formDataDetail_index.push({targetPKID,targetName,targetWeight,doType:'add'});
+                        data.detail.forEach(({targetPkid,targetName,targetWeight}) => {
+                            this.formDataDetail_index.push({targetPKID:targetPkid,targetName,targetWeight,doType:'add'});
                         });
                         // this.formDataDetail_index = data.detail;
                         let {pkid:modelPKID,modelName} = data.main;
@@ -455,7 +454,7 @@ export default {
 <style scoped>
 .evaluate-config{
     width: 100%;
-    height: 400px;
+    height: 415px;
     border: 1px solid #ccc;
     position: relative;
     text-align: center;

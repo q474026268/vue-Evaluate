@@ -208,6 +208,13 @@ export default {
         },
         // 分发
         sendMail(){
+            if (this.emailSubject=='' || this.emailContent=='') {
+                this.$message({
+                    message: '请完整填写邮件信息',
+                    type: 'warning'
+                });
+                return false
+            }
             let data = Object.assign({},this.formData,getLoginInfo());
             // 添加明细数据
             data["headChildrens"] = Array.from(this.formDataDetail_target);

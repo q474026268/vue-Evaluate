@@ -78,9 +78,9 @@ export default {
 </script>
 
 <style>
-body .el-table th.gutter {
+/* body .el-table th.gutter {
   display: table-cell !important;
-}
+} */
 /* body {
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
   Microsoft YaHei, Arial, sans-serif;
