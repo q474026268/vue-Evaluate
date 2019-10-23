@@ -23,12 +23,7 @@
         </el-col>
         <el-col :span="12">
           <span style="margin-left:9%;">请输入生成的任务名称:</span>
-          <el-input
-            v-model="tastName"
-            size="mini"
-            style="width:200px;"
-            class="tastName"
-          ></el-input>
+          <el-input v-model="tastName" size="mini" style="width:200px;" class="tastName"></el-input>
         </el-col>
       </el-row>
       <el-transfer :titles="['待选评价表', '已选评价表']" style="margin:0 auto;" v-model="value" :data="data"></el-transfer>
@@ -85,6 +80,31 @@ export default {
           type: "warning"
         });
       } else {
+        // 模版是否相同
+        let dataArr=[]
+        this.data.forEach(element => {
+            this.value.forEach(item => {
+                if (element.key==item) {
+                    dataArr.push(element.modelPkid)
+                }
+            });
+        });
+        let firstItem=dataArr[0]
+        let flag=false
+        dataArr.forEach(item => {
+            if (item!=firstItem) {
+                flag=true
+                return false
+            }
+        });
+        if (flag) {
+            this.$message({
+                message: '相同模版的评价表才能合并',
+                type: 'warning'
+            });
+            return false
+        }
+        
         let saveData = {};
         saveData.evaluateId = this.value.join(",");
         for (let i = 0; i < this.value.length; i++) {
@@ -96,8 +116,9 @@ export default {
           }
         }
         saveData.taskName = this.tastName;
-        saveData.inputerUserNo=this.$store.state.userInfo.id;
-        saveData.inputerFullName=this.$store.state.userInfo.name;
+        saveData.inputerUserNo = this.$store.state.userInfo.id;
+        saveData.inputerFullName = this.$store.state.userInfo.name;
+        debugger
         if (saveData.evaluateId == "") {
           this.$message({
             message: "请选择评价表！",
@@ -134,7 +155,7 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           this.data.push(result.data[i]);
           this.data[i].key = result.data[i].EvaluateId;
-          let stateName = result.data[i].EvaluPlan;
+          let stateName = result.data[i].modelName;
           this.data[i].label = result.data[i].EvaluateTname + "——" + stateName;
         }
       });
@@ -156,7 +177,7 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           this.data.push(result.data[i]);
           this.data[i].key = result.data[i].EvaluateId;
-          let stateName = result.data[i].EvaluPlan;
+          let stateName = result.data[i].modelName;
           // let state = result.data[i].state;
           // if (state == "finish") {
           //   // this.data[i].disabled=true;
@@ -216,5 +237,4 @@ h4 {
 .tableName {
   margin-bottom: 2%;
 }
-
 </style>

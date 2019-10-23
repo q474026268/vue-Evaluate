@@ -1,6 +1,6 @@
 <template>
   <div id="search">
-    <!-- <el-form
+    <el-form
       :inline="true"
       :model="searchData"
       label-position="left"
@@ -35,8 +35,8 @@
         </el-form-item>
         <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
       </div>
-    </el-form> -->
-    <div class="leftDiv">
+    </el-form>
+    <!-- <div class="leftDiv">
       <div>
         <span class="labelSpan">评价类别</span>
         <el-select size="small" v-model="searchData.evaluKind" placeholder="评价类别" style="width:160px;">
@@ -67,7 +67,7 @@
     <div class="rightDiv">
         <el-button type="primary" @click="searching" size="small" icon="el-icon-search">查询</el-button>
         <el-button type="primary" @click="clear" size="small" icon="el-icon-refresh">清空</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

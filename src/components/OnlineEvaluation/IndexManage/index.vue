@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="14">
+    <el-col style="min-width:465px" :span="14">
       <div id="indexManageList" style="position: relative;width:100%;">
         <z-table
           ref="table"
@@ -39,6 +39,7 @@
           :row-style="{cursor:'pointer'}"
           :border="true"
           fit
+          height="698px"
           :header-cell-style="{'height':'55px'}"
           highlight-current-row
           @row-click="openDetails"
@@ -93,7 +94,7 @@ export default {
       rightList: [],
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100%)",
+        tableHeight: "645px",
         // 默认排序
         currentSort: [{ prop: "pkid", order: "descending" }],
         opertionColumnWidth: 180
@@ -528,7 +529,7 @@ export default {
   height: 32px;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 69px;
+  margin-bottom: 128px;
 }
 #indexManageList .zToolBar{
   /* position: absolute; */

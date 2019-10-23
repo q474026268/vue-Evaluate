@@ -70,9 +70,10 @@ export default {
 };
 </script>
 <style scoped> 
-#fillEvaluation {
-  height: 100%;
+#processTracing {
+  height: 104%;
   width: 100%;
+  overflow: auto;
 }
 #nbgkmydDiv {
   display: flex;

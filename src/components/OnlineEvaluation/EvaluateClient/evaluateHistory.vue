@@ -214,6 +214,12 @@ export default {
     },
     // 发送邮件
     sendMail(){
+      if (this.emailSubject=='' || this.emailContent=='') {
+        this.$message({
+          message: '请完整填写邮件信息',
+          type: 'warning'
+        });
+      }
       // 指标数据
       let targetName = this.formData.targetName.split(",");
       let targetPkid = this.formData.targetPkid.split(",");

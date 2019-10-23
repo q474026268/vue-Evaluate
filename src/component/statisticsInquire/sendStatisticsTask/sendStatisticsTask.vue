@@ -80,12 +80,36 @@ export default {
                 for(let i=0;i<result.data.length;i++){
                     this.data.push(result.data[i]);
                     this.data[i].key=result.data[i].EvaluateId;
-                    this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].EvaluPlan;
+                    this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].modelName;
                 }
             })
         },
         // 保存
         save(){
+            // 模版是否相同
+            let dataArr=[]
+            this.data.forEach(element => {
+                this.value.forEach(item => {
+                    if (element.key==item) {
+                        dataArr.push(element.modelPkid)
+                    }
+                });
+            });
+            let firstItem=dataArr[0]
+            let flag=false
+            dataArr.forEach(item => {
+                if (item!=firstItem) {
+                    flag=true
+                    return false
+                }
+            });
+            if (flag) {
+                this.$message({
+                    message: '相同模版的评价表才能合并',
+                    type: 'warning'
+                });
+                return false
+            }
             let saveData={};
             
             saveData.evaluateId=this.value.join(',');
@@ -100,6 +124,8 @@ export default {
             saveData.inputerUserNo=this.$store.state.userInfo.id;
             saveData.inputerFullName=this.$store.state.userInfo.name;
             saveData.taskName=this.taskName;
+            console.log(this.value);
+            
             if(saveData.evaluateId==''){
                 this.$message({
                     message: '请选择评价表！',
@@ -145,7 +171,7 @@ export default {
             for(let i=0;i<result.data.length;i++){
                 this.data.push(result.data[i]);
                 this.data[i].key=result.data[i].EvaluateId;
-                this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].EvaluPlan;
+                this.data[i].label=result.data[i].EvaluateTname+'——'+result.data[i].modelName;
             }
         })
     },

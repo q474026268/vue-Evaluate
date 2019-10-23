@@ -95,8 +95,9 @@ export default {
 } */
 
 #processTracking{
-    height:100%;
-    width:100%
+    height:104%;
+    width:100%;
+    overflow: auto;
 }
 #tjcxDiv{
     display: flex;

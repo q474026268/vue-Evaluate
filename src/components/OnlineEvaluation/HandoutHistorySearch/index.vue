@@ -41,7 +41,7 @@ export default {
     return {
       // 列表的其他配置
       tableBaseConfig: {
-        tableHeight: "calc(100% - 240px)",
+        tableHeight: "calc(100% - 193px)",
         // 默认排序
         currentSort: [{ prop: "id", order: "descending" }],
         //操作列宽

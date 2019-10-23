@@ -40,7 +40,7 @@ export default {
     // 自定义变量
     return {
       tableBaseConfig: {
-        tableHeight: "calc(100% - 178px)", // 列表的其他配置
+        tableHeight: "calc(100% - 131px)", // 列表的其他配置
         currentSort: [{ prop: "id", order: "descending" }], // 默认排序
         opertionColumnWidth:120
       },
